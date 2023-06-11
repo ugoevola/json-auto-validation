@@ -1,0 +1,8 @@
+{
+  "type": "integer",
+  "minimum": "@{minimum}",
+  "maximum": "@{maximum}",
+  "exclusiveMaximum": "@{exclusiveMaximum}",
+  "exclusiveMinimum": "@{exclusiveMinimum}",
+  "multipleOf": "@{multipleOf}"
+}

@@ -1,0 +1,7 @@
+{
+  "type": "string",
+  "minLength": "@{minLength}",
+  "maxLength": "@{maxLength}",
+  "pattern": "@{pattern}",
+  "format": "@{format}"
+}
