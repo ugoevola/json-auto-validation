@@ -1,26 +1,12 @@
-# Json auto validation
-**Json-auto-validation** is a library for automatic validation of incoming
-json data in a spring-boot API.
+# Description
 
-## Documentation
-
-A full documentation is available here : [Documentation](https://github.com/ugoevola/json-auto-validation/blob/main/documentation)
-
-
-## Description
-
-Based on the automatic generation of json schemas and validation beans using annotations,
+Based on the automatic generation of [json schemas](https://json-schema.org/draft/2020-12/json-schema-validation.html) and validation beans using annotations,
 its aim is to validate json data before deserialization,
 thereby minimizing deserialization errors and lightening the workload
 involved in verifying data after deserialization.
 
-## Installation
-
-> In coming...
-
-
-### Example
-  Let's take an example. Consider an end point on our API as it is:
+## Example
+Let's take an example. Consider an end point on our API as it is:
 
   ```kotlin
   @RestController
@@ -35,9 +21,9 @@ involved in verifying data after deserialization.
     ) = carService.getCarsByFilter(filterDto)
 
     @GetMapping("/{id}")
-  fun getCarById(
-      @Validate @IsUuid @PathVariable id: String
-  ) = cartService.getCarById(id)
+    fun getCarById(
+        @Validate @IsUuid @PathVariable id: String
+    ) = cartService.getCarById(id)
 
 }
 ```
@@ -47,14 +33,12 @@ The FilterDto class:
 @JsonValidation
 class FilterDto(
   @field:Required
-  @field:IsEnum
   val brand: BrandEnum,
   
   @field:Required
   @field:IsInteger(minimum = 3, maximum=5)
   val nbDoors: Int,
   
-  @field:IsBool
   val gps: Boolean?
 )
 ```
@@ -77,12 +61,10 @@ non-exhaustive list of requests that will be in error:
 - `GET /api/v1/cars?brand=Audi&nbDoors=one`
 - `GET /api/v1/cars?brand=Audi&nbDoors=42`
 - `GET /api/v1/cars?brand=Peugeot&nbDoors=5`
+- `GET /api/v1/cars?gps=12`
 - `GET /api/v1/car/84`
 - `GET /api/v1/car/7856486875`
 
 non-exhaustive list of requests that will succeed:
 - `GET /api/v1/cars?brand=Ford&nbDoors=5`
 - `GET /api/v1/car/4d9199af-decf-42d4-8f14-d9e6fc94729c`
-
-
-

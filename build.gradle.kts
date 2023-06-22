@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 
-group = "org.uevola"
+group = "io.github.ugoevola"
 version = "0.0.1-SNAPSHOT"
 
 val springVersion = "3.0.7"

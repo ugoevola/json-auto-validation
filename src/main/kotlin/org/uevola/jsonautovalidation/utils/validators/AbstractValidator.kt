@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.uevola.jsonautovalidation.utils.Utils
+import org.uevola.jsonautovalidation.utils.exceptions.ValidationException
 
 abstract class AbstractValidator {
     @Autowired
@@ -34,7 +35,7 @@ abstract class AbstractValidator {
                 .map { it.toString() }
                 .plus(customMessages.values)
                 .joinToString(", ")
-            throw utils.httpClientErrorException(message, HttpStatus.BAD_REQUEST)
+            throw ValidationException(message, HttpStatus.BAD_REQUEST, errors)
         }
     }
 }
