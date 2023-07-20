@@ -34,12 +34,31 @@ class Utils(
     private val jsonAutoValidatorConfiguration: JsonValidationConfiguration,
     private val resourceLoader: ResourceLoader,
 ) {
+    /**
+     * return an HttpClientErrorException with default statusText REQUEST_VALIDATION_KO
+     *
+     * @param message the exception message
+     * @param statusCode the exception code
+     */
     fun httpClientErrorException(message: String, statusCode: HttpStatusCode) =
         HttpClientErrorException(message, statusCode, "REQUEST_VALIDATION_KO", null, null, null)
 
+
+    /**
+     * return an HttpServerErrorException with default statusText REQUEST_VALIDATION_KO
+     *
+     * @param message the exception message
+     * @param statusCode the exception code
+     */
     fun httpServerErrorException(message: String, statusCode: HttpStatusCode) =
         HttpServerErrorException(message, statusCode, "REQUEST_VALIDATION_KO", null, null, null)
 
+    /**
+     * retrieve the resource corresponding to the schema name
+     * recovery is based on the property "json-validation.resources-path"
+     *
+     * @param schemaName the name of the resource schema
+     */
     fun getSchemaResource(schemaName: String): Resource? {
         val resourcePatternResolver = ResourcePatternUtils.getResourcePatternResolver(resourceLoader)
         return resourcePatternResolver.getResources(
@@ -51,6 +70,12 @@ class Utils(
         ).find { schemaName.plus(SCHEMA_JSON_EXT) == it.filename }
     }
 
+    /**
+     * add a resource schema in the resource path corresponding to the property "json-validation.resources-path"
+     *
+     * @param schemaName the name of the resource schema
+     * @param content the content of the resource
+     */
     fun addSchemaResource(schemaName: String, content: String?) {
         if (content == null) return
         try {
@@ -67,6 +92,12 @@ class Utils(
         }
     }
 
+    /**
+     * create directory in the targeted resource path
+     *
+     * @param resourcePath
+     * @param dirName
+     */
     private fun mkDir(resourcePath: String, dirName: String) {
         val resource = ClassPathResource(resourcePath)
         val directory = File(resource.file, dirName)
@@ -75,6 +106,14 @@ class Utils(
         }
     }
 
+    /**
+     * used to resolve json-auto-validation template
+     * each property value that need to be replaced follows that template : {{property_name}}
+     * and its value is linked to it's name in the values attribute map
+     *
+     * @param template the template that contains 0 or more properties to be replaced
+     * @param values the map that bind each property name to its value
+     */
     fun resolveTemplate(template: JSONObject?, values: Map<String, Any?>): JSONObject {
         val result = JSONObject(template.toString())
         result.keys().forEach { key ->
@@ -138,7 +177,7 @@ class Utils(
         .associate { it.name to getFieldMessage(it) }
         .filter { it.value.isNotEmpty() }
 
-    fun getFieldMessage(field: Field) = field.annotations
+    private fun getFieldMessage(field: Field) = field.annotations
         .filter { annotation ->
             annotation.annotationClass.annotations.any { it is IsJsonValidation }
         }

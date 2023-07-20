@@ -2,21 +2,23 @@ plugins {
     kotlin("jvm") version "1.8.21"
     `java-library`
     `maven-publish`
+    id("signing")
 }
 
 group = "io.github.ugoevola"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 val springVersion = "3.0.7"
 val ktlVersion = "1.8.21"
 val jsonVersion = "20230227"
-val jsonSchemaValidatorVersion = "1.0.83"
+val jsonSchemaValidatorVersion = "1.0.86"
 val byteBuddyVersion = "1.14.5"
 val kLoggingVersion = "3.0.5"
 val reflectionVersion = "0.10.2"
 
 repositories {
     mavenCentral()
+    maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
@@ -41,6 +43,7 @@ kotlin {
 }
 
 java {
+    withJavadocJar()
     withSourcesJar()
 }
 
@@ -52,6 +55,64 @@ publishing {
             version = project.version.toString()
 
             from(components["java"])
+        }
+        register("mavenJava", MavenPublication::class) {
+            groupId = project.group.toString()
+            artifactId = rootProject.name
+            version = project.version.toString()
+            from(components["java"])
+
+            pom {
+                name.set("Json Auto Validation")
+                description.set("Json-auto-validation is a library for automatic validation of incoming json data in a spring-boot API.")
+                url.set("https://github.com/ugoevola/json-auto-validation")
+                inceptionYear.set("2023")
+
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("ugoevola")
+                        name.set("Ugo Evola")
+                        email.set("ugoevol@laposte.net")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git:github.com/ugoevola/json-auto-validation.git")
+                    developerConnection.set("scm:git:ssh://github.com/ugoevola/json-auto-validation.git")
+                    url.set("https://github.com/ugoevola/json-auto-validation")
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            credentials {
+                username = project.properties["username"] as String
+                password = project.properties["password"] as String
+            }
+        }
+    }
+}
+
+signing {
+    sign(publishing.publications["mavenJava"])
+}
+
+tasks {
+    named<Javadoc>("javadoc") {
+        if (JavaVersion.current().isJava9Compatible) {
+            options {
+                this as StandardJavadocDocletOptions
+                addBooleanOption("html5", true)
+            }
         }
     }
 }

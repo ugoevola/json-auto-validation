@@ -9,6 +9,11 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
+/**
+ * nI order to validate the request before it is deserialized, it is necessary to encapsulate the Body in an
+ * HttpServletRequestWrapper used in a RequestFilter.
+ * Therefore, the body can be read multiple times, at least one time for the validation, and one time for the deserialization.
+ */
 class CustomHttpServletRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
     private val requestBody: String?

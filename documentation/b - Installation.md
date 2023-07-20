@@ -1,10 +1,19 @@
 # Installation
 
 ## Maven
-> In coming...
+
+```xml
+<dependency>
+    <groupId>io.github.ugoevola</groupId>
+    <artifactId>json-auto-validation</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
 
 ## Gradle
-> In coming...
+```kts
+implementation("io.github.ugoevola:json-auto-validation:0.0.1")
+```
 
 ## Enabling
 To enable **Json-auto-validation**, you just have to annotate a Bean class with **@EnableJsonAutoValidation** annotation as follows:

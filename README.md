@@ -16,8 +16,17 @@ involved in verifying data after deserialization.
 
 ## Installation
 
-> In coming...
+```xml
+<dependency>
+    <groupId>io.github.ugoevola</groupId>
+    <artifactId>json-auto-validation</artifactId>
+    <version>0.0.1</version>
+</dependency>
+```
 
+```kts
+implementation("io.github.ugoevola:json-auto-validation:0.0.1")
+```
 
 ### Example
   Let's take an example. Consider an end point on our API as it is:
