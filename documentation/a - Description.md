@@ -68,3 +68,24 @@ non-exhaustive list of requests that will be in error:
 non-exhaustive list of requests that will succeed:
 - `GET /api/v1/cars?brand=Ford&nbDoors=5`
 - `GET /api/v1/car/4d9199af-decf-42d4-8f14-d9e6fc94729c`
+
+You can also create a custom Validator that perform more validation treatments before deserialization:
+```kotlin
+@Component
+class FilterDtoValidator(
+    private val groupController: GroupController
+): JsonSchemaValidator<FilterDto>() {
+
+    override fun validate(json: String) {   
+        try {
+            super.validate(json)
+            val jsonObject = JSONObject(json)
+            groupController.getGroupById(jsonObject.get("groupId"))
+        } catch (exception: GroupNotFoundException) {
+            TODO(deals with GroupNotFoundException)
+        } catch (exception: ValidationException) {
+            TODO(deals with ValidationException)
+        }
+    }
+}
+```

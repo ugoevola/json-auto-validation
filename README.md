@@ -20,12 +20,12 @@ involved in verifying data after deserialization.
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:0.0.1")
+implementation("io.github.ugoevola:json-auto-validation:0.1.0")
 ```
 
 ### Example
@@ -64,7 +64,9 @@ class FilterDto(
   val nbDoors: Int,
   
   @field:IsBool
-  val gps: Boolean?
+  val gps: Boolean?,
+    
+  val groupId: String  
 )
 ```
 
@@ -93,5 +95,24 @@ non-exhaustive list of requests that will succeed:
 - `GET /api/v1/cars?brand=Ford&nbDoors=5`
 - `GET /api/v1/car/4d9199af-decf-42d4-8f14-d9e6fc94729c`
 
+You can also create a custom Validator that perform more validation treatments before deserialization:
+```kotlin
+@Component
+class FilterDtoValidator(
+    private val groupController: GroupController
+): JsonSchemaValidator<FilterDto>() {
 
+    override fun validate(json: String) {   
+        try {
+            super.validate(json)
+            val jsonObject = JSONObject(json)
+            groupController.getGroupById(jsonObject.get("groupId"))
+        } catch (exception: GroupNotFoundException) {
+            TODO(deals with GroupNotFoundException)
+        } catch (exception: ValidationException) {
+            TODO(deals with ValidationException)
+        }
+    }
+}
+```
 

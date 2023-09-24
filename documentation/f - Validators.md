@@ -17,16 +17,11 @@ class UserDtoValidator(
             groupController.getGroupById(jsonObject.get("groupId"))
         } catch (exception: GroupNotFoundException) {
             TODO(deals with GroupNotFoundException)
-        } catch (exception: HttpClientErrorException) {
-            TODO(deals with HttpClientErrorException)
+        } catch (exception: ValidationException) {
+            TODO(deals with ValidationException)
         }
     }
 }
 ```
 
-
 That way, the library will add **Json-auto-validation** Beans (Validators & Handlers) to your API spring environment.
-
-After you must add a json validation schema that refer to a DTO class by naming the same way in your json validation schema folder in the resources (`"json-schemas/"` by default, cf. configuration to change it).
-
-And the things will work by themselves.

@@ -1,14 +1,16 @@
 # How does it work
 
 When the API is launched,
-json-auto-validation will make a pass over all the Dto to be validated to generate
+json-auto-validation will make a pass over all the Dto that must be validated to generate
 their associated json schema and a validator bean.
 
 When an incoming request comes in, it is intercepted by the **JsonSchemaValidationInterceptor**,
 which retrieves the validators associated with the controller handler,
 and sends the request to each validator for validation in turn:
 
-![alt text](../assets/explanation.svg "json-auto-validation_architecture_schema")
+<div style="text-align: center" >
+  <img style="width: 750px" src="../assets/explanation.png" alt="json-auto-validation_architecture_schema"/>
+</div>
 
 If no DTO is used to deserialize the request, a default validator will be
 used to validate each controller handler parameter directly.
