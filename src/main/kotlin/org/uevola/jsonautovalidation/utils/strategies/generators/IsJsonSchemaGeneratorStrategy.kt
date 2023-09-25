@@ -2,16 +2,14 @@ package org.uevola.jsonautovalidation.utils.strategies.generators
 
 import org.json.JSONObject
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.utils.Utils
+import org.uevola.jsonautovalidation.utils.Util
 import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsJsonSchema
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 
 @Component
-class IsJsonSchemaGeneratorStrategy(
-    private val utils: Utils,
-) : JsonSchemaGeneratorStrategy {
+class IsJsonSchemaGeneratorStrategy : JsonSchemaGeneratorStrategy {
 
     override fun getOrdered() = 0
 
@@ -27,7 +25,7 @@ class IsJsonSchemaGeneratorStrategy(
 
     private fun generate(annotation: Annotation): JSONObject? {
         if (annotation !is IsJsonSchema) return null
-        return JSONObject(utils
+        return JSONObject(Util
             .getSchemaResource(annotation.jsonSchemaName)
             ?.inputStream?.bufferedReader().use { it?.readText() })
     }

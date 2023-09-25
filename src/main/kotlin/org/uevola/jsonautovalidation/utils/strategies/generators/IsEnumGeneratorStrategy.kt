@@ -3,7 +3,7 @@ package org.uevola.jsonautovalidation.utils.strategies.generators
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.json.JSONObject
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.utils.Utils
+import org.uevola.jsonautovalidation.utils.Util
 import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsEnum
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
@@ -12,9 +12,7 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.jvm.javaType
 
 @Component
-class IsEnumGeneratorStrategy(
-    private val utils: Utils,
-) : JsonSchemaGeneratorStrategy {
+class IsEnumGeneratorStrategy : JsonSchemaGeneratorStrategy {
 
     override fun getOrdered() = 0
 
@@ -38,8 +36,8 @@ class IsEnumGeneratorStrategy(
         val enumValues = getEnumValues(enumClass)
         val values = mapOf("enum" to enumValues)
         val schemaName = IsEnum::class.simpleName ?: return null
-        return utils.resolveTemplate(
-            JSONObject(utils
+        return Util.resolveTemplate(
+            JSONObject(Util
                 .getSchemaResource(schemaName)?.inputStream
                 ?.bufferedReader().use { it?.readText() }), values
         )

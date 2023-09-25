@@ -4,8 +4,8 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersion
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.uevola.jsonautovalidation.utils.Utils.Companion.STRING_INTEGER_KEYWORD
-import org.uevola.jsonautovalidation.utils.Utils.Companion.STRING_NUMBER_KEYWORD
+import org.uevola.jsonautovalidation.utils.Util.STRING_INTEGER_KEYWORD
+import org.uevola.jsonautovalidation.utils.Util.STRING_NUMBER_KEYWORD
 import org.uevola.jsonautovalidation.utils.keywords.IsIntegerKeyword
 import org.uevola.jsonautovalidation.utils.keywords.IsNumberKeyword
 

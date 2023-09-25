@@ -16,17 +16,13 @@ import java.util.stream.Collectors
  */
 class CustomHttpServletRequestWrapper(request: HttpServletRequest) : HttpServletRequestWrapper(request) {
 
-    private val requestBody: String?
-
-    init {
-        requestBody = try {
-            val inputStream = request.inputStream
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            reader.lines().collect(Collectors.joining(System.lineSeparator()))
-        } catch (e: IOException) {
-            // Handle exception
-            null
-        }
+    private val requestBody: String? = try {
+        val inputStream = request.inputStream
+        val reader = BufferedReader(InputStreamReader(inputStream))
+        reader.lines().collect(Collectors.joining(System.lineSeparator()))
+    } catch (e: IOException) {
+        // Handle exception
+        null
     }
 
     @Throws(IOException::class)

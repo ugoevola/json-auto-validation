@@ -7,12 +7,10 @@ import com.networknt.schema.ValidationMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
-import org.uevola.jsonautovalidation.utils.Utils
+import org.uevola.jsonautovalidation.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.utils.exceptions.ValidationException
 
 abstract class AbstractValidator {
-    @Autowired
-    private lateinit var utils: Utils
 
     @Autowired
     @Qualifier("customJsonSchemaFactory")
@@ -25,10 +23,10 @@ abstract class AbstractValidator {
             errors = jsonSchema.validate(objectMapper.readTree(json))
         } catch (e: JsonSchemaException) {
             val errorMessage = "Error in validation schema : ".plus(e.message.toString())
-            throw utils.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
+            throw ExceptionUtil.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
         } catch (e: Exception) {
             val errorMessage = "Error when opening or validating the file : ".plus(e.message.toString())
-            throw utils.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
+            throw ExceptionUtil.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
         }
         if (errors.isNotEmpty()) {
             val message = errors.filter { !customMessages.containsKey(it.path.drop(2)) }

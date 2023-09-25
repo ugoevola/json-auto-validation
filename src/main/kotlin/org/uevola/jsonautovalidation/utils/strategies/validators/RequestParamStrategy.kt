@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletRequest
 import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
+import org.uevola.jsonautovalidation.utils.ExceptionUtil
+import org.uevola.jsonautovalidation.utils.Util
 import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
 import java.lang.reflect.Parameter
 
@@ -17,13 +19,13 @@ class RequestParamStrategy : ValidatorStrategy, AbstractValidatorStrategy() {
     override fun validate(request: HttpServletRequest, parameter: Parameter) {
         try {
             val json = extractJsonRequestParamsFromRequest(request.parameterMap).toString()
-            if (utils.isJavaOrKotlinClass(parameter.type)) {
+            if (Util.isJavaOrKotlinClass(parameter.type)) {
                 validate(parameter, json, HttpRequestPartEnum.REQUEST_PARAMS)
             } else {
-                validate(parameter.type, json, HttpRequestPartEnum.REQUEST_PARAMS, utils.getCustomMessage(parameter))
+                validate(parameter.type, json, HttpRequestPartEnum.REQUEST_PARAMS, getCustomMessage(parameter))
             }
         } catch (e: JsonParseException) {
-            throw utils.httpClientErrorException(
+            throw ExceptionUtil.httpClientErrorException(
                 "Error in ${HttpRequestPartEnum.REQUEST_PARAMS}: ${e.message}",
                 HttpStatus.BAD_REQUEST
             )

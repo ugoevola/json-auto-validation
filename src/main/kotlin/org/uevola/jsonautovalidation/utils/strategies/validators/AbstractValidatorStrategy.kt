@@ -5,16 +5,15 @@ import org.springframework.beans.factory.ListableBeanFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ResolvableType
 import org.springframework.web.client.HttpClientErrorException
-import org.uevola.jsonautovalidation.utils.Utils
+import org.uevola.jsonautovalidation.utils.ExceptionUtil
+import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
 import org.uevola.jsonautovalidation.utils.validators.DefaultJsonSchemaValidator
 import org.uevola.jsonautovalidation.utils.validators.JsonSchemaValidator
+import java.lang.reflect.Field
 import java.lang.reflect.Parameter
 
 abstract class AbstractValidatorStrategy {
-
-    @Autowired
-    protected lateinit var utils: Utils
 
     @Autowired
     private lateinit var beanFactory: ListableBeanFactory
@@ -37,7 +36,8 @@ abstract class AbstractValidatorStrategy {
         try {
             getBeanValidator(target)?.validate(json, customMessages)
         } catch (e: HttpClientErrorException) {
-            throw utils.httpClientErrorException("Error in ${httpRequestPartEnum.name}: ${e.message}", e.statusCode)
+            throw ExceptionUtil
+                .httpClientErrorException("Error in ${httpRequestPartEnum.name}: ${e.message}", e.statusCode)
         }
     }
 
@@ -45,9 +45,14 @@ abstract class AbstractValidatorStrategy {
         try {
             defaultJsonSchemaValidator.validate(parameter, json)
         } catch (e: HttpClientErrorException) {
-            throw utils.httpClientErrorException("Error in ${httpRequestPartEnum.name}: ${e.message}", e.statusCode)
+            throw ExceptionUtil
+                .httpClientErrorException("Error in ${httpRequestPartEnum.name}: ${e.message}", e.statusCode)
         }
     }
+
+    protected fun getCustomMessage(parameter: Parameter) = parameter.type.declaredFields
+        .associate { it.name to getFieldMessage(it) }
+        .filter { it.value.isNotEmpty() }
 
     private fun getBeanValidator(target: Class<*>): JsonSchemaValidator<*>? {
         val names = beanFactory.getBeanNamesForType(
@@ -58,4 +63,12 @@ abstract class AbstractValidatorStrategy {
         )
         return if (names.isNotEmpty()) beanFactory.getBean(names[0], JsonSchemaValidator::class.java) else null
     }
+
+    private fun getFieldMessage(field: Field) = field.annotations
+        .filter { annotation ->
+            annotation.annotationClass.annotations.any { it is IsJsonValidation }
+        }
+        .map { it.annotationClass.java.getMethod("message").invoke(it) as String }
+        .filter { it.isNotEmpty() }
+        .joinToString(", ")
 }

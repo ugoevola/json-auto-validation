@@ -6,6 +6,7 @@ import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.PathVariable
+import org.uevola.jsonautovalidation.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
 import java.lang.reflect.Parameter
 
@@ -21,7 +22,7 @@ class PathVariableStrategy : ValidatorStrategy, AbstractValidatorStrategy() {
             val json = getPathVariables(request)
             validate(parameter, json, HttpRequestPartEnum.PATH_VARIABLES)
         } catch (e: JsonParseException) {
-            throw utils.httpClientErrorException(
+            throw ExceptionUtil.httpClientErrorException(
                 "Error in ${HttpRequestPartEnum.PATH_VARIABLES}: ${e.message}",
                 HttpStatus.BAD_REQUEST
             )

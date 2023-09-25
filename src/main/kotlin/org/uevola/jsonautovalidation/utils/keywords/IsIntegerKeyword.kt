@@ -2,7 +2,7 @@ package org.uevola.jsonautovalidation.utils.keywords
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.networknt.schema.*
-import org.uevola.jsonautovalidation.utils.Utils.Companion.STRING_INTEGER_KEYWORD
+import org.uevola.jsonautovalidation.utils.Util.STRING_INTEGER_KEYWORD
 import java.text.MessageFormat
 
 class IsIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) {
@@ -14,7 +14,12 @@ class IsIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) {
         validationContext: ValidationContext
     ): AbstractJsonValidator {
         return object : AbstractJsonValidator() {
-            override fun validate(node: JsonNode, rootNode: JsonNode, at: String): Set<ValidationMessage> {
+            override fun validate(
+                executionContext: ExecutionContext?,
+                node: JsonNode,
+                rootNode: JsonNode,
+                at: String
+            ): Set<ValidationMessage> {
 
                 val regex = "^(-)?\\d+\$".toRegex()
                 var result = emptySet<ValidationMessage>()

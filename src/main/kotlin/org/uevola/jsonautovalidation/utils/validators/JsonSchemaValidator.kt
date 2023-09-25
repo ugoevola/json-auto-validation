@@ -1,12 +1,9 @@
 package org.uevola.jsonautovalidation.utils.validators
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.uevola.jsonautovalidation.utils.Utils
+import org.uevola.jsonautovalidation.utils.Util
 import java.lang.reflect.ParameterizedType
 
 abstract class JsonSchemaValidator<T>: AbstractValidator(), IJsonSchemaValidator<T> {
-    @Autowired
-    private lateinit var utils: Utils
     private val jsonSchemaName: String
 
     init {
@@ -22,7 +19,7 @@ abstract class JsonSchemaValidator<T>: AbstractValidator(), IJsonSchemaValidator
         jsonSchemaName = typeArgument.simpleName
     }
 
-    private fun jsonSchemaFile() = utils.getSchemaResource(jsonSchemaName)?.file
+    private fun jsonSchemaFile() = Util.getSchemaResource(jsonSchemaName)?.file
 
     override fun validate(json: String, customMessages: Map<String, String>): Unit? =
         jsonSchemaFile()?.let { validate(json, customMessages, it.readText()) }

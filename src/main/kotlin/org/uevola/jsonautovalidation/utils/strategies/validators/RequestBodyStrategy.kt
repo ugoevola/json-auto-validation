@@ -15,7 +15,7 @@ class RequestBodyStrategy : ValidatorStrategy, AbstractValidatorStrategy() {
 
     override fun validate(request: HttpServletRequest, parameter: Parameter) {
         val json = extractJsonBodyFromRequest(request)
-        validate(parameter.type, json, HttpRequestPartEnum.REQUEST_BODY, utils.getCustomMessage(parameter))
+        validate(parameter.type, json, HttpRequestPartEnum.REQUEST_BODY, getCustomMessage(parameter))
     }
 
     private fun extractJsonBodyFromRequest(request: HttpServletRequest) = try {
