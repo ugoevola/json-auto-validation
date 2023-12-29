@@ -48,6 +48,12 @@ java {
     withSourcesJar()
 }
 
+sourceSets {
+    getByName("main").resources {
+        srcDirs("src/main/resources/json-schemas")
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
