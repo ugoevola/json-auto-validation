@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.strategies.validators
+package org.uevola.jsonautovalidation.core.strategies.validators
 
 import jakarta.servlet.http.HttpServletRequest
 import java.lang.reflect.Parameter

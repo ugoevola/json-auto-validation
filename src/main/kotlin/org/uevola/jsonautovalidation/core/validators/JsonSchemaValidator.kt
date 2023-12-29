@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.validators
+package org.uevola.jsonautovalidation.core.validators
 
 import org.uevola.jsonautovalidation.utils.Util
 import java.lang.reflect.ParameterizedType

@@ -17,6 +17,7 @@ val kLoggingVersion = "3.0.5"
 val reflectionVersion = "0.10.2"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
 }

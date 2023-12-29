@@ -7,7 +7,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
 import org.springframework.core.type.filter.AnnotationTypeFilter
-import org.uevola.jsonautovalidation.configuration.JsonValidationConfiguration
+import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.utils.annotations.Validate
 import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.*
 import java.io.File
@@ -35,7 +35,7 @@ object Util {
         val resolver = PathMatchingResourcePatternResolver()
         return resolver.getResources(
             "classpath*:"
-                .plus(JsonValidationConfiguration.resourcesPath)
+                .plus(JsonValidationConfig.resourcesPath)
                 .plus("**/")
                 .plus(schemaName)
                 .plus(SCHEMA_JSON_EXT)
@@ -51,10 +51,10 @@ object Util {
     fun addSchemaResource(schemaName: String, content: String?) {
         if (content == null) return
         try {
-            mkDir("", JsonValidationConfiguration.resourcesPath)
-            mkDir(JsonValidationConfiguration.resourcesPath, GENERATED_JSON_PATH)
+            mkDir("", JsonValidationConfig.resourcesPath)
+            mkDir(JsonValidationConfig.resourcesPath, GENERATED_JSON_PATH)
             val resourcePath =
-                ClassPathResource(JsonValidationConfiguration.resourcesPath + GENERATED_JSON_PATH)
+                ClassPathResource(JsonValidationConfig.resourcesPath + GENERATED_JSON_PATH)
             val file = File(resourcePath.file, schemaName + SCHEMA_JSON_EXT)
             if (!file.exists()) {
                 file.createNewFile()

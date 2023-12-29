@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.strategies.validators
+package org.uevola.jsonautovalidation.core.strategies.validators
 
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.ListableBeanFactory
@@ -8,8 +8,8 @@ import org.springframework.web.client.HttpClientErrorException
 import org.uevola.jsonautovalidation.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
-import org.uevola.jsonautovalidation.utils.validators.DefaultJsonSchemaValidator
-import org.uevola.jsonautovalidation.utils.validators.JsonSchemaValidator
+import org.uevola.jsonautovalidation.core.validators.DefaultJsonSchemaValidator
+import org.uevola.jsonautovalidation.core.validators.JsonSchemaValidator
 import java.lang.reflect.Field
 import java.lang.reflect.Parameter
 

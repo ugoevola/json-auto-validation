@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.validators
+package org.uevola.jsonautovalidation.core.validators
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.networknt.schema.JsonSchemaException

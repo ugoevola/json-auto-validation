@@ -1,11 +1,11 @@
-package org.uevola.jsonautovalidation.utils.validators
+package org.uevola.jsonautovalidation.core.validators
 
 import org.json.JSONObject
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.utils.Util
 import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsJsonValidation
-import org.uevola.jsonautovalidation.utils.strategies.generators.JsonSchemaGeneratorStrategy
+import org.uevola.jsonautovalidation.core.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
 import java.lang.reflect.Parameter
 
 @Component

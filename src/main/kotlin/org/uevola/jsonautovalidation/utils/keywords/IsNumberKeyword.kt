@@ -5,7 +5,7 @@ import com.networknt.schema.*
 import org.uevola.jsonautovalidation.utils.Util.STRING_NUMBER_KEYWORD
 import java.text.MessageFormat
 
-class IsNumberKeyword : AbstractKeyword(STRING_NUMBER_KEYWORD) {
+class IsNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
     @Throws(JsonSchemaException::class, Exception::class)
     override fun newValidator(
         schemaPath: String,

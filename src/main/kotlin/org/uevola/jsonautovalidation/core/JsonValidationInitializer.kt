@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.configuration
+package org.uevola.jsonautovalidation.core
 
 import mu.KLogging
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory
@@ -7,13 +7,12 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 import org.springframework.context.EnvironmentAware
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
-import org.uevola.jsonautovalidation.utils.generators.JsonValidationBeanGenerator
-import org.uevola.jsonautovalidation.utils.generators.JsonValidationSchemaGenerator
+import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Configuration
-open class JsonValidationInitialisation:
+open class JsonValidationInitializer:
     BeanDefinitionRegistryPostProcessor,
     EnvironmentAware {
     companion object : KLogging()
@@ -21,10 +20,10 @@ open class JsonValidationInitialisation:
     override fun postProcessBeanFactory(beanFactory: ConfigurableListableBeanFactory) {}
 
     override fun postProcessBeanDefinitionRegistry(registry: BeanDefinitionRegistry) {
-        JsonValidationBeanGenerator.generateBeans(registry)
+        BeansGenerator.generateBeans(registry)
     }
 
     override fun setEnvironment(environment: Environment) {
-        JsonValidationConfiguration.init(environment)
+        JsonValidationConfig.init(environment)
     }
 }

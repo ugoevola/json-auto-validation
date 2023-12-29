@@ -10,7 +10,7 @@ import org.uevola.jsonautovalidation.utils.keywords.IsIntegerKeyword
 import org.uevola.jsonautovalidation.utils.keywords.IsNumberKeyword
 
 @Configuration
-open class JsonSchemaFactory {
+open class NetworkNtConfig {
 
     @Bean
     open fun customJsonSchemaFactory(): JsonSchemaFactory {

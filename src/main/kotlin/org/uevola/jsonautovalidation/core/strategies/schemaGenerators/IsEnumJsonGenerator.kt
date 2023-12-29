@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.strategies.generators
+package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.json.JSONObject
@@ -12,7 +12,7 @@ import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.jvm.javaType
 
 @Component
-class IsEnumGeneratorStrategy : JsonSchemaGeneratorStrategy {
+class IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
 
     override fun getOrdered() = 0
 

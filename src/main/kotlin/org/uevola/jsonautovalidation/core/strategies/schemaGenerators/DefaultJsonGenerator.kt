@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.strategies.generators
+package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
 
 import org.json.JSONObject
 import org.springframework.stereotype.Component
@@ -10,7 +10,7 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.declaredMemberProperties
 
 @Component
-class DefaultGeneratorStrategy : JsonSchemaGeneratorStrategy {
+class DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
 
     override fun getOrdered() = 1
 

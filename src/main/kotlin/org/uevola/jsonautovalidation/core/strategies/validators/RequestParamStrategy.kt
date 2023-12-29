@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.utils.strategies.validators
+package org.uevola.jsonautovalidation.core.strategies.validators
 
 import com.fasterxml.jackson.core.JsonParseException
 import jakarta.servlet.http.HttpServletRequest

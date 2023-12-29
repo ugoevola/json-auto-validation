@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import org.uevola.jsonautovalidation.utils.Util
-import org.uevola.jsonautovalidation.utils.strategies.validators.ValidatorStrategy
+import org.uevola.jsonautovalidation.core.strategies.validators.ValidatorStrategy
 
 @Component
 class JsonSchemaValidationInterceptor(

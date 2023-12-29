@@ -4,7 +4,7 @@ import mu.KLogging
 import org.springframework.core.env.Environment
 import org.uevola.jsonautovalidation.utils.Util
 
-object JsonValidationConfiguration: KLogging() {
+object JsonValidationConfig: KLogging() {
     private const val JSON_VALIDATION_KEY_PROPERTY = "json-validation"
 
     lateinit var dtoPackageName: String
