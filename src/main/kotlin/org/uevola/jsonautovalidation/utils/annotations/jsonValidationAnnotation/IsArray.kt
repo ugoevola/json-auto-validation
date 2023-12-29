@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation
 
+import org.springframework.core.annotation.AliasFor
 import org.uevola.jsonautovalidation.utils.enums.JsonTypeEnum
 
 @IsJsonValidation
@@ -7,6 +8,7 @@ import org.uevola.jsonautovalidation.utils.enums.JsonTypeEnum
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsArray(
+    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "message")
     val message: String = "",
     val type: Array<JsonTypeEnum> = [
         JsonTypeEnum.ARRAY,
