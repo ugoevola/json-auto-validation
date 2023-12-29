@@ -8,11 +8,11 @@ plugins {
 group = "io.github.ugoevola"
 version = "0.0.1"
 
-val springVersion = "3.0.7"
-val ktlVersion = "1.8.21"
-val jsonVersion = "20230227"
-val jsonSchemaValidatorVersion = "1.0.86"
-val byteBuddyVersion = "1.14.5"
+val springBootVersion = "3.2.1"
+val ktlVersion = "1.9.22"
+val jsonVersion = "20231013"
+val jsonSchemaValidatorVersion = "1.1.0"
+val byteBuddyVersion = "1.14.11"
 val kLoggingVersion = "3.0.5"
 val reflectionVersion = "0.10.2"
 
@@ -26,7 +26,7 @@ dependencies {
     implementation(kotlin("stdlib", ktlVersion))
     implementation(kotlin("reflect", ktlVersion))
     // spring
-    compileOnly("org.springframework.boot:spring-boot-starter-web:$springVersion")
+    compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     // json manipulation
     api("org.json:json:$jsonVersion")
     // validation
