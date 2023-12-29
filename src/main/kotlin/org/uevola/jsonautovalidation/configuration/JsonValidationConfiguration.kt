@@ -1,22 +1,31 @@
 package org.uevola.jsonautovalidation.configuration
 
 import mu.KLogging
-import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.core.env.Environment
 import org.uevola.jsonautovalidation.utils.Utils
 
-@ConfigurationProperties(prefix = "json-validation")
-data class JsonValidationConfiguration(
-    var resourcesPath: String = "json-schemas/",
-    var dtoPackageName: String? = null,
-) {
+object JsonValidationConfiguration: KLogging() {
+    private const val JSON_VALIDATION_KEY_PROPERTY = "json-validation"
 
-    companion object : KLogging()
+    lateinit var dtoPackageName: String
+    lateinit var resourcesPath: String
 
-    init {
-        if (dtoPackageName == null) {
-            dtoPackageName = "${Utils.resolveRootPackage()}.dto"
-        }
-        logger.info { "Resources path for json auto validation : $resourcesPath" }
-        logger.info { "Dto package for auto validation : $dtoPackageName" }
+    fun init(environment: Environment) {
+        initDtoPackageName(environment)
+        initResourcesPath(environment)
+    }
+
+    private fun initDtoPackageName(env: Environment) {
+        dtoPackageName = env.getProperty(
+            "$JSON_VALIDATION_KEY_PROPERTY.dto-package-name"
+        ) ?: Utils.resolveRootPackage()
+        logger.info { "Resources path for json auto validation: $dtoPackageName" }
+    }
+
+    private fun initResourcesPath(env: Environment) {
+        resourcesPath = env.getProperty(
+            "$JSON_VALIDATION_KEY_PROPERTY.resources-path"
+        ) ?: ""
+        logger.info { "Dto package for auto validation: $resourcesPath" }
     }
 }
