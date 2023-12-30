@@ -44,7 +44,7 @@ object BeansGenerator: KLogging() {
     private fun getControllersToValidate(): Set<Class<*>> {
         val controllers = Util.findClassesByAnnotation(JsonValidationConfig.controllersPackageName, Controller::class.java)
         val restControllers = Util.findClassesByAnnotation(JsonValidationConfig.controllersPackageName, RestController::class.java)
-        logger.info { "retrieve ${(controllers + restControllers).size} controllers" }
+        logger.debug { "retrieve ${(controllers + restControllers).size} controllers" }
         return controllers + restControllers
     }
 

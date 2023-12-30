@@ -87,21 +87,42 @@ object Util: KLogging() {
      */
     fun addSchemaResource(schemaName: String, content: String?) {
         if (content == null) return
-        createFile(
-            JsonValidationConfig.resourcesPath,
-            schemaName + SCHEMA_JSON_EXT,
-            content
-        )
+        val pathResource = ClassPathResource("")
+        val uri = pathResource.uri
+        if (uri.scheme == "file") {
+            createDirectories(JsonValidationConfig.resourcesPath)
+            createFile(
+                JsonValidationConfig.resourcesPath,
+                schemaName + SCHEMA_JSON_EXT,
+                content
+            )
+        } else {
+            createFileJar(
+                JsonValidationConfig.resourcesPath,
+                schemaName + SCHEMA_JSON_EXT,
+                content
+            )
+        }
     }
 
-    /**
-     * create base directory and file in the resources
-     *
-     * @param basePath
-     * @param filename
-     * @param content
-     */
-    private fun createFile(basePath: String, filename: String, content: String) {
+    private fun createDirectories(basePath: String) {
+        val pathResource = ClassPathResource(basePath)
+        val directory = File(pathResource.uri.path, GENERATED_JSON_PATH)
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+    }
+
+    private fun createFile(basePath: String, name: String, content: String) {
+        val pathResource = ClassPathResource(basePath)
+        val file = File(pathResource.uri.path, name)
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        file.writeText(content, StandardCharsets.UTF_8)
+    }
+
+    private fun createFileJar(basePath: String, filename: String, content: String) {
         val pathResource = ClassPathResource(basePath)
         val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
         val filePath = fileSystem.getPath(basePath, GENERATED_JSON_PATH, filename)
