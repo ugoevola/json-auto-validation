@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.ugoevola"
-version = "0.2.0"
+version = "0.2.1"
 
 val springBootVersion = "3.2.1"
 val ktlVersion = "1.9.22"
