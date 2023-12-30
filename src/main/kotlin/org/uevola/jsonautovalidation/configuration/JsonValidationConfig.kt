@@ -9,23 +9,32 @@ object JsonValidationConfig: KLogging() {
 
     lateinit var dtoPackageName: String
     lateinit var resourcesPath: String
+    lateinit var controllersPackageName: String
 
     fun init(environment: Environment) {
         initDtoPackageName(environment)
         initResourcesPath(environment)
+        initControllersPackageName(environment)
     }
 
     private fun initDtoPackageName(env: Environment) {
         dtoPackageName = env.getProperty(
             "$JSON_VALIDATION_KEY_PROPERTY.dto-package-name"
-        ) ?: Util.resolveRootPackage()
-        logger.info { "Resources path for json auto validation: $dtoPackageName" }
+        ) ?: Util.rootPackage
+        logger.info { "Dto package for auto validation: $dtoPackageName" }
     }
 
     private fun initResourcesPath(env: Environment) {
         resourcesPath = env.getProperty(
             "$JSON_VALIDATION_KEY_PROPERTY.resources-path"
         ) ?: ""
-        logger.info { "Dto package for auto validation: $resourcesPath" }
+        logger.info { "Resources path for json auto validation: $resourcesPath" }
+    }
+
+    private fun initControllersPackageName(env: Environment) {
+        controllersPackageName = env.getProperty(
+            "$JSON_VALIDATION_KEY_PROPERTY.controllers-package-name"
+        ) ?: Util.rootPackage
+        logger.info { "Controllers package for auto validation: $controllersPackageName" }
     }
 }

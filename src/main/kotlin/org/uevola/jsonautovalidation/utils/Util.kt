@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.utils
 
+import mu.KLogging
 import org.json.JSONObject
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
@@ -10,20 +11,56 @@ import org.springframework.core.type.filter.AnnotationTypeFilter
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.utils.annotations.Validate
 import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.*
+import org.uevola.jsonautovalidation.utils.exceptions.JsonValidationGenerationException
 import java.io.File
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import java.nio.charset.StandardCharsets
+import java.nio.file.FileSystems
+import java.nio.file.Files
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.isSubclassOf
 
-object Util {
+
+object Util: KLogging() {
 
     private const val SCHEMA_JSON_EXT = ".schema.json"
     private const val GENERATED_JSON_PATH = "/generated-schemas"
     const val STRING_INTEGER_KEYWORD = "string-integer"
     const val STRING_NUMBER_KEYWORD = "string-number"
+
+    var rootPackage: String
+
+    init {
+        rootPackage = resolveRootPackage()
+    }
+
+    private fun resolveRootPackage(): String {
+        val scanner = ClassPathScanningCandidateComponentProvider(false)
+        scanner.addIncludeFilter(AnnotationTypeFilter(SpringBootApplication::class.java))
+        val candidates = scanner.findCandidateComponents("")
+        if (candidates.isNotEmpty()) {
+            val candidate = candidates.iterator().next()
+            val candidateClassName = candidate.beanClassName
+            if (candidateClassName != null) {
+                return getRootPackage(candidateClassName)
+            }
+        }
+        throw IllegalStateException("Unable to resolve the root package.")
+    }
+
+    fun findClassesByAnnotation(basePackage: String, annotationType: Class<out Annotation>): Set<Class<*>> {
+        try {
+            val scanner = ClassPathScanningCandidateComponentProvider(false)
+            scanner.addIncludeFilter(AnnotationTypeFilter(annotationType))
+            return scanner.findCandidateComponents(basePackage)
+                .map { Class.forName(it.beanClassName) }
+                .toSet()
+        } catch (exception: Exception) {
+            throw JsonValidationGenerationException("Error while scanning $basePackage for annotation ${annotationType.name}", exception)
+        }
+    }
 
     /**
      * retrieve the resource corresponding to the schema name
@@ -50,19 +87,35 @@ object Util {
      */
     fun addSchemaResource(schemaName: String, content: String?) {
         if (content == null) return
-        try {
-            mkDir("", JsonValidationConfig.resourcesPath)
-            mkDir(JsonValidationConfig.resourcesPath, GENERATED_JSON_PATH)
-            val resourcePath =
-                ClassPathResource(JsonValidationConfig.resourcesPath + GENERATED_JSON_PATH)
-            val file = File(resourcePath.file, schemaName + SCHEMA_JSON_EXT)
-            if (!file.exists()) {
-                file.createNewFile()
-            }
-            file.writeText(content, StandardCharsets.UTF_8)
-        } catch (e: Exception) {
-            e.printStackTrace()
+        createFile(
+            JsonValidationConfig.resourcesPath,
+            schemaName + SCHEMA_JSON_EXT,
+            content
+        )
+    }
+
+    /**
+     * create base directory and file in the resources
+     *
+     * @param basePath
+     * @param filename
+     * @param content
+     */
+    private fun createFile(basePath: String, filename: String, content: String) {
+        val pathResource = ClassPathResource(basePath)
+        val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
+        val filePath = fileSystem.getPath(basePath, GENERATED_JSON_PATH, filename)
+        val parentPath = filePath.parent
+        if (!Files.isDirectory(parentPath)) {
+            Files.createDirectories(parentPath)
         }
+        if (!Files.exists(filePath)) {
+            Files.createFile(filePath)
+            Files.newBufferedWriter(filePath, StandardCharsets.UTF_8).use { writer ->
+                writer.write(content)
+            }
+        }
+        fileSystem.close()
     }
 
     fun isJavaOrKotlinClass(clazz: Class<*>) = clazz.name.startsWith("kotlin.") ||
@@ -81,19 +134,6 @@ object Util {
         }
     }
 
-    fun resolveRootPackage(): String {
-        val scanner = ClassPathScanningCandidateComponentProvider(false)
-        scanner.addIncludeFilter(AnnotationTypeFilter(SpringBootApplication::class.java))
-        val candidates = scanner.findCandidateComponents("")
-        if (candidates.isNotEmpty()) {
-            val candidate = candidates.iterator().next()
-            val candidateClassName = candidate.beanClassName
-            if (candidateClassName != null) {
-                return getRootPackage(candidateClassName)
-            }
-        }
-        throw IllegalStateException("Unable to resolve the root package.")
-    }
 
     /**
      * used to resolve json-auto-validation template
@@ -123,20 +163,6 @@ object Util {
         return json1
     }
 
-    /**
-     * create directory in the targeted resource path
-     *
-     * @param resourcePath
-     * @param dirName
-     */
-    private fun mkDir(resourcePath: String, dirName: String) {
-        val resource = ClassPathResource(resourcePath)
-        val directory = File(resource.file, dirName)
-        if (!directory.exists()) {
-            directory.mkdir()
-        }
-    }
-
     private fun getRootPackage(className: String): String {
         val lastDotIndex = className.lastIndexOf('.')
         return if (lastDotIndex != -1) className.substring(0, lastDotIndex) else ""
@@ -149,4 +175,3 @@ object Util {
             method.parameters.filter { parameter -> parameter.annotations.any { it is Validate } }
 
 }
-

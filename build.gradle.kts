@@ -14,7 +14,6 @@ val jsonVersion = "20231013"
 val jsonSchemaValidatorVersion = "1.1.0"
 val byteBuddyVersion = "1.14.11"
 val kLoggingVersion = "3.0.5"
-val reflectionVersion = "0.10.2"
 
 repositories {
     mavenLocal()
@@ -35,8 +34,6 @@ dependencies {
     implementation("net.bytebuddy:byte-buddy:$byteBuddyVersion")
     // logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kLoggingVersion")
-    // lecture annotation
-    implementation("org.reflections:reflections:$reflectionVersion")
 }
 
 kotlin {
@@ -46,12 +43,6 @@ kotlin {
 java {
     withJavadocJar()
     withSourcesJar()
-}
-
-sourceSets {
-    getByName("main").resources {
-        srcDirs("src/main/resources/json-schemas")
-    }
 }
 
 publishing {

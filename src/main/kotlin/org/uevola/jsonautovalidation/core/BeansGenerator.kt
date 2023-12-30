@@ -5,13 +5,13 @@ import net.bytebuddy.ByteBuddy
 import net.bytebuddy.description.modifier.Visibility
 import net.bytebuddy.description.type.TypeDescription
 import net.bytebuddy.dynamic.loading.ClassLoadingStrategy
-import org.reflections.Reflections
 import org.springframework.beans.factory.support.BeanDefinitionRegistry
 import org.springframework.beans.factory.support.RootBeanDefinition
 import org.springframework.core.ResolvableType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.utils.Util
 import org.uevola.jsonautovalidation.utils.annotations.Validate
 import org.uevola.jsonautovalidation.core.validators.JsonSchemaValidator
@@ -42,10 +42,10 @@ object BeansGenerator: KLogging() {
     }
 
     private fun getControllersToValidate(): Set<Class<*>> {
-        val reflections = Reflections(Util.resolveRootPackage())
-        val controllers = reflections.getTypesAnnotatedWith(Controller::class.java)
-        controllers.addAll(reflections.getTypesAnnotatedWith(RestController::class.java))
-        return controllers
+        val controllers = Util.findClassesByAnnotation(JsonValidationConfig.controllersPackageName, Controller::class.java)
+        val restControllers = Util.findClassesByAnnotation(JsonValidationConfig.controllersPackageName, RestController::class.java)
+        logger.info { "retrieve ${(controllers + restControllers).size} controllers" }
+        return controllers + restControllers
     }
 
     private fun getMethodsToValidate(controller: Class<*>) =
