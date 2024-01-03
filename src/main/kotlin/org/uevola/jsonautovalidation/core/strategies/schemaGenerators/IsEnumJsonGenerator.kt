@@ -33,7 +33,8 @@ class IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
     }
 
     private fun generate(enumClass: KClass<out Any>): JSONObject? {
-        val enumValues = getEnumValues(enumClass)
+        var enumValues = getEnumValues(enumClass)
+        enumValues = enumValues + ""
         val values = mapOf("enum" to enumValues)
         val schemaName = IsEnum::class.simpleName ?: return null
         return Util.resolveTemplate(
@@ -66,7 +67,7 @@ class IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
     private fun getEnumClass(parameter: Parameter) =
         if (parameter.javaClass.isEnum) parameter.javaClass.kotlin else null
 
-    private fun getEnumValues(enumClass: KClass<out Any>): List<*>? {
+    private fun getEnumValues(enumClass: KClass<out Any>): List<*> {
         val objectMapper = ObjectMapper()
         val json = objectMapper.writeValueAsString(enumClass.java.enumConstants)
         return objectMapper.readValue(json, List::class.java)
