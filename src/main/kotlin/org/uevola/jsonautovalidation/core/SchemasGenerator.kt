@@ -76,9 +76,11 @@ open class SchemasGenerator(
             ?.declaredAnnotations
             ?: emptyArray<Annotation>()
         val basicAnnotation = Util.getAnnotationForBaseClass(property.returnType)
+        val annotationsForBasicIgnored = Util.getAnnotationsForBasicIgnored()
         if (
-            basicAnnotation != null
-            && !annotations.any { it.annotationClass == basicAnnotation.annotationClass }
+            annotations.none { annotationsForBasicIgnored.contains(it) }
+            && basicAnnotation != null
+            && annotations.none { it.annotationClass == basicAnnotation.annotationClass }
         ) {
             annotations = annotations.plus(basicAnnotation)
         }

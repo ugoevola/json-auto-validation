@@ -155,6 +155,13 @@ object Util: KLogging() {
         }
     }
 
+    fun getAnnotationsForBasicIgnored(): List<Annotation> =
+        listOf(
+            IsStringInteger(),
+            IsStringNumber(),
+            IsStringBool()
+        )
+
 
     /**
      * used to resolve json-auto-validation template
