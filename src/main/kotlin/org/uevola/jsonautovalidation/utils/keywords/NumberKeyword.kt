@@ -8,6 +8,12 @@ import java.text.MessageFormat
 
 abstract class NumberKeyword: AbstractJsonValidator() {
 
+    protected fun verifyIfEmpty(
+        node: JsonNode,
+    ) {
+        if (node.asText().isEmpty()) throw KeywordValidationException()
+    }
+
     protected fun verifyMaximum(
         schemaNode: JsonNode,
         node: JsonNode,

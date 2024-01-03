@@ -6,7 +6,7 @@ import org.uevola.jsonautovalidation.utils.Util.STRING_NUMBER_KEYWORD
 import org.uevola.jsonautovalidation.utils.exceptions.KeywordValidationException
 import java.text.MessageFormat
 
-class IsNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
+class IsStringNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
     @Throws(JsonSchemaException::class, Exception::class)
     override fun newValidator(
         schemaPath: String,
@@ -21,6 +21,7 @@ class IsNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
             at: String
         ): Set<ValidationMessage> {
             try {
+                verifyIfEmpty(node)
                 verifyIfNumber(node, at)
                 verifyMaximum(schemaNode, node, at)
                 verifyMinimum(schemaNode, node, at)
@@ -28,7 +29,8 @@ class IsNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
                 verifyExclusiveMaximum(schemaNode, node, at)
                 verifyMultipleOf(schemaNode, node, at)
             } catch(exception: KeywordValidationException) {
-                return setOf(exception.validationMessage)
+                return if (exception.validationMessage == null) emptySet()
+                else setOf(exception.validationMessage)
             }
             return emptySet()
         }

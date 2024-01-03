@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.uevola.jsonautovalidation.utils.Util.STRING_INTEGER_KEYWORD
 import org.uevola.jsonautovalidation.utils.Util.STRING_NUMBER_KEYWORD
-import org.uevola.jsonautovalidation.utils.keywords.IsIntegerKeyword
-import org.uevola.jsonautovalidation.utils.keywords.IsNumberKeyword
+import org.uevola.jsonautovalidation.utils.keywords.IsStringIntegerKeyword
+import org.uevola.jsonautovalidation.utils.keywords.IsStringNumberKeyword
 
 @Configuration
 open class NetworkNtConfig {
@@ -16,8 +16,8 @@ open class NetworkNtConfig {
     open fun customJsonSchemaFactory(): JsonSchemaFactory {
         val jsonSchemaVersion = JsonSchemaFactory.checkVersion(SpecVersion.VersionFlag.V202012)
         val metaSchema = jsonSchemaVersion.instance
-        metaSchema.keywords[STRING_INTEGER_KEYWORD] = IsIntegerKeyword()
-        metaSchema.keywords[STRING_NUMBER_KEYWORD] = IsNumberKeyword()
+        metaSchema.keywords[STRING_INTEGER_KEYWORD] = IsStringIntegerKeyword()
+        metaSchema.keywords[STRING_NUMBER_KEYWORD] = IsStringNumberKeyword()
         return JsonSchemaFactory.builder()
             .defaultMetaSchemaURI(metaSchema.uri)
             .addMetaSchema(metaSchema)
