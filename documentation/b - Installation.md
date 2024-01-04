@@ -19,7 +19,7 @@ implementation("io.github.ugoevola:json-auto-validation:0.2.2")
 To enable **Json-auto-validation**, you just have to annotate a Bean class with **@EnableJsonAutoValidation** annotation as follows:
 
 ```kotlin
-import org.uevola.jsonautovalidation.utils.annotations.EnableJsonAutoValidation
+import org.uevola.jsonautovalidation.common.annotations.EnableJsonAutoValidation
 
 @SpringBootApplication
 @EnableJsonAutoValidation

@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.core.validators
 
-import org.uevola.jsonautovalidation.utils.Util
+import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.ParameterizedType
 
 abstract class JsonSchemaValidator<T>: AbstractValidator(), IJsonSchemaValidator<T> {
@@ -19,7 +19,7 @@ abstract class JsonSchemaValidator<T>: AbstractValidator(), IJsonSchemaValidator
         jsonSchemaName = typeArgument.simpleName
     }
 
-    private fun jsonSchemaFile() = Util.getSchemaResource(jsonSchemaName)?.inputStream
+    private fun jsonSchemaFile() = ResourcesUtil.getSchemaResource(jsonSchemaName)?.inputStream
 
     override fun validate(json: String, customMessages: Map<String, String>): Unit? {
         val content = jsonSchemaFile()?.bufferedReader().use { it?.readText() }

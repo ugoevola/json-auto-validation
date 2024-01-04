@@ -7,8 +7,8 @@ import com.networknt.schema.ValidationMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
-import org.uevola.jsonautovalidation.utils.ExceptionUtil
-import org.uevola.jsonautovalidation.utils.exceptions.ValidationException
+import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
+import org.uevola.jsonautovalidation.common.exceptions.ValidationException
 
 abstract class AbstractValidator {
 

@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
-import org.uevola.jsonautovalidation.utils.Util
+import org.uevola.jsonautovalidation.core.BeansGenerator
 import org.uevola.jsonautovalidation.core.strategies.validators.ValidatorStrategy
 
 @Component
@@ -19,7 +19,7 @@ class JsonSchemaValidationInterceptor(
         handler: Any,
     ): Boolean {
         if (handler is HandlerMethod) {
-            for (parameter in Util.getParamsToValidate(handler.beanType, handler.method)) {
+            for (parameter in BeansGenerator.getParamsToValidate(handler.beanType, handler.method)) {
                 strategies.sortedBy { it.getOrdered() }
                     .find { it.resolve(parameter) }
                     ?.validate(request, parameter)

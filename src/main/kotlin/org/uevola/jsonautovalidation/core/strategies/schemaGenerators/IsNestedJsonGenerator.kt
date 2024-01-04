@@ -2,7 +2,7 @@ package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
 
 import org.json.JSONObject
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsNested
+import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsNested
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.core.validators
 
-import org.uevola.jsonautovalidation.utils.exceptions.ValidationException
+import org.uevola.jsonautovalidation.common.exceptions.ValidationException
 
 /**
  * Used to validate json that must be deserialized into T type

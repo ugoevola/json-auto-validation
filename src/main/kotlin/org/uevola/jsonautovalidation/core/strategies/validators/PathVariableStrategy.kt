@@ -6,8 +6,8 @@ import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.PathVariable
-import org.uevola.jsonautovalidation.utils.ExceptionUtil
-import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
+import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
+import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import java.lang.reflect.Parameter
 
 @Component

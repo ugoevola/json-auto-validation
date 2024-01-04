@@ -3,7 +3,7 @@ package org.uevola.jsonautovalidation.core.strategies.validators
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestBody
-import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
+import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import java.lang.reflect.Parameter
 
 @Component

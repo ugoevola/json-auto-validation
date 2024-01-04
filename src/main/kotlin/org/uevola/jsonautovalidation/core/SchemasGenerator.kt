@@ -7,10 +7,10 @@ import org.json.JSONObject
 import org.springframework.context.annotation.Configuration
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.core.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
-import org.uevola.jsonautovalidation.utils.Util
-import org.uevola.jsonautovalidation.utils.annotations.JsonValidation
-import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsJsonValidation
-import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsRequired
+import org.uevola.jsonautovalidation.common.annotations.JsonValidation
+import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
+import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
+import org.uevola.jsonautovalidation.common.utils.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.hasAnnotation
@@ -31,7 +31,8 @@ open class SchemasGenerator(
 
     companion object : KLogging() {
         private val JSON_SCHEMA_BASE_TEMPLATE =
-            JSONObject(Util
+            JSONObject(
+                ResourcesUtil
                 .getSchemaResource("JsonSchemaBaseTemplate")
                 ?.inputStream?.bufferedReader().use { it?.readText() })
     }
@@ -44,9 +45,9 @@ open class SchemasGenerator(
     private fun generateJsonSchemaFiles() {
         logger.info { "Json schemas generation..." }
         val elapsed: Duration = measureTime {
-            val annotatedClasses = Util.findClassesByAnnotation(JsonValidationConfig.dtoPackageName, JsonValidation::class.java)
+            val annotatedClasses = ClassesUtil.getAnnotatedClassesIn(JsonValidationConfig.dtoPackageName, JsonValidation::class.java)
             for (clazz in annotatedClasses) {
-                Util.addSchemaResource(clazz.simpleName, getJsonSchema(clazz.kotlin)?.toString())
+                ResourcesUtil.addSchemaResource(clazz.simpleName, getJsonSchema(clazz.kotlin)?.toString())
             }
         }
         logger.info { "Json schemas generation completed in ${elapsed.inWholeMilliseconds}ms" }
@@ -56,7 +57,7 @@ open class SchemasGenerator(
         val properties = clazz.memberProperties
             .map { getJsonForProperty(it) }
             .fold(JSONObject()) { acc, jsonObject ->
-                Util.mergeJSONObject(acc, jsonObject)
+                JsonUtil.mergeJSONObject(acc, jsonObject)
                 acc
             }
         val requiredProperties = clazz.memberProperties.filter { property ->
@@ -67,7 +68,7 @@ open class SchemasGenerator(
             "required" to requiredProperties,
             "properties" to properties
         )
-        Util.resolveTemplate(JSON_SCHEMA_BASE_TEMPLATE, values)
+        JsonUtil.resolveTemplate(JSON_SCHEMA_BASE_TEMPLATE, values)
     }
 
     private fun getJsonForProperty(property: KProperty1<out Any, *>): JSONObject? {
@@ -75,14 +76,13 @@ open class SchemasGenerator(
             .javaField
             ?.declaredAnnotations
             ?: emptyArray<Annotation>()
-        val basicAnnotation = Util.getAnnotationForBaseClass(property.returnType)
-        val annotationsForBasicIgnored = Util.getAnnotationsForBasicIgnored()
+        val correspondedAnnotation = property.returnType.getCorrespondedJsonValidationAnnotation()
         if (
-            annotations.none { annotationsForBasicIgnored.contains(it) }
-            && basicAnnotation != null
-            && annotations.none { it.annotationClass == basicAnnotation.annotationClass }
+            annotations.none { AnnotationsUtil.overriderAutomaticAnnotations().contains(it) }
+            && correspondedAnnotation != null
+            && annotations.none { it.annotationClass == correspondedAnnotation.annotationClass }
         ) {
-            annotations = annotations.plus(basicAnnotation)
+            annotations = annotations.plus(correspondedAnnotation)
         }
         val value = annotations
             .filter { it.annotationClass.hasAnnotation<IsJsonValidation>() }
@@ -92,7 +92,7 @@ open class SchemasGenerator(
                     .find { it.resolve(annotation) }
                     ?.generate(annotation, property, getJsonSchema)
             }.fold(JSONObject()) { acc, jsonObject ->
-                Util.mergeJSONObject(acc, jsonObject)
+                JsonUtil.mergeJSONObject(acc, jsonObject)
                 acc
             }
         if (value.isEmpty) return null

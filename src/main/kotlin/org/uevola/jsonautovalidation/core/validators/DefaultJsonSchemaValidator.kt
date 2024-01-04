@@ -3,9 +3,9 @@ package org.uevola.jsonautovalidation.core.validators
 import org.json.JSONObject
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.utils.Util
-import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsJsonValidation
+import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.core.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
+import org.uevola.jsonautovalidation.common.utils.JsonUtil
 import java.lang.reflect.Parameter
 
 @Component
@@ -24,7 +24,7 @@ class DefaultJsonSchemaValidator(
             jsonGenerationStrategies.sortedBy { it.getOrdered() }.find { it.resolve(annotation) }
                 ?.generate(annotation, parameter)
         }.fold(JSONObject()) { acc, jsonObject ->
-            Util.mergeJSONObject(acc, jsonObject)
+            JsonUtil.mergeJSONObject(acc, jsonObject)
             acc
         }
         if (value.isEmpty) return null

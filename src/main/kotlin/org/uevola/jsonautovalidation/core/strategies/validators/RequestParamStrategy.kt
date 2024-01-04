@@ -5,9 +5,10 @@ import jakarta.servlet.http.HttpServletRequest
 import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.utils.ExceptionUtil
-import org.uevola.jsonautovalidation.utils.Util
-import org.uevola.jsonautovalidation.utils.enums.HttpRequestPartEnum
+import org.uevola.jsonautovalidation.common.utils.ClassesUtil
+import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
+import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
+import org.uevola.jsonautovalidation.common.utils.isJavaOrKotlin
 import java.lang.reflect.Parameter
 
 @Component
@@ -19,7 +20,7 @@ class RequestParamStrategy : ValidatorStrategy, AbstractValidatorStrategy() {
     override fun validate(request: HttpServletRequest, parameter: Parameter) {
         try {
             val json = extractJsonRequestParamsFromRequest(request.parameterMap).toString()
-            if (Util.isJavaOrKotlinClass(parameter.type)) {
+            if (parameter.type.isJavaOrKotlin()) {
                 validate(parameter, json, HttpRequestPartEnum.REQUEST_PARAMS)
             } else {
                 validate(parameter.type, json, HttpRequestPartEnum.REQUEST_PARAMS, getCustomMessage(parameter))

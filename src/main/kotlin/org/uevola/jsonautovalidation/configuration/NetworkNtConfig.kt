@@ -4,10 +4,10 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.SpecVersion
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.uevola.jsonautovalidation.utils.Util.STRING_INTEGER_KEYWORD
-import org.uevola.jsonautovalidation.utils.Util.STRING_NUMBER_KEYWORD
-import org.uevola.jsonautovalidation.utils.keywords.IsStringIntegerKeyword
-import org.uevola.jsonautovalidation.utils.keywords.IsStringNumberKeyword
+import org.uevola.jsonautovalidation.common.Constants.STRING_INTEGER_KEYWORD
+import org.uevola.jsonautovalidation.common.Constants.STRING_NUMBER_KEYWORD
+import org.uevola.jsonautovalidation.common.keywords.IsStringIntegerKeyword
+import org.uevola.jsonautovalidation.common.keywords.IsStringNumberKeyword
 
 @Configuration
 open class NetworkNtConfig {

@@ -2,8 +2,9 @@ package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
 
 import org.json.JSONObject
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.utils.Util
-import org.uevola.jsonautovalidation.utils.annotations.jsonValidationAnnotation.IsRequired
+import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
+import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
+import org.uevola.jsonautovalidation.common.utils.JsonUtil
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -26,8 +27,9 @@ class DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
 
     private fun generate(annotation: Annotation): JSONObject? {
         val schemaName = annotation.annotationClass.simpleName ?: return null
-        return Util.resolveTemplate(
-            JSONObject(Util
+        return JsonUtil.resolveTemplate(
+            JSONObject(
+                ResourcesUtil
                 .getSchemaResource(schemaName)?.inputStream
                 ?.bufferedReader().use { it?.readText() }), annotationEntries(annotation)
         )
