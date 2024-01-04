@@ -15,7 +15,6 @@ object ResourcesUtil {
 
     /**
      * retrieve the resource corresponding to the schema name
-     * recovery is based on the property "json-validation.resources-path"
      *
      * @param schemaName the name of the resource schema
      */
@@ -46,7 +45,7 @@ object ResourcesUtil {
 
 
     /**
-     * add a resource schema in the resource path corresponding to the property "json-validation.resources-path"
+     * add a resource schema in the resources /generated-schemas
      *
      * @param schemaName the name of the resource schema
      * @param content the content of the resource

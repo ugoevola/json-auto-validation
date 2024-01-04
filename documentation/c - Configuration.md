@@ -6,13 +6,11 @@ thus avoiding having to search the entire application.
 
 - The json schemas are generated from the dto, and by default it fetches them from `"${java.base.package}.dto"`.
 - Control beans are generated from controllers, by default it reads controllers from `"${java.base.package}"`.
-- Finally, it reads and/or generates the json schemas in the default resources in the `"json-schemas/"` folder.
 
 You can change this behavior in your application properties as follows:
 ```properties
 json-validation.dto-package-name=com.exemple.utils.dto
 json-validation.controllers-package-name=com.exemple.web
-json-validation.resources-path=validation/js-schema
 ```
 
 ## Process the validation
