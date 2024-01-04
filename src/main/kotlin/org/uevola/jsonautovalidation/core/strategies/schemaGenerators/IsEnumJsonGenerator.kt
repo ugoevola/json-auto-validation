@@ -41,7 +41,7 @@ class IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         return JsonUtil.resolveTemplate(
             JSONObject(
                 ResourcesUtil
-                .getSchemaResource(schemaName)?.inputStream
+                .getResourceSchema(schemaName)?.inputStream
                 ?.bufferedReader().use { it?.readText() }), values
         )
     }

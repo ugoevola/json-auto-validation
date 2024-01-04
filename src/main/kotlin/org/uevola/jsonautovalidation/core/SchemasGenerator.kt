@@ -33,7 +33,7 @@ open class SchemasGenerator(
         private val JSON_SCHEMA_BASE_TEMPLATE =
             JSONObject(
                 ResourcesUtil
-                .getSchemaResource("JsonSchemaBaseTemplate")
+                .getResourceSchema("JsonSchemaBaseTemplate")
                 ?.inputStream?.bufferedReader().use { it?.readText() })
     }
 

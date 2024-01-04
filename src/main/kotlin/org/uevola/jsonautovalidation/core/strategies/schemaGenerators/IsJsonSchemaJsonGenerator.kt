@@ -27,7 +27,7 @@ class IsJsonSchemaJsonGenerator : JsonSchemaGeneratorStrategy {
         if (annotation !is IsJsonSchema) return null
         return JSONObject(
             ResourcesUtil
-            .getSchemaResource(annotation.jsonSchemaName)
+            .getResourceSchema(annotation.jsonSchemaName)
             ?.inputStream?.bufferedReader().use { it?.readText() })
     }
 }

@@ -19,15 +19,29 @@ object ResourcesUtil {
      *
      * @param schemaName the name of the resource schema
      */
-    fun getSchemaResource(schemaName: String): Resource? {
+    fun getResourceSchema(schemaName: String): Resource? {
         val resolver = PathMatchingResourcePatternResolver()
-        return resolver.getResources(
-            "classpath*:"
-                .plus(JsonValidationConfig.resourcesPath)
-                .plus("**/")
-                .plus(schemaName)
-                .plus(SCHEMA_JSON_EXT)
-        ).find { schemaName.plus(SCHEMA_JSON_EXT) == it.filename }
+        val path = "classpath*:**/$schemaName$SCHEMA_JSON_EXT"
+        return resolver
+            .getResources(path)
+            .find { schemaName.plus(SCHEMA_JSON_EXT) == it.filename }
+    }
+
+    fun getResourceSchemaAsString(schemaName: String): String? {
+        val classPathResource = ClassPathResource("")
+        val uri = classPathResource.uri
+        return if (uri.scheme == "file") {
+            getResourceSchema(schemaName)?.inputStream?.bufferedReader().use { it?.readText() }
+        } else {
+            getResourceSchemaJar(schemaName)
+        }
+    }
+
+    private fun getResourceSchemaJar(schemaName: String): String {
+        val pathResource = ClassPathResource("")
+        val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
+        val filePath = fileSystem.getPath(GENERATED_JSON_PATH, schemaName + SCHEMA_JSON_EXT)
+        return Files.readString(filePath)
     }
 
 
@@ -42,31 +56,29 @@ object ResourcesUtil {
         val pathResource = ClassPathResource("")
         val uri = pathResource.uri
         if (uri.scheme == "file") {
-            createDirectories(JsonValidationConfig.resourcesPath)
+            createDirectories()
             createFile(
-                "${JsonValidationConfig.resourcesPath}/${GENERATED_JSON_PATH}",
                 schemaName + SCHEMA_JSON_EXT,
                 content
             )
         } else {
             createFileJar(
-                JsonValidationConfig.resourcesPath,
                 schemaName + SCHEMA_JSON_EXT,
                 content
             )
         }
     }
 
-    private fun createDirectories(basePath: String) {
-        val pathResource = ClassPathResource(basePath)
+    private fun createDirectories() {
+        val pathResource = ClassPathResource("")
         val directory = File(pathResource.uri.path, GENERATED_JSON_PATH)
         if (!directory.exists()) {
             directory.mkdirs()
         }
     }
 
-    private fun createFile(basePath: String, name: String, content: String) {
-        val pathResource = ClassPathResource(basePath)
+    private fun createFile(name: String, content: String) {
+        val pathResource = ClassPathResource(GENERATED_JSON_PATH)
         val file = File(pathResource.uri.path, name)
         if (!file.exists()) {
             file.createNewFile()
@@ -74,10 +86,10 @@ object ResourcesUtil {
         file.writeText(content, StandardCharsets.UTF_8)
     }
 
-    private fun createFileJar(basePath: String, filename: String, content: String) {
-        val pathResource = ClassPathResource(basePath)
+    private fun createFileJar(filename: String, content: String) {
+        val pathResource = ClassPathResource("")
         val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
-        val filePath = fileSystem.getPath(basePath, GENERATED_JSON_PATH, filename)
+        val filePath = fileSystem.getPath(GENERATED_JSON_PATH, filename)
         val parentPath = filePath.parent
         if (!Files.isDirectory(parentPath)) {
             Files.createDirectories(parentPath)

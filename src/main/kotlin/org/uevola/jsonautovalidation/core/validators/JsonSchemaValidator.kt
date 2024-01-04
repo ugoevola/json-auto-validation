@@ -19,10 +19,8 @@ abstract class JsonSchemaValidator<T>: AbstractValidator(), IJsonSchemaValidator
         jsonSchemaName = typeArgument.simpleName
     }
 
-    private fun jsonSchemaFile() = ResourcesUtil.getSchemaResource(jsonSchemaName)?.inputStream
-
     override fun validate(json: String, customMessages: Map<String, String>): Unit? {
-        val content = jsonSchemaFile()?.bufferedReader().use { it?.readText() }
+        val content = ResourcesUtil.getResourceSchemaAsString(jsonSchemaName)
         return if (content != null) validate(json, customMessages, content) else null
     }
 
