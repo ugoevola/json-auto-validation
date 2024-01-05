@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
-import org.uevola.jsonautovalidation.common.utils.isJavaOrKotlin
+import org.uevola.jsonautovalidation.common.utils.isIgnoredType
 import java.lang.reflect.Parameter
 
 @Component
@@ -19,7 +19,7 @@ class RequestParamStrategy : ValidatorStrategy, AbstractValidatorStrategy() {
     override fun validate(request: HttpServletRequest, parameter: Parameter) {
         try {
             val json = extractJsonRequestParamsFromRequest(request.parameterMap).toString()
-            if (parameter.type.isJavaOrKotlin()) {
+            if (parameter.type.isIgnoredType()) {
                 validate(parameter, json, HttpRequestPartEnum.REQUEST_PARAMS)
             } else {
                 validate(parameter.type, json, HttpRequestPartEnum.REQUEST_PARAMS, getCustomMessage(parameter))

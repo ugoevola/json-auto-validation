@@ -10,6 +10,7 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystems
 import java.nio.file.Files
+import java.nio.file.NoSuchFileException
 
 object ResourcesUtil : KLogging() {
 
@@ -27,22 +28,27 @@ object ResourcesUtil : KLogging() {
     }
 
     fun getResourceSchemaAsString(schemaName: String): String? {
-        val classPathResource = ClassPathResource("")
-        val uri = classPathResource.uri
-        return if (uri.scheme == "file") {
-            getResourceSchema(schemaName)?.inputStream?.bufferedReader().use { it?.readText() }
-        } else {
-            getResourceSchemaJar(schemaName)
-        }
+            val classPathResource = ClassPathResource("")
+            val uri = classPathResource.uri
+            return if (uri.scheme == "file") {
+                getResourceSchema(schemaName)?.inputStream?.bufferedReader().use { it?.readText() }
+            } else {
+                getResourceSchemaJar(schemaName)
+            }
     }
 
-    private fun getResourceSchemaJar(schemaName: String): String {
-        val pathResource = ClassPathResource("")
-        val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
-        val filePath = fileSystem.getPath(GENERATED_JSON_PATH, schemaName + SCHEMA_JSON_EXT)
-        val result = Files.readString(filePath)
-        fileSystem.close()
-        return result
+    private fun getResourceSchemaJar(schemaName: String): String? {
+        try {
+            val pathResource = ClassPathResource("")
+            val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
+            val filePath = fileSystem.getPath(GENERATED_JSON_PATH, schemaName + SCHEMA_JSON_EXT)
+            val result = Files.readString(filePath)
+            fileSystem.close()
+            return result
+        } catch (exception: NoSuchFileException) {
+            logger.warn { "Trying to read $schemaName$SCHEMA_JSON_EXT, but it doesnt exist." }
+            return null
+        }
     }
 
 

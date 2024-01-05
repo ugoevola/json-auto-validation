@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.uevola.jsonautovalidation.common.annotations.Validate
 import org.uevola.jsonautovalidation.common.utils.ClassesUtil
-import org.uevola.jsonautovalidation.common.utils.isJavaOrKotlin
+import org.uevola.jsonautovalidation.common.utils.isIgnoredType
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.core.validators.JsonSchemaValidator
 import java.lang.reflect.Method
@@ -63,7 +63,7 @@ object BeansGenerator : KLogging() {
             }
 
     private fun generateBeanValidator(registry: BeanDefinitionRegistry, parameter: Parameter) {
-        if (parameter.type.isJavaOrKotlin()) return
+        if (parameter.type.isIgnoredType()) return
         val beanName =
             parameter.type.simpleName.replaceFirstChar { it.lowercase(Locale.getDefault()) }.plus("Validator")
         if (registry.containsBeanDefinition(beanName)) return

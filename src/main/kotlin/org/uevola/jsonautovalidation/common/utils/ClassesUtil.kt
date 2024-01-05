@@ -5,8 +5,11 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter
 import org.uevola.jsonautovalidation.common.exceptions.JsonValidationGenerationException
 
-fun Class<*>.isJavaOrKotlin(): Boolean {
-    return this.name.startsWith("kotlin.") || this.name.startsWith("java.")
+fun Class<*>.isIgnoredType(): Boolean {
+    return this.name.startsWith("kotlin.") ||
+            this.name.startsWith("java.") ||
+            this.name.startsWith("javax.") ||
+            this.name.startsWith("jakarta.")
 }
 
 object ClassesUtil {
