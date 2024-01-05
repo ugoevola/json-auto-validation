@@ -1,9 +1,9 @@
 package org.uevola.jsonautovalidation.common.utils
 
+import mu.KLogging
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
-import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.common.Constants.GENERATED_JSON_PATH
 import org.uevola.jsonautovalidation.common.Constants.SCHEMA_JSON_EXT
 import java.io.File
@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystems
 import java.nio.file.Files
 
-object ResourcesUtil {
+object ResourcesUtil: KLogging() {
 
     /**
      * retrieve the resource corresponding to the schema name
@@ -40,7 +40,9 @@ object ResourcesUtil {
         val pathResource = ClassPathResource("")
         val fileSystem = FileSystems.newFileSystem(pathResource.uri, emptyMap<String, Any>())
         val filePath = fileSystem.getPath(GENERATED_JSON_PATH, schemaName + SCHEMA_JSON_EXT)
-        return Files.readString(filePath)
+        val result = Files.readString(filePath)
+        fileSystem.close()
+        return result
     }
 
 
