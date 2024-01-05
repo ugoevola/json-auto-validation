@@ -20,12 +20,12 @@ involved in verifying data after deserialization.
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
 </dependency>
 ```
 
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:0.2.4")
+implementation("io.github.ugoevola:json-auto-validation:0.2.5")
 ```
 
 ### Example
