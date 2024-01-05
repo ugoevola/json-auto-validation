@@ -17,6 +17,7 @@ fun KType.getCorrespondedJsonValidationAnnotation(): Annotation? {
         else -> null
     }
 }
+
 object AnnotationsUtil {
 
     fun overriderAutomaticAnnotations(): List<Annotation> =

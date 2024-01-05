@@ -12,7 +12,7 @@ import kotlin.time.ExperimentalTime
 
 @ExperimentalTime
 @Configuration
-open class JsonValidationInitializer:
+open class JsonValidationInitializer :
     BeanDefinitionRegistryPostProcessor,
     EnvironmentAware {
     companion object : KLogging()

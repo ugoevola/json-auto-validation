@@ -6,14 +6,14 @@ import org.uevola.jsonautovalidation.common.Constants.STRING_NUMBER_KEYWORD
 import org.uevola.jsonautovalidation.common.exceptions.KeywordValidationException
 import java.text.MessageFormat
 
-class IsStringNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
+class IsStringNumberKeyword : AbstractKeyword(STRING_NUMBER_KEYWORD) {
     @Throws(JsonSchemaException::class, Exception::class)
     override fun newValidator(
         schemaPath: String,
         schemaNode: JsonNode,
         parentSchema: JsonSchema,
         validationContext: ValidationContext
-    ) = object: NumberKeyword() {
+    ) = object : NumberKeyword() {
         override fun validate(
             executionContext: ExecutionContext?,
             node: JsonNode,
@@ -28,7 +28,7 @@ class IsStringNumberKeyword: AbstractKeyword(STRING_NUMBER_KEYWORD) {
                 verifyExclusiveMinimum(schemaNode, node, at)
                 verifyExclusiveMaximum(schemaNode, node, at)
                 verifyMultipleOf(schemaNode, node, at)
-            } catch(exception: KeywordValidationException) {
+            } catch (exception: KeywordValidationException) {
                 return if (exception.validationMessage == null) emptySet()
                 else setOf(exception.validationMessage)
             }

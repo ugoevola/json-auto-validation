@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import mu.KLogging
 import org.json.JSONObject
 import org.springframework.context.annotation.Configuration
-import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
-import org.uevola.jsonautovalidation.core.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
 import org.uevola.jsonautovalidation.common.annotations.JsonValidation
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
 import org.uevola.jsonautovalidation.common.utils.*
+import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
+import org.uevola.jsonautovalidation.core.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.hasAnnotation
@@ -33,8 +33,8 @@ open class SchemasGenerator(
         private val JSON_SCHEMA_BASE_TEMPLATE =
             JSONObject(
                 ResourcesUtil
-                .getResourceSchema("JsonSchemaBaseTemplate")
-                ?.inputStream?.bufferedReader().use { it?.readText() })
+                    .getResourceSchema("JsonSchemaBaseTemplate")
+                    ?.inputStream?.bufferedReader().use { it?.readText() })
     }
 
     init {
@@ -45,7 +45,8 @@ open class SchemasGenerator(
     private fun generateJsonSchemaFiles() {
         logger.info { "Json schemas generation..." }
         val elapsed: Duration = measureTime {
-            val annotatedClasses = ClassesUtil.getAnnotatedClassesIn(JsonValidationConfig.dtoPackageName, JsonValidation::class.java)
+            val annotatedClasses =
+                ClassesUtil.getAnnotatedClassesIn(JsonValidationConfig.dtoPackageName, JsonValidation::class.java)
             for (clazz in annotatedClasses) {
                 ResourcesUtil.addSchemaResource(clazz.simpleName, getJsonSchema(clazz.kotlin)?.toString())
             }

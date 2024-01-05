@@ -5,9 +5,8 @@ import jakarta.servlet.http.HttpServletRequest
 import org.json.JSONObject
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.common.utils.ClassesUtil
-import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
+import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.common.utils.isJavaOrKotlin
 import java.lang.reflect.Parameter
 
@@ -37,7 +36,7 @@ class RequestParamStrategy : ValidatorStrategy, AbstractValidatorStrategy() {
         val jsonObject = JSONObject()
         parameterMap.forEach { (key, value) ->
             if (value.isNotEmpty()) {
-                val finalValue = if(value.size > 1) value else value[0]
+                val finalValue = if (value.size > 1) value else value[0]
                 jsonObject.put(key, finalValue)
             }
         }

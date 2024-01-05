@@ -5,9 +5,9 @@ import org.springframework.beans.factory.ListableBeanFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.ResolvableType
 import org.springframework.web.client.HttpClientErrorException
-import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
+import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
 import org.uevola.jsonautovalidation.core.validators.DefaultJsonSchemaValidator
 import org.uevola.jsonautovalidation.core.validators.JsonSchemaValidator
 import java.lang.reflect.Field

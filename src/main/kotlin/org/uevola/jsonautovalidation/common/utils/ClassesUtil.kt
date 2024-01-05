@@ -3,11 +3,7 @@ package org.uevola.jsonautovalidation.common.utils
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
 import org.springframework.core.type.filter.AnnotationTypeFilter
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.*
 import org.uevola.jsonautovalidation.common.exceptions.JsonValidationGenerationException
-import kotlin.reflect.KClass
-import kotlin.reflect.KType
-import kotlin.reflect.full.isSubclassOf
 
 fun Class<*>.isJavaOrKotlin(): Boolean {
     return this.name.startsWith("kotlin.") || this.name.startsWith("java.")
@@ -29,7 +25,10 @@ object ClassesUtil {
                 .map { Class.forName(it.beanClassName) }
                 .toSet()
         } catch (exception: Exception) {
-            throw JsonValidationGenerationException("Error while scanning $basePackage for annotation ${annotationType.name}", exception)
+            throw JsonValidationGenerationException(
+                "Error while scanning $basePackage for annotation ${annotationType.name}",
+                exception
+            )
         }
     }
 

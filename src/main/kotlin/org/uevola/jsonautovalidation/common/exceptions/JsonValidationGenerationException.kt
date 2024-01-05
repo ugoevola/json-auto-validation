@@ -5,7 +5,7 @@ import org.springframework.core.NestedRuntimeException
 class JsonValidationGenerationException(
     message: String,
     throwable: Throwable
-): NestedRuntimeException(
+) : NestedRuntimeException(
     message,
     throwable
 )

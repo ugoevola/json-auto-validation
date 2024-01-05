@@ -6,7 +6,7 @@ import org.uevola.jsonautovalidation.common.Constants.STRING_INTEGER_KEYWORD
 import org.uevola.jsonautovalidation.common.exceptions.KeywordValidationException
 import java.text.MessageFormat
 
-class IsStringIntegerKeyword: AbstractKeyword(STRING_INTEGER_KEYWORD) {
+class IsStringIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) {
     @Throws(JsonSchemaException::class, Exception::class)
     override fun newValidator(
         schemaPath: String,
@@ -29,7 +29,7 @@ class IsStringIntegerKeyword: AbstractKeyword(STRING_INTEGER_KEYWORD) {
                     verifyExclusiveMinimum(schemaNode, node, at)
                     verifyExclusiveMaximum(schemaNode, node, at)
                     verifyMultipleOf(schemaNode, node, at)
-                } catch(exception: KeywordValidationException) {
+                } catch (exception: KeywordValidationException) {
                     return if (exception.validationMessage == null) emptySet()
                     else setOf(exception.validationMessage)
                 }

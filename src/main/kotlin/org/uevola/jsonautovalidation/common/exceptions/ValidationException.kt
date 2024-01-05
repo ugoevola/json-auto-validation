@@ -8,7 +8,7 @@ class ValidationException(
     message: String,
     statusCode: HttpStatusCode,
     val validationMessages: Set<ValidationMessage>
-): HttpClientErrorException(
+) : HttpClientErrorException(
     message,
     statusCode,
     "REQUEST_VALIDATION_KO",

@@ -2,8 +2,8 @@ package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
 
 import org.json.JSONObject
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonSchema
+import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -27,7 +27,7 @@ class IsJsonSchemaJsonGenerator : JsonSchemaGeneratorStrategy {
         if (annotation !is IsJsonSchema) return null
         return JSONObject(
             ResourcesUtil
-            .getResourceSchema(annotation.jsonSchemaName)
-            ?.inputStream?.bufferedReader().use { it?.readText() })
+                .getResourceSchema(annotation.jsonSchemaName)
+                ?.inputStream?.bufferedReader().use { it?.readText() })
     }
 }

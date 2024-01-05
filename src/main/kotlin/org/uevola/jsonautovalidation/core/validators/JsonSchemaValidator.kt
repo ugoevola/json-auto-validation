@@ -3,7 +3,7 @@ package org.uevola.jsonautovalidation.core.validators
 import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.ParameterizedType
 
-abstract class JsonSchemaValidator<T>: AbstractValidator(), IJsonSchemaValidator<T> {
+abstract class JsonSchemaValidator<T> : AbstractValidator(), IJsonSchemaValidator<T> {
     private val jsonSchemaName: String
 
     init {

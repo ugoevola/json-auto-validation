@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.FileSystems
 import java.nio.file.Files
 
-object ResourcesUtil: KLogging() {
+object ResourcesUtil : KLogging() {
 
     /**
      * retrieve the resource corresponding to the schema name
