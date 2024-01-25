@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.common.wrappers
+package org.uevola.jsonautovalidation.web
 
 import jakarta.servlet.ReadListener
 import jakarta.servlet.ServletInputStream

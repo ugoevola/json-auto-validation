@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.strategies.schemaGenerators
+package org.uevola.jsonautovalidation.strategies.schemas
 
 import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component

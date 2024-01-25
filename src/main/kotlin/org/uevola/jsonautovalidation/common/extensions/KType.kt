@@ -5,7 +5,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.isSubclassOf
 
-fun KType.getCorrespondedJsonValidationAnnotation(): Annotation? {
+fun KType.getInferredAnnotation(): Annotation? {
     val returnType = this.classifier as? KClass<*> ?: return null
 
     return when {

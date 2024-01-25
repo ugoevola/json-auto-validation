@@ -10,7 +10,7 @@ object Constants {
     const val STRING_INTEGER_KEYWORD = "string-integer"
     const val STRING_NUMBER_KEYWORD = "string-number"
 
-    val ANNOTATIONS_THAT_OVERRIDE_AUTOMATIC_ANNOTATION: List<Annotation> =
+    val ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS: List<Annotation> =
         listOf(
             IsStringInteger(),
             IsStringNumber(),

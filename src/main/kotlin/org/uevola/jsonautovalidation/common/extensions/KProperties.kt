@@ -19,21 +19,21 @@ fun KProperty1<out Any, *>.getJsonPropertyName(
 
 /**
  * Retrieves annotations linked to the property
- * and annotations linked to the property type, which are processed automatically.
- * If an annotation already present on the property overrides
- * an annotation that can be placed automatically, the automatic annotation will not be returned.
+ * and inferred annotations linked to the property type.
+ * If an annotation that override inferred annotation is already present on the property,
+ * the inferred process wil be ignored.
  */
 fun KProperty1<out Any, *>.getAnnotations(): Array<Annotation> {
     var annotations = this
         .javaField
         ?.declaredAnnotations
         ?: emptyArray<Annotation>()
-    val automaticAnnotation = this.returnType.getCorrespondedJsonValidationAnnotation()
-    val automaticAnnotationCanBeAdded = automaticAnnotation != null
-            && annotations.none { Constants.ANNOTATIONS_THAT_OVERRIDE_AUTOMATIC_ANNOTATION.contains(it) }
-            && annotations.none { it.annotationClass == automaticAnnotation.annotationClass }
-    if (automaticAnnotationCanBeAdded) {
-        annotations = annotations.plus(automaticAnnotation)
+    val inferredAnnotation = this.returnType.getInferredAnnotation()
+    val inferredAnnotationCanBeAdded = inferredAnnotation != null
+            && annotations.none { Constants.ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS.contains(it) }
+            && annotations.none { it.annotationClass == inferredAnnotation.annotationClass }
+    if (inferredAnnotationCanBeAdded) {
+        annotations = annotations.plus(inferredAnnotation)
     }
     return annotations
 }

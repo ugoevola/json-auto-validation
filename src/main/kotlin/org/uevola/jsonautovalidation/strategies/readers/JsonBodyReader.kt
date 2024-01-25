@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.strategies.reader
+package org.uevola.jsonautovalidation.strategies.readers
 
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.RequestBody

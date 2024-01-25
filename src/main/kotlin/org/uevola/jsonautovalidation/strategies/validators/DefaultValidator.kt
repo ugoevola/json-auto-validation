@@ -1,20 +1,18 @@
 package org.uevola.jsonautovalidation.strategies.validators
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.extensions.merge
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
-import org.uevola.jsonautovalidation.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
+import org.uevola.jsonautovalidation.strategies.StrategyFactory
 import java.lang.reflect.Parameter
 
 @Component
-class DefaultValidator: ValidatorStrategy<Any>, AbstractValidator() {
-
-    @Autowired
-    private lateinit var jsonGenerationStrategies: List<JsonSchemaGeneratorStrategy>
+class DefaultValidator(
+    private val strategyFactory: StrategyFactory
+): ValidatorStrategy<Any>, AbstractValidator() {
 
     override fun getOrdered() = Int.MAX_VALUE
 
@@ -36,12 +34,7 @@ class DefaultValidator: ValidatorStrategy<Any>, AbstractValidator() {
     ): JsonNode? {
         val value = parameter.annotations
             .filter { annotation -> annotation.annotationClass.annotations.any { it is IsJsonValidation } }
-            .map { annotation ->
-                jsonGenerationStrategies
-                    .sortedBy { it.getOrdered() }
-                    .find { it.resolve(annotation) }!!
-                    .generate(annotation, parameter)
-            }
+            .map { strategyFactory.generateSchemaFor(it, parameter) }
             .merge()
         if (value.isEmpty) return null
         val json = newObjectNode()

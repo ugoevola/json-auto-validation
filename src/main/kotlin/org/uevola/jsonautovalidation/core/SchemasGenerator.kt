@@ -13,7 +13,7 @@ import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
 import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
-import org.uevola.jsonautovalidation.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
+import org.uevola.jsonautovalidation.strategies.StrategyFactory
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.hasAnnotation
@@ -26,7 +26,7 @@ import kotlin.time.measureTime
 @Configuration
 open class SchemasGenerator(
     private val objectMapper: ObjectMapper,
-    private val jsonGenerationStrategies: Set<JsonSchemaGeneratorStrategy>
+    private val strategyFactory: StrategyFactory
 ) {
 
     private var getJsonSchema: (clazz: KClass<*>) -> ObjectNode?
@@ -76,12 +76,7 @@ open class SchemasGenerator(
         val value = property
             .getAnnotations()
             .filter { it.annotationClass.hasAnnotation<IsJsonValidation>() }
-            .map { annotation ->
-                jsonGenerationStrategies
-                    .sortedBy { it.getOrdered() }
-                    .find { it.resolve(annotation) }
-                    ?.generate(annotation, property, getJsonSchema)
-            }
+            .map { strategyFactory.generateSchemaFor(it, property, getJsonSchema) }
             .merge()
         if (value.isEmpty) return null
         val json = newObjectNode()

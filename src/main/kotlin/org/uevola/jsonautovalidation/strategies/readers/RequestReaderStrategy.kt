@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.strategies.reader
+package org.uevola.jsonautovalidation.strategies.readers
 
 import com.fasterxml.jackson.databind.JsonNode
 import jakarta.servlet.http.HttpServletRequest
