@@ -10,7 +10,7 @@ import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
 import org.uevola.jsonautovalidation.common.utils.*
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
-import org.uevola.jsonautovalidation.core.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
+import org.uevola.jsonautovalidation.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.hasAnnotation

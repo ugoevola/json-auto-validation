@@ -21,7 +21,6 @@ class CustomHttpServletRequestWrapper(request: HttpServletRequest) : HttpServlet
         val reader = BufferedReader(InputStreamReader(inputStream))
         reader.lines().collect(Collectors.joining(System.lineSeparator()))
     } catch (e: IOException) {
-        // Handle exception
         null
     }
 

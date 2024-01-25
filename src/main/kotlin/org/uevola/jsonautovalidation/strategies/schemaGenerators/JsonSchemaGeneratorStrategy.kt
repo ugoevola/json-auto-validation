@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
+package org.uevola.jsonautovalidation.strategies.schemaGenerators
 
 import org.json.JSONObject
 import java.lang.reflect.Parameter

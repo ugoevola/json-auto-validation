@@ -1,6 +1,6 @@
-package org.uevola.jsonautovalidation.core.validators
+package org.uevola.jsonautovalidation.strategies.validators
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.JsonNode
 import com.networknt.schema.JsonSchemaException
 import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.ValidationMessage
@@ -15,12 +15,15 @@ abstract class AbstractValidator {
     @Autowired
     @Qualifier("customJsonSchemaFactory")
     private lateinit var jsonSchemaFactory: JsonSchemaFactory
-    fun validate(json: String, customMessages: Map<String, String>, jsonSchemaFile: String) {
+    fun validate(
+        json: JsonNode,
+        schema: JsonNode,
+        customMessages: Map<String, String>
+    ) {
         val errors: Set<ValidationMessage>
         try {
-            val objectMapper = ObjectMapper()
-            val jsonSchema = jsonSchemaFactory.getSchema(objectMapper.readTree(jsonSchemaFile))
-            errors = jsonSchema.validate(objectMapper.readTree(json))
+            val jsonSchema = jsonSchemaFactory.getSchema(schema)
+            errors = jsonSchema.validate(json)
         } catch (e: JsonSchemaException) {
             val errorMessage = "Error in validation schema : ".plus(e.message.toString())
             throw ExceptionUtil.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
@@ -28,6 +31,13 @@ abstract class AbstractValidator {
             val errorMessage = "Error when opening or validating the file : ".plus(e.message.toString())
             throw ExceptionUtil.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
         }
+        verifyError(errors, customMessages)
+    }
+
+    private fun verifyError(
+        errors: Set<ValidationMessage>,
+        customMessages: Map<String, String>
+    ) {
         if (errors.isNotEmpty()) {
             val message = errors.filter { !customMessages.containsKey(it.path.drop(2)) }
                 .map { it.toString() }
@@ -36,4 +46,5 @@ abstract class AbstractValidator {
             throw ValidationException(message, HttpStatus.BAD_REQUEST, errors)
         }
     }
+
 }

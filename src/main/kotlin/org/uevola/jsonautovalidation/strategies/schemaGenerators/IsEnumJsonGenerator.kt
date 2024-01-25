@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.core.strategies.schemaGenerators
+package org.uevola.jsonautovalidation.strategies.schemaGenerators
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.json.JSONObject

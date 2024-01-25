@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.web.handlers
+package org.uevola.jsonautovalidation.web
 
 import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.wrappers.CustomHttpServletRequestWrapper
 
 @Component
-class RequestFilter : Filter {
+class RequestWrapperFilter : Filter {
     override fun doFilter(
         servletRequest: ServletRequest,
         servletResponse: ServletResponse,

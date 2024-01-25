@@ -1,6 +1,7 @@
 package org.uevola.jsonautovalidation.common.utils
 
 import mu.KLogging
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver
@@ -19,6 +20,7 @@ object ResourcesUtil : KLogging() {
      *
      * @param schemaName the name of the resource schema
      */
+    @Cacheable
     fun getResourceSchema(schemaName: String): Resource? {
         val resolver = PathMatchingResourcePatternResolver()
         val path = "classpath*:**/$schemaName$SCHEMA_JSON_EXT"
@@ -27,14 +29,15 @@ object ResourcesUtil : KLogging() {
             .find { schemaName.plus(SCHEMA_JSON_EXT) == it.filename }
     }
 
+    @Cacheable
     fun getResourceSchemaAsString(schemaName: String): String? {
-            val classPathResource = ClassPathResource("")
-            val uri = classPathResource.uri
-            return if (uri.scheme == "file") {
-                getResourceSchema(schemaName)?.inputStream?.bufferedReader().use { it?.readText() }
-            } else {
-                getResourceSchemaJar(schemaName)
-            }
+        val classPathResource = ClassPathResource("")
+        val uri = classPathResource.uri
+        return if (uri.scheme == "file") {
+            getResourceSchema(schemaName)?.inputStream?.bufferedReader().use { it?.readText() }
+        } else {
+            getResourceSchemaJar(schemaName)
+        }
     }
 
     private fun getResourceSchemaJar(schemaName: String): String? {
