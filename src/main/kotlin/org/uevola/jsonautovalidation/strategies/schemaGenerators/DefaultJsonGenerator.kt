@@ -1,9 +1,10 @@
 package org.uevola.jsonautovalidation.strategies.schemaGenerators
 
-import org.json.JSONObject
+import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
-import org.uevola.jsonautovalidation.common.utils.JsonUtil
+import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
+import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
 import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
@@ -20,19 +21,18 @@ class DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
     override fun generate(
         annotation: Annotation,
         property: KProperty1<out Any, *>,
-        generateSchema: (clazz: KClass<*>) -> JSONObject?
+        generateSchema: (clazz: KClass<*>) -> ObjectNode?
     ) = generate(annotation)
 
     override fun generate(annotation: Annotation, parameter: Parameter) = generate(annotation)
 
-    private fun generate(annotation: Annotation): JSONObject? {
+    private fun generate(annotation: Annotation): ObjectNode? {
         val schemaName = annotation.annotationClass.simpleName ?: return null
-        return JsonUtil.resolveTemplate(
-            JSONObject(
-                ResourcesUtil
-                    .getResourceSchema(schemaName)?.inputStream
-                    ?.bufferedReader().use { it?.readText() }), annotationEntries(annotation)
-        )
+        val jsonString = ResourcesUtil
+            .getResourceSchema(schemaName)?.inputStream
+            ?.bufferedReader().use { it?.readText() }
+        val objectNode = objectNodeFromString(jsonString)
+        return objectNode.resolveTemplate(annotationEntries(annotation))
     }
 
     private fun annotationEntries(annotation: Annotation) =

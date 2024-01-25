@@ -27,8 +27,6 @@ dependencies {
     implementation(kotlin("reflect", ktlVersion))
     // spring
     compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    // json manipulation
-    api("org.json:json:$jsonVersion")
     // validation
     api("com.networknt:json-schema-validator:$jsonSchemaValidatorVersion")
     implementation("net.bytebuddy:byte-buddy:$byteBuddyVersion")

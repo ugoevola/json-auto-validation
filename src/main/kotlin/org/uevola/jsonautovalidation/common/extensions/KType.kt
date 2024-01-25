@@ -1,4 +1,4 @@
-package org.uevola.jsonautovalidation.common.utils
+package org.uevola.jsonautovalidation.common.extensions
 
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.*
 import kotlin.reflect.KClass
@@ -16,14 +16,4 @@ fun KType.getCorrespondedJsonValidationAnnotation(): Annotation? {
         returnType.isSubclassOf(Boolean::class) -> IsBool()
         else -> null
     }
-}
-
-object AnnotationsUtil {
-
-    fun overriderAutomaticAnnotations(): List<Annotation> =
-        listOf(
-            IsStringInteger(),
-            IsStringNumber(),
-            IsStringBool()
-        )
 }

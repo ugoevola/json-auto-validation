@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.strategies.schemaGenerators
 
-import org.json.JSONObject
+import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsNested
 import java.lang.reflect.Parameter
@@ -18,8 +18,8 @@ class IsNestedJsonGenerator : JsonSchemaGeneratorStrategy {
     override fun generate(
         annotation: Annotation,
         property: KProperty1<out Any, *>,
-        generateSchema: (clazz: KClass<*>) -> JSONObject?
-    ): JSONObject? {
+        generateSchema: (clazz: KClass<*>) -> ObjectNode?
+    ): ObjectNode? {
         val clazz = getNestedClass(property) ?: return null
         return generateSchema(clazz)
     }

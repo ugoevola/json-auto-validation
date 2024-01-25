@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.uevola.jsonautovalidation.common.annotations.Validate
+import org.uevola.jsonautovalidation.common.extensions.isIgnoredType
 import org.uevola.jsonautovalidation.common.utils.ClassesUtil
-import org.uevola.jsonautovalidation.common.utils.isIgnoredType
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.strategies.validators.ValidatorStrategy
 import java.lang.reflect.Method

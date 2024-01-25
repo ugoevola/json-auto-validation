@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.strategies.schemaGenerators
 
-import org.json.JSONObject
+import com.fasterxml.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -14,11 +14,11 @@ interface JsonSchemaGeneratorStrategy {
     fun generate(
         annotation: Annotation,
         property: KProperty1<out Any, *>,
-        generateSchema: (clazz: KClass<*>) -> JSONObject?,
-    ): JSONObject?
+        generateSchema: (clazz: KClass<*>) -> ObjectNode?,
+    ): ObjectNode?
 
     fun generate(
         annotation: Annotation,
         parameter: Parameter
-    ): JSONObject?
+    ): ObjectNode?
 }

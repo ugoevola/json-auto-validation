@@ -1,9 +1,9 @@
 package org.uevola.jsonautovalidation.strategies.validators
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.cache.annotation.Cacheable
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
+import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
 import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.Field
 import java.lang.reflect.Parameter
@@ -24,9 +24,8 @@ class JsonSchemaValidator<T: Any> @PublishedApi internal constructor(
         json: JsonNode,
         parameter: Parameter
     ) {
-        val objectMapper = ObjectMapper()
         val content = ResourcesUtil.getResourceSchemaAsString(type.simpleName!!)
-        validate(json, objectMapper.readTree(content), getCustomMessage(parameter))
+        validate(json, objectNodeFromString(content), getCustomMessage(parameter))
     }
 
     @Cacheable

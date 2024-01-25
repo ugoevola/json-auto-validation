@@ -1,13 +1,12 @@
 package org.uevola.jsonautovalidation.strategies.validators
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
-import org.uevola.jsonautovalidation.common.utils.JsonUtil
+import org.uevola.jsonautovalidation.common.extensions.merge
+import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
 import org.uevola.jsonautovalidation.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
 import java.lang.reflect.Parameter
 
@@ -43,14 +42,10 @@ class DefaultValidator: ValidatorStrategy<Any>, AbstractValidator() {
                     .find { it.resolve(annotation) }!!
                     .generate(annotation, parameter)
             }
-            .fold(JSONObject()) { acc, jsonObject ->
-                JsonUtil.mergeJSONObject(acc, jsonObject)
-                acc
-            }
+            .merge()
         if (value.isEmpty) return null
-        val json = JSONObject()
-        json.put(parameter.name, value)
-        val objectMapper = ObjectMapper()
-        return objectMapper.readTree(json.toString())
+        val json = newObjectNode()
+        json.set<JsonNode>(parameter.name, value)
+        return json
     }
 }

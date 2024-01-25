@@ -1,21 +1,23 @@
 package org.uevola.jsonautovalidation.core
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ObjectNode
 import mu.KLogging
-import org.json.JSONObject
 import org.springframework.context.annotation.Configuration
 import org.uevola.jsonautovalidation.common.annotations.JsonValidation
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
-import org.uevola.jsonautovalidation.common.utils.*
+import org.uevola.jsonautovalidation.common.extensions.*
+import org.uevola.jsonautovalidation.common.utils.ClassesUtil
+import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
+import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
+import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.strategies.schemaGenerators.JsonSchemaGeneratorStrategy
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.javaField
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
@@ -27,14 +29,17 @@ open class SchemasGenerator(
     private val jsonGenerationStrategies: Set<JsonSchemaGeneratorStrategy>
 ) {
 
-    private var getJsonSchema: (clazz: KClass<*>) -> JSONObject?
+    private var getJsonSchema: (clazz: KClass<*>) -> ObjectNode?
 
     companion object : KLogging() {
-        private val JSON_SCHEMA_BASE_TEMPLATE =
-            JSONObject(
-                ResourcesUtil
-                    .getResourceSchema("JsonSchemaBaseTemplate")
-                    ?.inputStream?.bufferedReader().use { it?.readText() })
+        private val jsonSchemaBaseTemplate: ObjectNode = initBaseTemplate()
+
+        private fun initBaseTemplate(): ObjectNode {
+            val jsonString = ResourcesUtil
+                .getResourceSchema("JsonSchemaBaseTemplate")
+                ?.inputStream?.bufferedReader().use { it?.readText() }
+            return objectNodeFromString(jsonString)
+        }
     }
 
     init {
@@ -57,58 +62,31 @@ open class SchemasGenerator(
     private fun getJsonSchema() = { clazz: KClass<*> ->
         val properties = clazz.memberProperties
             .map { getJsonForProperty(it) }
-            .fold(JSONObject()) { acc, jsonObject ->
-                JsonUtil.mergeJSONObject(acc, jsonObject)
-                acc
-            }
-        val requiredProperties = clazz.memberProperties.filter { property ->
-            property.javaField?.declaredAnnotations?.any { it.annotationClass.java == IsRequired::class.java } ?: false
-        }.map { getJsonPropertyName(it) }
+            .merge()
+        val requiredProperties = clazz.getRequiredJsonPropertiesNames(objectMapper)
         val values = mapOf(
             "title" to clazz.qualifiedName,
             "required" to requiredProperties,
             "properties" to properties
         )
-        JsonUtil.resolveTemplate(JSON_SCHEMA_BASE_TEMPLATE, values)
+        jsonSchemaBaseTemplate.resolveTemplate(values)
     }
 
-    private fun getJsonForProperty(property: KProperty1<out Any, *>): JSONObject? {
-        var annotations = property
-            .javaField
-            ?.declaredAnnotations
-            ?: emptyArray<Annotation>()
-        val correspondedAnnotation = property.returnType.getCorrespondedJsonValidationAnnotation()
-        if (
-            annotations.none { AnnotationsUtil.overriderAutomaticAnnotations().contains(it) }
-            && correspondedAnnotation != null
-            && annotations.none { it.annotationClass == correspondedAnnotation.annotationClass }
-        ) {
-            annotations = annotations.plus(correspondedAnnotation)
-        }
-        val value = annotations
+    private fun getJsonForProperty(property: KProperty1<out Any, *>): ObjectNode? {
+        val value = property
+            .getAnnotations()
             .filter { it.annotationClass.hasAnnotation<IsJsonValidation>() }
             .map { annotation ->
                 jsonGenerationStrategies
                     .sortedBy { it.getOrdered() }
                     .find { it.resolve(annotation) }
                     ?.generate(annotation, property, getJsonSchema)
-            }.fold(JSONObject()) { acc, jsonObject ->
-                JsonUtil.mergeJSONObject(acc, jsonObject)
-                acc
             }
+            .merge()
         if (value.isEmpty) return null
-        val json = JSONObject()
-        json.put(getJsonPropertyName(property), value)
+        val json = newObjectNode()
+        json.set<JsonNode>(property.getJsonPropertyName(objectMapper), value)
         return json
-    }
-
-    private fun getJsonPropertyName(property: KProperty1<out Any, *>): String {
-        val jsonPropertyAnnotation = property.javaField?.getDeclaredAnnotation(JsonProperty::class.java)
-        return jsonPropertyAnnotation?.value
-            ?: objectMapper
-                .deserializationConfig
-                .propertyNamingStrategy
-                .nameForField(objectMapper.deserializationConfig, null, property.name)
     }
 }
 
