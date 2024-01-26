@@ -1,18 +1,12 @@
 package org.uevola.jsonautovalidation.strategies.validators
 
 import com.fasterxml.jackson.databind.JsonNode
-import org.springframework.cache.annotation.Cacheable
+import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
-import org.uevola.jsonautovalidation.common.extensions.merge
-import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
-import org.uevola.jsonautovalidation.strategies.StrategyFactory
 import java.lang.reflect.Parameter
 
 @Component
-class DefaultValidator(
-    private val strategyFactory: StrategyFactory
-): ValidatorStrategy<Any>, AbstractValidator() {
+class DefaultValidator: ValidatorStrategy<Any>, AbstractValidator() {
 
     override fun getOrdered() = Int.MAX_VALUE
 
@@ -20,25 +14,17 @@ class DefaultValidator(
 
     override fun validate(
         json: JsonNode,
-        parameter: Parameter
+        parameter: Parameter,
+        generateSchema: (Parameter) -> ObjectNode?
     ) {
-        val schema = getSchema(parameter)
+        val schema = generateSchema(parameter)
         if (schema != null) {
             validate(json, schema, emptyMap())
         }
     }
 
-    @Cacheable
-    fun getSchema(
+    override fun validate(
+        json: JsonNode,
         parameter: Parameter
-    ): JsonNode? {
-        val value = parameter.annotations
-            .filter { annotation -> annotation.annotationClass.annotations.any { it is IsJsonValidation } }
-            .map { strategyFactory.generateSchemaFor(it, parameter) }
-            .merge()
-        if (value.isEmpty) return null
-        val json = newObjectNode()
-        json.set<JsonNode>(parameter.name, value)
-        return json
-    }
+    ) { }
 }

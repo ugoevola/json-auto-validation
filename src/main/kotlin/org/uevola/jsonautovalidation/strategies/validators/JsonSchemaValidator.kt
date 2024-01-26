@@ -1,6 +1,7 @@
 package org.uevola.jsonautovalidation.strategies.validators
 
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.cache.annotation.Cacheable
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
@@ -19,6 +20,14 @@ class JsonSchemaValidator<T: Any> @PublishedApi internal constructor(
 
     override fun resolve(parameterType: Class<*>) =
         parameterType.simpleName == type.simpleName
+
+    override fun validate(
+        json: JsonNode,
+        parameter: Parameter,
+        generateSchema: (Parameter) -> ObjectNode?
+    ) {
+        validate(json, parameter)
+    }
 
     override fun validate(
         json: JsonNode,
