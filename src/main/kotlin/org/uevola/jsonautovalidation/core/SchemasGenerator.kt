@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.ObjectNode
 import mu.KLogging
 import org.springframework.context.annotation.Configuration
-import org.uevola.jsonautovalidation.common.annotations.JsonValidation
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.extensions.*
-import org.uevola.jsonautovalidation.common.utils.ClassesUtil
+import org.uevola.jsonautovalidation.common.utils.ClassPathUtil.getDtoClassesToValidate
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
 import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
-import org.uevola.jsonautovalidation.configuration.JsonValidationConfig
 import org.uevola.jsonautovalidation.strategies.StrategyFactory
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -50,8 +48,7 @@ open class SchemasGenerator(
     private fun generateJsonSchemaFiles() {
         logger.info { "Json schemas generation..." }
         val elapsed: Duration = measureTime {
-            val annotatedClasses =
-                ClassesUtil.getAnnotatedClassesIn(JsonValidationConfig.dtoPackageName, JsonValidation::class.java)
+            val annotatedClasses = getDtoClassesToValidate()
             for (clazz in annotatedClasses) {
                 ResourcesUtil.addSchemaResource(clazz.simpleName, getJsonSchema(clazz.kotlin)?.toString())
             }

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.ugoevola"
-version = "0.2.5"
+version = "0.2.6"
 
 val springBootVersion = "3.2.1"
 val ktlVersion = "1.9.22"
@@ -29,9 +29,10 @@ dependencies {
     compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     // validation
     api("com.networknt:json-schema-validator:$jsonSchemaValidatorVersion")
-    implementation("net.bytebuddy:byte-buddy:$byteBuddyVersion")
     // logging
     implementation("io.github.microutils:kotlin-logging-jvm:$kLoggingVersion")
+    // bean generation
+    implementation("net.bytebuddy:byte-buddy:$byteBuddyVersion")
 }
 
 kotlin {

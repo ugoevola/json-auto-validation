@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.annotations
 
 import org.springframework.context.annotation.Import
-import org.uevola.jsonautovalidation.configuration.JsonValidationComponentScan
+import org.uevola.jsonautovalidation.core.JsonValidationComponentScan
 
 @MustBeDocumented
 @Target(AnnotationTarget.CLASS)
