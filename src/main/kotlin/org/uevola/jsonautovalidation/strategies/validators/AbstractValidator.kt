@@ -6,16 +6,20 @@ import com.networknt.schema.JsonSchemaFactory
 import com.networknt.schema.ValidationMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
+import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.exceptions.ValidationException
 import org.uevola.jsonautovalidation.common.utils.ExceptionUtil
+import java.lang.reflect.Field
+import java.lang.reflect.Parameter
 
 abstract class AbstractValidator {
 
     @Autowired
     @Qualifier("customJsonSchemaFactory")
     private lateinit var jsonSchemaFactory: JsonSchemaFactory
-    fun validate(
+    protected fun validate(
         json: JsonNode,
         schema: JsonNode,
         customMessages: Map<String, String>
@@ -46,5 +50,18 @@ abstract class AbstractValidator {
             throw ValidationException(message, HttpStatus.BAD_REQUEST, errors)
         }
     }
+
+    @Cacheable
+    protected fun getCustomMessage(parameter: Parameter) = parameter.type.declaredFields
+        .associate { it.name to getFieldMessage(it) }
+        .filter { it.value.isNotEmpty() }
+
+    private fun getFieldMessage(field: Field) = field.annotations
+        .filter { annotation ->
+            annotation.annotationClass.annotations.any { it is IsJsonValidation }
+        }
+        .map { it.annotationClass.java.getMethod("message").invoke(it) as String }
+        .filter { it.isNotEmpty() }
+        .joinToString(", ")
 
 }

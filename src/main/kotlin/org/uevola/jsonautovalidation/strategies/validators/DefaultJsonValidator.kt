@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import java.lang.reflect.Parameter
 
 @Component
-class DefaultValidator: ValidatorStrategy<Any>, AbstractValidator() {
+class DefaultJsonValidator: ValidatorStrategy<Any>, AbstractValidator() {
 
     override fun getOrdered() = Int.MAX_VALUE
 
@@ -19,7 +19,7 @@ class DefaultValidator: ValidatorStrategy<Any>, AbstractValidator() {
     ) {
         val schema = generateSchema(parameter)
         if (schema != null) {
-            validate(json, schema, emptyMap())
+            validate(json, schema, getCustomMessage(parameter))
         }
     }
 
