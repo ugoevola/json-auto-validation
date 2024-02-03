@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsEnum
 import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
+import org.uevola.jsonautovalidation.common.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.common.utils.JsonUtil
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.readValue
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.writeValueAsString
-import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -35,14 +35,11 @@ class IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         return generate(enumClass)
     }
 
-    private fun generate(enumClass: KClass<out Any>): ObjectNode? {
+    private fun generate(enumClass: KClass<out Any>): ObjectNode {
         var enumValues = getEnumValues(enumClass)
         enumValues = enumValues + ""
         val values = mapOf("enum" to enumValues)
-        val schemaName = IsEnum::class.simpleName ?: return null
-        val jsonString = ResourcesUtil
-            .getResourceSchema(schemaName)?.inputStream
-            ?.bufferedReader().use { it?.readText() }
+        val jsonString = jsonSchemas[IsEnum::class]
         val objectNode = JsonUtil.objectNodeFromString(jsonString)
         return objectNode.resolveTemplate(values)
     }

@@ -1,9 +1,0 @@
-{
-  "type": "array",
-  "items": {
-    "type": "@{type}"
-  },
-  "minItems": "@{minItems}",
-  "maxItems": "@{maxItems}",
-  "uniqueItems": "@{uniqueItems}"
-}

@@ -7,9 +7,9 @@ import mu.KLogging
 import org.springframework.context.annotation.Configuration
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.extensions.*
+import org.uevola.jsonautovalidation.common.schemas.jsonSchemaBaseTemplate
 import org.uevola.jsonautovalidation.common.utils.ClassPathUtil.getDtoClassesToValidate
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.newObjectNode
-import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
 import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import org.uevola.jsonautovalidation.strategies.StrategyFactory
 import kotlin.reflect.KClass
@@ -29,16 +29,7 @@ open class SchemasGenerator(
 
     private var getJsonSchema: (clazz: KClass<*>) -> ObjectNode?
 
-    companion object : KLogging() {
-        private val jsonSchemaBaseTemplate: ObjectNode = initBaseTemplate()
-
-        private fun initBaseTemplate(): ObjectNode {
-            val jsonString = ResourcesUtil
-                .getResourceSchema("JsonSchemaBaseTemplate")
-                ?.inputStream?.bufferedReader().use { it?.readText() }
-            return objectNodeFromString(jsonString)
-        }
-    }
+    companion object : KLogging()
 
     init {
         getJsonSchema = getJsonSchema()

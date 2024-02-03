@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsRequired
 import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
+import org.uevola.jsonautovalidation.common.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.objectNodeFromString
-import org.uevola.jsonautovalidation.common.utils.ResourcesUtil
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -26,11 +26,8 @@ class DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
 
     override fun generate(annotation: Annotation, parameter: Parameter) = generate(annotation)
 
-    private fun generate(annotation: Annotation): ObjectNode? {
-        val schemaName = annotation.annotationClass.simpleName ?: return null
-        val jsonString = ResourcesUtil
-            .getResourceSchema(schemaName)?.inputStream
-            ?.bufferedReader().use { it?.readText() }
+    private fun generate(annotation: Annotation): ObjectNode {
+        val jsonString = jsonSchemas[annotation.annotationClass]
         val objectNode = objectNodeFromString(jsonString)
         return objectNode.resolveTemplate(annotationEntries(annotation))
     }

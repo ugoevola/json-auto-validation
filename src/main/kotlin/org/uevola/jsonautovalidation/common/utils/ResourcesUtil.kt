@@ -15,20 +15,6 @@ import java.nio.file.NoSuchFileException
 
 object ResourcesUtil : KLogging() {
 
-    /**
-     * retrieve the resource corresponding to the schema name
-     *
-     * @param schemaName the name of the resource schema
-     */
-    @Cacheable
-    fun getResourceSchema(schemaName: String): Resource? {
-        val resolver = PathMatchingResourcePatternResolver()
-        val path = "classpath*:**/$schemaName$SCHEMA_JSON_EXT"
-        return resolver
-            .getResources(path)
-            .find { schemaName.plus(SCHEMA_JSON_EXT) == it.filename }
-    }
-
     @Cacheable
     fun getResourceSchemaAsString(schemaName: String): String? {
         val classPathResource = ClassPathResource("")
@@ -38,6 +24,19 @@ object ResourcesUtil : KLogging() {
         } else {
             getResourceSchemaJar(schemaName)
         }
+    }
+
+    /**
+     * retrieve the resource corresponding to the schema name
+     *
+     * @param schemaName the name of the resource schema
+     */
+    private fun getResourceSchema(schemaName: String): Resource? {
+        val resolver = PathMatchingResourcePatternResolver()
+        val path = "classpath*:**/$schemaName$SCHEMA_JSON_EXT"
+        return resolver
+            .getResources(path)
+            .find { schemaName.plus(SCHEMA_JSON_EXT) == it.filename }
     }
 
     private fun getResourceSchemaJar(schemaName: String): String? {
