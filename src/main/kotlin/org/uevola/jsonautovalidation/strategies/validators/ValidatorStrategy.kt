@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 
-interface ValidatorStrategy<T> {
+interface ValidatorStrategy {
 
     fun getOrdered(): Int
 

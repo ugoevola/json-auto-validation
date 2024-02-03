@@ -13,8 +13,9 @@ fun KProperty1<out Any, *>.getJsonPropertyName(
     return jsonPropertyAnnotation?.value
         ?: objectMapper
             .deserializationConfig
-            .propertyNamingStrategy
-            .nameForField(objectMapper.deserializationConfig, null, this.name)
+            ?.propertyNamingStrategy
+            ?.nameForField(objectMapper.deserializationConfig, null, this.name)
+        ?: this.name
 }
 
 /**

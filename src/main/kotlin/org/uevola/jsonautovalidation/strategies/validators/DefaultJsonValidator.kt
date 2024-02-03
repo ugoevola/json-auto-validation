@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component
 import java.lang.reflect.Parameter
 
 @Component
-class DefaultJsonValidator: ValidatorStrategy<Any>, AbstractValidator() {
+class DefaultJsonValidator : ValidatorStrategy, AbstractValidator() {
 
     override fun getOrdered() = Int.MAX_VALUE
 

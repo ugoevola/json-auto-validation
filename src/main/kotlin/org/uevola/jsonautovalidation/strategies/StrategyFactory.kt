@@ -20,7 +20,7 @@ import kotlin.reflect.KProperty1
 
 @Component
 class StrategyFactory(
-    private val validators: Set<ValidatorStrategy<*>>,
+    private val validators: Set<ValidatorStrategy>,
     private val requestReaders: Set<RequestReaderStrategy>,
     private val schemaGenerators: Set<JsonSchemaGeneratorStrategy>
 ) {
