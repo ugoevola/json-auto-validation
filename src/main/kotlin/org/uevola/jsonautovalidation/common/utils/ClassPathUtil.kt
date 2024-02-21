@@ -16,6 +16,10 @@ object ClassPathUtil {
         scanner.addIncludeFilter(AnnotationTypeFilter(RestController::class.java))
         val result = scanner.findCandidateComponents(controllersPackageName)
             .map { Class.forName(it.beanClassName) }
+            .filter {
+                try { it.declaredMethods; true }
+                catch (e: NoClassDefFoundError) { false }
+            }
             .toSet()
         scanner.clearCache()
         scanner.resetFilters(false)
