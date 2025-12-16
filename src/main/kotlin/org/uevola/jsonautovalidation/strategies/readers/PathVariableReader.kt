@@ -3,10 +3,12 @@ package org.uevola.jsonautovalidation.strategies.readers
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.PathVariable
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import java.lang.reflect.Parameter
 
+@Component
 class PathVariableReader: RequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.PATH_VARIABLES

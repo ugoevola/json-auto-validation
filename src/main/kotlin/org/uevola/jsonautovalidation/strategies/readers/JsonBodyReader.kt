@@ -1,12 +1,14 @@
 package org.uevola.jsonautovalidation.strategies.readers
 
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestBody
 import org.uevola.jsonautovalidation.common.enums.ContentTypeEnum
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import org.uevola.jsonautovalidation.common.utils.JsonUtil.jsonNodeFromString
 import java.lang.reflect.Parameter
 
+@Component
 class JsonBodyReader: RequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_BODY
