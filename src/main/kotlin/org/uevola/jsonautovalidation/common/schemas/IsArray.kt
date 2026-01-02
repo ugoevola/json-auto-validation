@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isArray = """
+internal val isArray = """
 {
   "type": "array",
   "items": {

@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isTime = """
+internal val isTime = """
 {
   "type": "string",
   "format": "time"

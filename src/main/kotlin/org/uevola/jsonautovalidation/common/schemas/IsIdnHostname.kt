@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isIdnHostname = """
+internal val isIdnHostname = """
 {
   "type": "string",
   "format": "idn-hostname"

@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isEqualTo = """
+internal val isEqualTo = """
 {
   "const": "@{value}"
 }

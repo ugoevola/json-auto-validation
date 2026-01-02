@@ -6,7 +6,7 @@ import com.networknt.schema.ValidationMessage
 import org.uevola.jsonautovalidation.common.exceptions.KeywordValidationException
 import java.text.MessageFormat
 
-abstract class NumberKeyword : AbstractJsonValidator() {
+internal abstract class NumberKeyword : AbstractJsonValidator() {
 
     protected fun verifyIfEmpty(
         node: JsonNode,

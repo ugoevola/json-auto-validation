@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isNotEmpty = """
+internal val isNotEmpty = """
 {
   "type": "string",
   "minLength": 1

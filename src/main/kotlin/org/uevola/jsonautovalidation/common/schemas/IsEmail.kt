@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isEmail = """
+internal val isEmail = """
 {
   "type": "string",
   "format": "email"

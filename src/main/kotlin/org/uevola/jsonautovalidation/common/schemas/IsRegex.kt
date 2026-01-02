@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isRegex = """
+internal val isRegex = """
 {
   "type": "string",
   "format": "regex"

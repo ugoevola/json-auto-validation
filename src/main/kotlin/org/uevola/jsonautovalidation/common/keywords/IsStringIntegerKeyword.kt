@@ -6,7 +6,7 @@ import org.uevola.jsonautovalidation.common.Constants.STRING_INTEGER_KEYWORD
 import org.uevola.jsonautovalidation.common.exceptions.KeywordValidationException
 import java.text.MessageFormat
 
-class IsStringIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) {
+internal class IsStringIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) {
     @Throws(JsonSchemaException::class, Exception::class)
     override fun newValidator(
         schemaPath: String,
@@ -40,7 +40,7 @@ class IsStringIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) {
                 node: JsonNode,
                 at: String
             ) {
-                val regex = "^(-)?\\d+\$".toRegex()
+                val regex = "^(-)?\\d+$".toRegex()
                 if (!(node.isInt || node.isTextual && regex matches node.asText())) {
                     val message = ValidationMessage.Builder()
                         .path(at)

@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isUriReference = """
+internal val isUriReference = """
 {
   "type": "string",
   "format": "uri-reference"

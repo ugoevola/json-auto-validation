@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isBool = """
+internal val isBool = """
 {
   "type": "boolean"
 }

@@ -1,10 +1,10 @@
 package org.uevola.jsonautovalidation.common.schemas
 
-import org.uevola.jsonautovalidation.common.utils.JsonUtil
+import org.uevola.jsonautovalidation.common.utils.JsonUtils
 
-private const val schema = "\$schema"
+private const val schema = $$"$schema"
 
-val jsonSchemaBaseTemplate = JsonUtil.objectNodeFromString("""
+internal val jsonSchemaBaseTemplate = JsonUtils.objectNodeFromString("""
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "@{title}",

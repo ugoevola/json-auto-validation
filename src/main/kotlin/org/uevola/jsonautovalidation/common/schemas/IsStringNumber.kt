@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isStringNumber = """
+internal val isStringNumber = """
 {
   "string-number": {
     "minimum": "@{minimum}",

@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.common.schemas
 
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.*
+import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.*
 
 val jsonSchemas = mapOf(
     IsArray::class to isArray,

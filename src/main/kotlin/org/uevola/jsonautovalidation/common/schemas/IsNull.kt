@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isNull = """
+internal val isNull = """
 {
   "type": "null"
 }

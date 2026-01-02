@@ -2,18 +2,18 @@ package org.uevola.jsonautovalidation.common.extensions
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
-import org.uevola.jsonautovalidation.common.utils.JsonUtil
+import org.uevola.jsonautovalidation.common.utils.JsonUtils
 
 
 
 /**
  * used to resolve json-auto-validation template
- * each property value that need to be replaced follows that template : {{property_name}}
+ * each property value that needs to be replaced follows that template: {{property_name}},
  * and its value is linked to it's name in the values attribute map
  *
- * @param values the map that bind each property name to its value
+ * @param values the map that binds each property name to its value
  */
-fun ObjectNode.resolveTemplate(
+internal fun ObjectNode.resolveTemplate(
     values: Map<String, Any?>
 ): ObjectNode {
     val result = this.deepCopy()
@@ -33,7 +33,7 @@ fun ObjectNode.resolveTemplate(
     return result
 }
 
-fun ObjectNode.mergeWith(
+internal fun ObjectNode.mergeWith(
     other: ObjectNode?
 ): ObjectNode {
     if (other == null) return this
@@ -41,8 +41,8 @@ fun ObjectNode.mergeWith(
     return this
 }
 
-fun List<ObjectNode?>.merge(): ObjectNode {
-    return this.fold(JsonUtil.newObjectNode()) { acc, jsonObject ->
+internal fun List<ObjectNode?>.merge(): ObjectNode {
+    return this.fold(JsonUtils.newObjectNode()) { acc, jsonObject ->
         acc.mergeWith(jsonObject)
         acc
     }

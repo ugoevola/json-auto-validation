@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isValues = """
+internal val isValues = """
 {
   "type": "string",
   "enum": "@{values}"

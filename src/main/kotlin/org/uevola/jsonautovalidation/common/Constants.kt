@@ -1,10 +1,12 @@
 package org.uevola.jsonautovalidation.common
 
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsStringBool
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsStringInteger
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.IsStringNumber
+import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringBool
+import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringInteger
+import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringNumber
 
-object Constants {
+internal object Constants {
+    const val VALIDATORS_PACKAGE_NAME = "org.uevola.jsonautovalidation.generated.validators"
+
     const val SCHEMA_JSON_EXT = ".schema.json"
     const val GENERATED_JSON_PATH = "/generated-schemas"
     const val STRING_INTEGER_KEYWORD = "string-integer"

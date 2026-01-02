@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.schemas
 
 /*language=JSON*/
-val isIri = """
+internal val isIri = """
 {
   "type": "string",
   "format": "iri"
