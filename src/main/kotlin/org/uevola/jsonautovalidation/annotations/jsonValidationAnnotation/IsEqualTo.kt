@@ -8,6 +8,6 @@ import org.springframework.core.annotation.AliasFor
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsEqualTo(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
-    val errorMessage: String = "The field @{fieldName} must be equal to {value}",
+    val errorMessage: String = "The field @{fieldName} must be equal to {value}.",
     val value: String
 )

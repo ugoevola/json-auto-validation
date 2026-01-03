@@ -8,6 +8,6 @@ import org.springframework.core.annotation.AliasFor
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsValues(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
-    val errorMessage: String = "The field @{fieldName} must be one of those values: @{values}",
+    val errorMessage: String = "The field @{fieldName} must be one of those values: @{values}.",
     val values: Array<String>
 )

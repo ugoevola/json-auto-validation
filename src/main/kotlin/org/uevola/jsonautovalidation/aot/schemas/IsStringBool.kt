@@ -21,6 +21,11 @@ internal val isStringBool = """
       ]
     }
   ],
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "anyOf": [{
+      "type": "@{$ERROR_MESSAGE_KEYWORD}",
+      "enum": "@{$ERROR_MESSAGE_KEYWORD}"
+    }]
+  }
 }
 """.trimIndent()

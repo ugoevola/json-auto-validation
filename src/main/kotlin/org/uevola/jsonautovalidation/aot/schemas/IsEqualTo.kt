@@ -6,6 +6,8 @@ import org.uevola.jsonautovalidation.common.Constants.ERROR_MESSAGE_KEYWORD
 internal val isEqualTo = """
 {
   "const": "@{value}",
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "const": "@{$ERROR_MESSAGE_KEYWORD}"
+  }
 }
 """.trimIndent()

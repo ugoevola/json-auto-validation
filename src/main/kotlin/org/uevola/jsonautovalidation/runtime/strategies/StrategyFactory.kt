@@ -48,7 +48,7 @@ internal class StrategyFactory(
                 .validate(json, parameter, generateSchemaForParameterLambda)
         } catch (e: HttpClientErrorException) {
             throw ExceptionUtils
-                .httpClientErrorException("Error in ${requestPart.name}: ${e.message}", e.statusCode)
+                .httpClientErrorException("Error in ${requestPart.value}: ${e.message}", e.statusCode)
         }
     }
 }

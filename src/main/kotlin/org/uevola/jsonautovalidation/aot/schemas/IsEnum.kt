@@ -7,6 +7,9 @@ internal val isEnum = """
 {
   "type": "string",
   "enum": "@{enum}",
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "type": "@{$ERROR_MESSAGE_KEYWORD}",
+    "enum": "@{$ERROR_MESSAGE_KEYWORD}"
+  }
 }
 """.trimIndent()

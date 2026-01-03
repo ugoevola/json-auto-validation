@@ -6,6 +6,8 @@ import org.uevola.jsonautovalidation.common.Constants.ERROR_MESSAGE_KEYWORD
 internal val isNull = """
 {
   "type": "null",
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "type": "@{$ERROR_MESSAGE_KEYWORD}"
+  }
 }
 """.trimIndent()

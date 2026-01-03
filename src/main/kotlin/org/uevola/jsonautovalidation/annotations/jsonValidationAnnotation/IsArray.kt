@@ -9,7 +9,11 @@ import org.uevola.jsonautovalidation.enums.JsonTypeEnum
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsArray(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
-    val errorMessage: String = "The field @{fieldName} must be an array and respect constraints: minItems=@{minItems}, maxItems=@{maxItems}, uniqueItems@={uniqueItems}",
+    val errorMessage: String = "",
+    @Suppress("unused") val typeErrorMessage: String = "The field @{fieldName} must be an array of type @{type}.",
+    @Suppress("unused") val minItemsErrorMessage: String = "The field @{fieldName} must have at least @{minItems} items.",
+    @Suppress("unused") val maxItemsErrorMessage: String = "The field @{fieldName} must have at most @{maxItems} items.",
+    @Suppress("unused") val uniqueItemsErrorMessage: String = "The field @{fieldName} must have unique items.",
     val type: Array<JsonTypeEnum> = [
         JsonTypeEnum.ARRAY,
         JsonTypeEnum.BOOLEAN,

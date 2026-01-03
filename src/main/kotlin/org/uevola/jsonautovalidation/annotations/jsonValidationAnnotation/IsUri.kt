@@ -8,5 +8,5 @@ import org.springframework.core.annotation.AliasFor
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsUri(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
-    val errorMessage: String = "The field @{fieldName} must be a valid URI"
+    val errorMessage: String = "The field @{fieldName} must be a valid URI."
 )

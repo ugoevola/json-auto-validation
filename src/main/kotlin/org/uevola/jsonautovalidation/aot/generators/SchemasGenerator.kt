@@ -1,10 +1,12 @@
 package org.uevola.jsonautovalidation.aot.generators
 
+import com.networknt.schema.dialect.DialectId.DRAFT_2020_12
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.aot.StrategyFactory
 import org.uevola.jsonautovalidation.aot.schemas.jsonSchemaBaseTemplate
 import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getDtoClassesToValidate
+import org.uevola.jsonautovalidation.common.Constants.REQUIRED_ERROR_MESSAGE_KEYWORD
 import org.uevola.jsonautovalidation.common.extensions.*
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.newObjectNode
 import org.uevola.jsonautovalidation.common.utils.ResourceUtils
@@ -15,7 +17,6 @@ import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 import kotlin.time.Duration
 import kotlin.time.measureTime
-import com.networknt.schema.dialect.DialectId.DRAFT_2020_12
 
 internal object SchemasGenerator {
     private val logger = KotlinLogging.logger {}
@@ -49,12 +50,24 @@ internal object SchemasGenerator {
             .map { getJsonForProperty(it) }
             .merge()
         val requiredProperties = clazz.getRequiredJsonPropertiesNames()
+        val requiredErrorMessages = getRequiredErrorMessagesForProperties(requiredProperties)
         val values = mapOf(
             "title" to clazz.qualifiedName,
             "required" to requiredProperties,
-            "properties" to properties
+            "properties" to properties,
+            REQUIRED_ERROR_MESSAGE_KEYWORD to requiredErrorMessages
         )
-        return jsonSchemaBaseTemplate.resolveTemplate(values, "")
+        return jsonSchemaBaseTemplate.resolveTemplate(values, "", false)
+    }
+
+    private fun getRequiredErrorMessagesForProperties(
+        requiredProperties: List<String>
+    ): ObjectNode {
+        val res = newObjectNode()
+        val requiredMessages = newObjectNode()
+        requiredProperties.forEach { requiredMessages.put(it, "The field $it is required.") }
+        res.set("required", requiredMessages)
+        return res
     }
 
     private fun getJsonForProperty(property: KProperty1<out Any, *>): ObjectNode? {

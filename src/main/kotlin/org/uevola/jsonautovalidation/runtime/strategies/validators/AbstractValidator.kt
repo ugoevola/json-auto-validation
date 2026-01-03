@@ -35,7 +35,7 @@ abstract class AbstractValidator {
 
     private fun verifyError(errors: List<Error>) {
         if (errors.isNotEmpty()) {
-            throw ValidationException(errors.joinToString { it.message }, HttpStatus.BAD_REQUEST)
+            throw ValidationException(errors.map{ it.message }.toSet().joinToString(" "), HttpStatus.BAD_REQUEST)
         }
     }
 

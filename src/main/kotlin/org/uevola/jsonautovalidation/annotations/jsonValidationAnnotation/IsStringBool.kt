@@ -8,5 +8,5 @@ import org.springframework.core.annotation.AliasFor
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsStringBool(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
-    val errorMessage: String = "The field @{fieldName} must be a boolean string",
+    val errorMessage: String = "The field @{fieldName} must be a boolean string.",
 )

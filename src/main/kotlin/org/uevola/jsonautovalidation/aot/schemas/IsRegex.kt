@@ -7,6 +7,9 @@ internal val isRegex = """
 {
   "type": "string",
   "format": "regex",
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "type": "@{$ERROR_MESSAGE_KEYWORD}",
+    "format": "@{$ERROR_MESSAGE_KEYWORD}"
+  }
 }
 """.trimIndent()

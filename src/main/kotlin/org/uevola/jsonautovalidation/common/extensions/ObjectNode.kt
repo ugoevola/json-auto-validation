@@ -1,6 +1,7 @@
 package org.uevola.jsonautovalidation.common.extensions
 
 import org.uevola.jsonautovalidation.common.Constants.ERROR_MESSAGE_KEYWORD
+import org.uevola.jsonautovalidation.common.Constants.ERROR_MESSAGE_PLACEHOLDERS
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
 import tools.jackson.databind.node.ObjectNode
 import java.math.BigDecimal
@@ -16,21 +17,19 @@ import java.math.BigInteger
 internal fun <T> ObjectNode.resolveTemplate(
     values: Map<String, T>,
     fieldName: T,
+    globalErrorMessage: Boolean
 ): ObjectNode {
     val result = this.deepCopy()
     this.properties().forEach { (key, value) ->
         when {
-            value.isObject -> result.set(key, (value as ObjectNode).resolveTemplate(values, fieldName))
+            value.isObject -> result.set(key, (value as ObjectNode).resolveTemplate(values, fieldName, globalErrorMessage))
             value.isString -> {
                 val regex = Regex("^@\\{(.+)}$")
                 val match = regex.find(value.asString())
                 if (match != null) {
                     val capturedValue = match.groupValues[1]
-                    if (capturedValue == ERROR_MESSAGE_KEYWORD) {
-                        val newValues = values.toMutableMap()
-                        newValues["fieldName"] = fieldName
-                        val newValue = values[capturedValue].toString().populate(newValues)
-                        result.put(key, newValue)
+                    if (ERROR_MESSAGE_PLACEHOLDERS.contains(capturedValue)) {
+                        result.putErrorMessage(key, values, capturedValue, fieldName, globalErrorMessage)
                     } else {
                         result.putAny(key, values[capturedValue])
                     }
@@ -39,6 +38,34 @@ internal fun <T> ObjectNode.resolveTemplate(
         }
     }
     return result
+}
+
+/**
+ * This method resolves an error message template by replacing placeholders with the provided values.
+ *
+ * - If globalErrorMessage is true, the default message defined by ERROR_MESSAGE_KEYWORD is used.
+ * - Otherwise, the message specified by capturedValue is used.
+ *
+ * @param key – the key under which the error message will be added to the ObjectNode.
+ * @param values – a map containing the values to populate the message template.
+ * @param capturedValue – the name of the error message property captured in the template.
+ * @param fieldName – the name of the field affected by the error.
+ * @param globalErrorMessage – indicates whether to use the specific error message or the global message.
+ */
+private fun <T> ObjectNode.putErrorMessage(
+    key: String,
+    values: Map<String, T>,
+    capturedValue: String,
+    fieldName: T,
+    globalErrorMessage: Boolean
+) {
+    val newValues = values.toMutableMap()
+    newValues["fieldName"] = fieldName
+    val newValue = if (globalErrorMessage)
+        values[ERROR_MESSAGE_KEYWORD].toString().populate(newValues)
+    else
+        values[capturedValue].toString().populate(newValues)
+    this.put(key, newValue)
 }
 
 private fun ObjectNode.putAny(key: String, value: Any?) {

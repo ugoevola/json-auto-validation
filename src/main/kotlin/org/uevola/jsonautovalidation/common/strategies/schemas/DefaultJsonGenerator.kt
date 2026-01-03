@@ -8,7 +8,6 @@ import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
-import kotlin.reflect.full.declaredMemberProperties
 
 internal object DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
 
@@ -27,11 +26,6 @@ internal object DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
     private fun generate(annotation: Annotation, fieldName: String): ObjectNode {
         val jsonString = jsonSchemas[annotation.annotationClass]
         val objectNode = objectNodeFromString(jsonString)
-        return objectNode.resolveTemplate(annotationEntries(annotation), fieldName)
+        return objectNode.resolveTemplate(annotationEntries(annotation), fieldName, hasGlobalErrorMessage(annotation))
     }
-
-    private fun annotationEntries(annotation: Annotation) =
-        annotation.annotationClass.declaredMemberProperties.associate { property ->
-            property.name to property.call(annotation)
-        }
 }

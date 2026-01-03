@@ -25,21 +25,25 @@ internal object IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         generateSchema: (clazz: KClass<*>) -> ObjectNode?
     ): ObjectNode? {
         val enumClass = getEnumClass(property) ?: return null
-        return generate(enumClass, property.name)
+        return generate(annotation, enumClass, property.name)
     }
 
     override fun generate(annotation: Annotation, parameter: Parameter): ObjectNode? {
         val enumClass = getEnumClass(parameter) ?: return null
-        return generate(enumClass, parameter.name)
+        return generate(annotation, enumClass, parameter.name)
     }
 
-    private fun generate(enumClass: KClass<out Any>, fieldName: String): ObjectNode {
+    private fun generate(
+        annotation: Annotation,
+        enumClass: KClass<out Any>,
+        fieldName: String
+    ): ObjectNode {
         var enumValues = getEnumValues(enumClass)
         enumValues = enumValues + ""
-        val values = mapOf("enum" to enumValues)
+        val values = mapOf("enum" to enumValues) + annotationEntries(annotation)
         val jsonString = jsonSchemas[IsEnum::class]
         val objectNode = JsonUtils.objectNodeFromString(jsonString)
-        return objectNode.resolveTemplate(values, fieldName)
+        return objectNode.resolveTemplate(values, fieldName, hasGlobalErrorMessage(annotation))
     }
 
     private fun getEnumClass(property: KProperty1<out Any, *>): KClass<out Any>? {

@@ -8,5 +8,5 @@ import org.springframework.core.annotation.AliasFor
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsIdnEmail(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
-    val errorMessage: String = "The field @{fieldName} must be a valid IDN email",
+    val errorMessage: String = "The field @{fieldName} must be a valid IDN email.",
 )

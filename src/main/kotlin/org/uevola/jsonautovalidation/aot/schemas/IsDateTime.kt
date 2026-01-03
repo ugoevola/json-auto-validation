@@ -7,6 +7,9 @@ internal val isDateTime = """
 {
   "type": "string",
   "format": "date-time",
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "type": "@{$ERROR_MESSAGE_KEYWORD}",
+    "format": "@{$ERROR_MESSAGE_KEYWORD}"
+  }
 }
 """.trimIndent()

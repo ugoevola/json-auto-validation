@@ -7,6 +7,9 @@ internal val isNotEmpty = """
 {
   "type": "string",
   "minLength": 1,
-  "$ERROR_MESSAGE_KEYWORD": "@{$ERROR_MESSAGE_KEYWORD}"
+  "$ERROR_MESSAGE_KEYWORD": {
+    "type": "@{$ERROR_MESSAGE_KEYWORD}",
+    "minLength": "@{$ERROR_MESSAGE_KEYWORD}"
+  }
 }
 """.trimIndent()
