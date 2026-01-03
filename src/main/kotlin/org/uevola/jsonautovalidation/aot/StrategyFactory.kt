@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.aot
 
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.uevola.jsonautovalidation.common.strategies.schemas.*
+import tools.jackson.databind.node.ObjectNode
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 

@@ -8,12 +8,12 @@ plugins {
 }
 
 group = "io.github.ugoevola"
-version = "0.3.0"
+version = "1.0.0"
 
 val springBootVersion = "4.0.1"
 val ktlVersion = "2.3.0"
 val jsonVersion = "20231013"
-val jsonSchemaValidatorVersion = "1.1.0"
+val jsonSchemaValidatorVersion = "3.0.0"
 val byteBuddyVersion = "1.14.11"
 val kLoggingVersion = "7.0.13"
 val javapoetVersion = "1.13.0"

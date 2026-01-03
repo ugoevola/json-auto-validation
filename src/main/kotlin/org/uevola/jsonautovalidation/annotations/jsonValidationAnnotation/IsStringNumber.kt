@@ -8,10 +8,10 @@ import org.springframework.core.annotation.AliasFor
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsStringNumber(
     @get:AliasFor(annotation = IsJsonValidation::class, attribute = "message")
-    val message: String = "",
-    val minimum: Float = Float.MIN_VALUE,
-    val maximum: Float = Float.MAX_VALUE,
-    val exclusiveMinimum: Float = Float.MIN_VALUE,
-    val exclusiveMaximum: Float = Float.MAX_VALUE,
-    val multipleOf: Int = 1,
+    val errorMessage: String = "The field @{fieldName} must be a number string and respect constraints: minimum=@{minimum}, maximum=@{maximum}, exclusiveMinimum=@{exclusiveMinimum}, exclusiveMaximum=@{exclusiveMaximum}, multipleOf=@{multipleOf}",
+    @Suppress("unused") val minimum: Float = Float.MIN_VALUE,
+    @Suppress("unused") val maximum: Float = Float.MAX_VALUE,
+    @Suppress("unused") val exclusiveMinimum: Float = Float.MIN_VALUE,
+    @Suppress("unused") val exclusiveMaximum: Float = Float.MAX_VALUE,
+    @Suppress("unused") val multipleOf: Int = 1,
 )

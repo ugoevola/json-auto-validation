@@ -1,8 +1,8 @@
 package org.uevola.jsonautovalidation.runtime.strategies.validators
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.stereotype.Component
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 
 @Component
@@ -19,12 +19,7 @@ internal class DefaultJsonValidator : ValidatorStrategy, AbstractValidator() {
     ) {
         val schema = generateSchema(parameter)
         if (schema != null) {
-            validate(json, schema, getCustomMessage(parameter))
+            super.baseValidate(json, schema)
         }
     }
-
-    override fun validate(
-        json: JsonNode,
-        parameter: Parameter
-    ) { }
 }

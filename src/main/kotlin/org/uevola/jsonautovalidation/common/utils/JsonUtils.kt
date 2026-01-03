@@ -1,19 +1,21 @@
 package org.uevola.jsonautovalidation.common.utils
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.ObjectNode
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.databind.node.ObjectNode
 
 internal object JsonUtils {
 
-    private val objectMapper = ObjectMapper()
+    private val jsonMapper = JsonMapper.builder().build()
 
-    fun objectNodeFromString(str: String?) = objectMapper.readTree(str) as ObjectNode
-    fun jsonNodeFromString(str: String?): JsonNode = objectMapper.readTree(str)
+    fun objectNodeFromString(str: String?): ObjectNode = jsonMapper.readTree(str) as ObjectNode
 
-    fun newObjectNode(): ObjectNode = objectMapper.createObjectNode()
+    fun jsonNodeFromString(str: String?): JsonNode = jsonMapper.readTree(str)
 
-    fun writeValueAsString(obj: Any): String = objectMapper.writeValueAsString(obj)
-    fun <T> readValue(content: String, valueType: Class<T>): T = objectMapper.readValue(content, valueType)
+    fun newObjectNode(): ObjectNode = jsonMapper.createObjectNode()
+
+    fun writeValueAsString(obj: Any): String = jsonMapper.writeValueAsString(obj)
+
+    fun <T> readValue(content: String, valueType: Class<T>): T = jsonMapper.readValue(content, valueType)
 
 }

@@ -88,6 +88,7 @@ internal object ResourceUtils {
 
     private fun createFile(name: String, content: String) {
         val pathResource = ClassPathResource(GENERATED_JSON_PATH)
+        logger.debug { "creation of $name into ${pathResource.uri.path}" }
         val file = File(pathResource.uri.path, name)
         if (!file.exists()) {
             file.createNewFile()

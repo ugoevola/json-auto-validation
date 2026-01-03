@@ -1,12 +1,12 @@
 package org.uevola.jsonautovalidation.common.strategies.schemas
 
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsEnum
+import org.uevola.jsonautovalidation.aot.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
-import org.uevola.jsonautovalidation.common.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.readValue
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.writeValueAsString
+import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
@@ -25,21 +25,21 @@ internal object IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         generateSchema: (clazz: KClass<*>) -> ObjectNode?
     ): ObjectNode? {
         val enumClass = getEnumClass(property) ?: return null
-        return generate(enumClass)
+        return generate(enumClass, property.name)
     }
 
     override fun generate(annotation: Annotation, parameter: Parameter): ObjectNode? {
         val enumClass = getEnumClass(parameter) ?: return null
-        return generate(enumClass)
+        return generate(enumClass, parameter.name)
     }
 
-    private fun generate(enumClass: KClass<out Any>): ObjectNode {
+    private fun generate(enumClass: KClass<out Any>, fieldName: String): ObjectNode {
         var enumValues = getEnumValues(enumClass)
         enumValues = enumValues + ""
         val values = mapOf("enum" to enumValues)
         val jsonString = jsonSchemas[IsEnum::class]
         val objectNode = JsonUtils.objectNodeFromString(jsonString)
-        return objectNode.resolveTemplate(values)
+        return objectNode.resolveTemplate(values, fieldName)
     }
 
     private fun getEnumClass(property: KProperty1<out Any, *>): KClass<out Any>? {

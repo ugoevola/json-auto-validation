@@ -11,6 +11,7 @@ internal object Constants {
     const val GENERATED_JSON_PATH = "/generated-schemas"
     const val STRING_INTEGER_KEYWORD = "string-integer"
     const val STRING_NUMBER_KEYWORD = "string-number"
+    const val ERROR_MESSAGE_KEYWORD = "errorMessage"
 
     val ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS: List<Annotation> =
         listOf(

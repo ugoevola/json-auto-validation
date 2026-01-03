@@ -1,11 +1,11 @@
 package org.uevola.jsonautovalidation.runtime.strategies.readers
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.writeValueAsString
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.node.JsonNodeFactory
 import java.lang.reflect.Parameter
 
 @Component

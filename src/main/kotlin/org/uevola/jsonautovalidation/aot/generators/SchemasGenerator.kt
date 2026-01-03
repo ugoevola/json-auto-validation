@@ -1,47 +1,50 @@
 package org.uevola.jsonautovalidation.aot.generators
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.ObjectNode
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.aot.StrategyFactory
+import org.uevola.jsonautovalidation.aot.schemas.jsonSchemaBaseTemplate
+import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getDtoClassesToValidate
 import org.uevola.jsonautovalidation.common.extensions.*
-import org.uevola.jsonautovalidation.common.schemas.jsonSchemaBaseTemplate
-import org.uevola.jsonautovalidation.common.utils.ClassPathUtils.getDtoClassesToValidate
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.newObjectNode
 import org.uevola.jsonautovalidation.common.utils.ResourceUtils
+import tools.jackson.databind.node.ObjectNode
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 import kotlin.time.Duration
 import kotlin.time.measureTime
+import com.networknt.schema.dialect.DialectId.DRAFT_2020_12
 
 internal object SchemasGenerator {
     private val logger = KotlinLogging.logger {}
-
-    private var getJsonSchema: (clazz: KClass<*>) -> ObjectNode?
+    private var nbGeneratedSchemas = 0
     private val strategyFactory = StrategyFactory
-
-    init {
-        getJsonSchema = getJsonSchema()
-    }
 
     fun generateJsonSchemaFiles() {
         logger.info { "Json schemas generation..." }
         val elapsed: Duration = measureTime {
             val annotatedClasses = getDtoClassesToValidate()
             for (clazz in annotatedClasses) {
+                nbGeneratedSchemas++
                 ResourceUtils.addSchemaResource(
                     clazz.simpleName,
-                    getJsonSchema(clazz.kotlin)?.toString()
+                    getRootJsonSchema(clazz.kotlin).toString()
                 )
             }
         }
         logger.info { "Json schemas generation completed in ${elapsed.inWholeMilliseconds}ms" }
+        logger.info { "Number of Json schemas generated: $nbGeneratedSchemas" }
     }
 
-    private fun getJsonSchema() = { clazz: KClass<*> ->
+    private fun getRootJsonSchema(clazz: KClass<*>): ObjectNode {
+        val rootNode = getJsonSchema(clazz)
+        rootNode.put($$"$schema", DRAFT_2020_12)
+        return rootNode
+    }
+
+    private fun getJsonSchema(clazz: KClass<*>): ObjectNode {
         val properties = clazz.memberProperties
             .map { getJsonForProperty(it) }
             .merge()
@@ -51,18 +54,18 @@ internal object SchemasGenerator {
             "required" to requiredProperties,
             "properties" to properties
         )
-        jsonSchemaBaseTemplate.resolveTemplate(values)
+        return jsonSchemaBaseTemplate.resolveTemplate(values, "")
     }
 
     private fun getJsonForProperty(property: KProperty1<out Any, *>): ObjectNode? {
         val value = property
             .getAnnotations()
             .filter { it.annotationClass.hasAnnotation<IsJsonValidation>() }
-            .map { strategyFactory.generateSchemaFor(it, property, getJsonSchema) }
+            .map { strategyFactory.generateSchemaFor(it, property, ::getJsonSchema) }
             .merge()
         if (value.isEmpty) return null
         val json = newObjectNode()
-        json.set<JsonNode>(property.getJsonPropertyName(), value)
+        json.set(property.getJsonPropertyName(), value)
         return json
     }
 }

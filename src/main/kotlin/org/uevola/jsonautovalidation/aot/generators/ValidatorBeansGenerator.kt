@@ -6,11 +6,11 @@ import com.squareup.javapoet.TypeSpec
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.aot.generate.GenerationContext
 import org.springframework.stereotype.Component
+import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getControllersToValidate
 import org.uevola.jsonautovalidation.common.Constants.VALIDATORS_PACKAGE_NAME
 import org.uevola.jsonautovalidation.common.extensions.getMethodsToValidate
 import org.uevola.jsonautovalidation.common.extensions.getParamsToValidate
 import org.uevola.jsonautovalidation.common.extensions.isIgnoredType
-import org.uevola.jsonautovalidation.common.utils.ClassPathUtils.getControllersToValidate
 import org.uevola.jsonautovalidation.runtime.strategies.validators.JsonSchemaValidator
 import javax.lang.model.element.Modifier
 import kotlin.time.Duration

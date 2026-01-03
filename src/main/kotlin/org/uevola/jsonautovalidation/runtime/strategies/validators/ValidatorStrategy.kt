@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.runtime.strategies.validators
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.ObjectNode
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 
 interface ValidatorStrategy {
@@ -14,10 +14,5 @@ interface ValidatorStrategy {
         json: JsonNode,
         parameter: Parameter,
         generateSchema: (Parameter) -> ObjectNode?
-    )
-
-    fun validate(
-        json: JsonNode,
-        parameter: Parameter
     )
 }

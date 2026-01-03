@@ -1,13 +1,12 @@
 package org.uevola.jsonautovalidation.runtime.utils
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.extensions.merge
 import org.uevola.jsonautovalidation.common.strategies.schemas.*
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
+import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 
 @Component
@@ -38,7 +37,7 @@ class CacheableProxy{
             .merge()
         if (value.isEmpty) return null
         val json = JsonUtils.newObjectNode()
-        json.set<JsonNode>(parameter.name, value)
+        json.set(parameter.name, value)
         return json
     }
 

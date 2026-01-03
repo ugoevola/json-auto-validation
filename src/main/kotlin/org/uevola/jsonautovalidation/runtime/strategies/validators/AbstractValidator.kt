@@ -1,65 +1,42 @@
 package org.uevola.jsonautovalidation.runtime.strategies.validators
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.networknt.schema.JsonSchemaException
-import com.networknt.schema.JsonSchemaFactory
-import com.networknt.schema.ValidationMessage
+import com.networknt.schema.Error
+import com.networknt.schema.SchemaException
+import com.networknt.schema.SchemaRegistry
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.common.exceptions.ValidationException
-import org.uevola.jsonautovalidation.common.utils.ExceptionUtils
-import java.lang.reflect.Field
-import java.lang.reflect.Parameter
+import org.uevola.jsonautovalidation.runtime.utils.ExceptionUtils
+import tools.jackson.databind.JsonNode
 
 abstract class AbstractValidator {
 
     @Autowired
-    @Qualifier("customJsonSchemaFactory")
-    private lateinit var jsonSchemaFactory: JsonSchemaFactory
-    protected fun validate(
+    @Qualifier("customSchemaRegistry")
+    private lateinit var schemaRegistry: SchemaRegistry
+    protected fun baseValidate(
         json: JsonNode,
-        schema: JsonNode,
-        customMessages: Map<String, String>
+        schema: JsonNode
     ) {
-        val errors: Set<ValidationMessage>
+        val errors: List<Error>
         try {
-            val jsonSchema = jsonSchemaFactory.getSchema(schema)
+            val jsonSchema = schemaRegistry.getSchema(schema)
             errors = jsonSchema.validate(json)
-        } catch (e: JsonSchemaException) {
+        } catch (e: SchemaException) {
             val errorMessage = "Error in validation schema : ".plus(e.message.toString())
             throw ExceptionUtils.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
         } catch (e: Exception) {
             val errorMessage = "Error when opening or validating the file : ".plus(e.message.toString())
             throw ExceptionUtils.httpServerErrorException(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-        verifyError(errors, customMessages)
+        verifyError(errors)
     }
 
-    private fun verifyError(
-        errors: Set<ValidationMessage>,
-        customMessages: Map<String, String>
-    ) {
+    private fun verifyError(errors: List<Error>) {
         if (errors.isNotEmpty()) {
-            val message = errors.filter { !customMessages.containsKey(it.path.drop(2)) }
-                .map { it.toString() }
-                .plus(customMessages.values)
-                .joinToString(", ")
-            throw ValidationException(message, HttpStatus.BAD_REQUEST, errors)
+            throw ValidationException(errors.joinToString { it.message }, HttpStatus.BAD_REQUEST)
         }
     }
-
-    protected fun getCustomMessage(parameter: Parameter) = parameter.type.declaredFields
-        .associate { it.name to getFieldMessage(it) }
-        .filter { it.value.isNotEmpty() }
-
-    private fun getFieldMessage(field: Field) = field.annotations
-        .filter { annotation ->
-            annotation.annotationClass.annotations.any { it is IsJsonValidation }
-        }
-        .map { it.annotationClass.java.getMethod("message").invoke(it) as String }
-        .filter { it.isNotEmpty() }
-        .joinToString(", ")
 
 }

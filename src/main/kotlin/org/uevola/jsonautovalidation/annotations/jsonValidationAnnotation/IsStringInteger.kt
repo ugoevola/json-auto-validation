@@ -7,11 +7,11 @@ import org.springframework.core.annotation.AliasFor
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsStringInteger(
-    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "message")
-    val message: String = "",
-    val minimum: Int = Int.MIN_VALUE,
-    val maximum: Int = Int.MAX_VALUE,
-    val exclusiveMinimum: Int = Int.MIN_VALUE,
-    val exclusiveMaximum: Int = Int.MAX_VALUE,
-    val multipleOf: Int = 1,
+    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
+    val errorMessage: String = "The field @{fieldName} must be an integer string and respect constraints: minimum=@{minimum}, maximum=@{maximum}, exclusiveMinimum=@{exclusiveMinimum}, exclusiveMaximum=@{exclusiveMaximum}, multipleOf=@{multipleOf}",
+    @Suppress("unused") val minimum: Int = Int.MIN_VALUE,
+    @Suppress("unused") val maximum: Int = Int.MAX_VALUE,
+    @Suppress("unused") val exclusiveMinimum: Int = Int.MIN_VALUE,
+    @Suppress("unused") val exclusiveMaximum: Int = Int.MAX_VALUE,
+    @Suppress("unused") val multipleOf: Int = 1,
 )

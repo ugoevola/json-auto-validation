@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.strategies.schemas
 
-import com.fasterxml.jackson.databind.node.ObjectNode
 import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsNested
+import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

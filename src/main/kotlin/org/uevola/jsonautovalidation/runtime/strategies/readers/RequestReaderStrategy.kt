@@ -1,8 +1,8 @@
 package org.uevola.jsonautovalidation.runtime.strategies.readers
 
-import com.fasterxml.jackson.databind.JsonNode
 import jakarta.servlet.http.HttpServletRequest
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
+import tools.jackson.databind.JsonNode
 import java.lang.reflect.Parameter
 
 internal interface RequestReaderStrategy {

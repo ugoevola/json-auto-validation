@@ -7,7 +7,7 @@ import org.springframework.core.annotation.AliasFor
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsJsonSchema(
-    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "message")
-    val message: String = "",
-    val jsonSchemaName: String
+    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
+    val errorMessage: String = "The field @{fieldName} must respect the JSON schema: @{jsonSchemaName}",
+    @Suppress("unused") val jsonSchemaName: String
 )
