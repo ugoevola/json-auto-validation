@@ -1,19 +1,22 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
     `java-library`
-    `maven-publish`
+    kotlin("jvm") version "2.3.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
     id("signing")
+    id("org.jetbrains.dokka") version "2.1.0"
+    kotlin("plugin.spring") version "2.3.0"
 }
 
 group = "io.github.ugoevola"
-version = "0.2.7"
+version = "1.0.0"
 
-val springBootVersion = "3.2.1"
-val ktlVersion = "1.9.22"
+val springBootVersion = "4.0.1"
+val ktlVersion = "2.3.0"
 val jsonVersion = "20231013"
-val jsonSchemaValidatorVersion = "1.1.0"
+val jsonSchemaValidatorVersion = "3.0.0"
 val byteBuddyVersion = "1.14.11"
-val kLoggingVersion = "3.0.5"
+val kLoggingVersion = "7.0.13"
+val javapoetVersion = "1.13.0"
 
 repositories {
     mavenLocal()
@@ -27,82 +30,47 @@ dependencies {
     implementation(kotlin("reflect", ktlVersion))
     // spring
     compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation ("org.springframework.boot:spring-boot-starter-json:$springBootVersion")
     // validation
     api("com.networknt:json-schema-validator:$jsonSchemaValidatorVersion")
     // logging
-    implementation("io.github.microutils:kotlin-logging-jvm:$kLoggingVersion")
+    implementation ("io.github.oshai:kotlin-logging-jvm:$kLoggingVersion")
     // bean generation
-    implementation("net.bytebuddy:byte-buddy:$byteBuddyVersion")
+    implementation("com.squareup:javapoet:$javapoetVersion")
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates(group.toString(), rootProject.name, version.toString())
 
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            groupId = project.group.toString()
-            artifactId = rootProject.name
-            version = project.version.toString()
-            from(components["java"])
+    pom {
+        name.set("Json Auto Validation")
+        description.set("Json-auto-validation is a library for automatic validation of incoming json data in a spring-boot API.")
+        url.set("https://github.com/ugoevola/json-auto-validation")
+        inceptionYear.set("2023")
 
-            pom {
-                name.set("Json Auto Validation")
-                description.set("Json-auto-validation is a library for automatic validation of incoming json data in a spring-boot API.")
-                url.set("https://github.com/ugoevola/json-auto-validation")
-                inceptionYear.set("2023")
-
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("ugoevola")
-                        name.set("Ugo Evola")
-                        email.set("ugoevol@laposte.net")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git:github.com/ugoevola/json-auto-validation.git")
-                    developerConnection.set("scm:git:ssh://github.com/ugoevola/json-auto-validation.git")
-                    url.set("https://github.com/ugoevola/json-auto-validation")
-                }
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/licenses/MIT")
             }
         }
-    }
-
-    repositories {
-        maven {
-            name = "OSSRH"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = project.properties["username"] as String
-                password = project.properties["password"] as String
+        developers {
+            developer {
+                id.set("ugoevola")
+                name.set("Ugo Evola")
+                email.set("ugoevol@laposte.net")
             }
         }
-    }
-}
-
-signing {
-    sign(publishing.publications["mavenJava"])
-}
-
-tasks {
-    named<Javadoc>("javadoc") {
-        if (JavaVersion.current().isJava9Compatible) {
-            options {
-                this as StandardJavadocDocletOptions
-                addBooleanOption("html5", true)
-            }
+        scm {
+            connection.set("scm:git:git:github.com/ugoevola/json-auto-validation.git")
+            developerConnection.set("scm:git:ssh://github.com/ugoevola/json-auto-validation.git")
+            url.set("https://github.com/ugoevola/json-auto-validation")
         }
     }
 }

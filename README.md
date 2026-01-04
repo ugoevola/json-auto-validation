@@ -1,6 +1,6 @@
 # Json auto validation
-**Json-auto-validation** is a library for automatic validation of incoming
-json data in a spring-boot API.
+
+**Json-auto-validation** is a library for automatic validation of incoming data in a spring-boot API.
 
 ## Documentation
 
@@ -9,10 +9,36 @@ A full documentation is available here : [Documentation](https://github.com/ugoe
 
 ## Description
 
+<p align="justify"> 
 Based on the automatic generation of json schemas and validation beans using annotations,
 its aim is to validate json data before deserialization,
 thereby minimizing deserialization errors and lightening the workload
 involved in verifying data after deserialization.
+</p>
+
+## Good to know
+
+The library operates at two key moments in the application lifecycle:
+1. AOT Compilation > Scanning of annotated controller + DTOs, and automatic generation of JSON schemas + validation beans
+2. Runtime > Interception of incoming requests and validation via the appropriate schema before deserialization
+
+JSON data validation is based on [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator).
+
+## Spring Boot 
+
+Starting with version 1.0.0, beans and schemas are generated during the AOT (Ahead-Of-Time) phase.
+
+> [!WARNING]
+> This version is not compatible with Spring Boot versions lower than 3.0.
+
+| Library version         | Minimum version of Spring Boot | maintenance |
+| ----------------------- |--------------------------------|-------------|
+| `≥ 1.0.0`               | 3.0+ (AOT mandatory)           | 🟢          |
+| `< 1.0.0`               | 2.x                            | 🔴          |   
+
+- 🟢 Active Maintenance & Development
+- 🟡 Bug Fix Only / Limited Maintenance
+- 🔴 No Longer Maintained / Deprecated
 
 ## Installation
 
@@ -20,15 +46,25 @@ involved in verifying data after deserialization.
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>0.2.7</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:0.2.7")
+implementation("io.github.ugoevola:json-auto-validation:1.0.0")
 ```
 
-### Example
+## How does it work?
+
+1. You declare your DTOs using the `@JsonValidation` annotations and your endpoints to be validated with `@Validate`.
+2. AOT compilation phase -> the library scans the annotated DTOs and automatically generates the corresponding JSON schemas.
+3. AOT compilation phase -> The library then identifies the controllers to be validated and generates Spring components associated with each DTO referenced in the relevant endpoints.
+4. Runtime -> During execution, incoming requests are intercepted before accessing the controller by `JsonSchemaValidationInterceptor`, which:
+    - Identifies the validator corresponding to the expected schema
+    - Validates data of the request
+    - Prevents deserialization in case of invalid data
+
+## Example
   Let's take an example. Consider an end point on our API as it is:
 
   ```kotlin
@@ -44,9 +80,9 @@ implementation("io.github.ugoevola:json-auto-validation:0.2.7")
     ) = carService.getCarsByFilter(filterDto)
 
     @GetMapping("/{id}")
-  fun getCarById(
+    fun getCarById(
       @Validate @IsUuid @PathVariable id: String
-  ) = cartService.getCarById(id)
+    ) = cartService.getCarById(id)
 
 }
 ```
@@ -94,25 +130,4 @@ non-exhaustive list of requests that will be in error:
 non-exhaustive list of requests that will succeed:
 - `GET /api/v1/cars?brand=Ford&nbDoors=5`
 - `GET /api/v1/car/4d9199af-decf-42d4-8f14-d9e6fc94729c`
-
-You can also create a custom Validator that perform more validation treatments before deserialization:
-```kotlin
-@Component
-class FilterDtoValidator(
-    private val groupController: GroupController
-): JsonSchemaValidator<FilterDto>() {
-
-    override fun validate(json: String) {   
-        try {
-            super.validate(json)
-            val jsonObject = JSONObject(json)
-            groupController.getGroupById(jsonObject.get("groupId"))
-        } catch (exception: GroupNotFoundException) {
-            TODO(deals with GroupNotFoundException)
-        } catch (exception: ValidationException) {
-            TODO(deals with ValidationException)
-        }
-    }
-}
-```
 

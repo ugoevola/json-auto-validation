@@ -1,30 +1,31 @@
 package org.uevola.jsonautovalidation.common.extensions
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.ObjectMapper
+import org.uevola.jsonautovalidation.aot.config.JacksonConfiguration
 import org.uevola.jsonautovalidation.common.Constants
 import kotlin.reflect.KProperty1
 import kotlin.reflect.jvm.javaField
 
-fun KProperty1<out Any, *>.getJsonPropertyName(
-    objectMapper: ObjectMapper
-): String {
+internal fun KProperty1<out Any, *>.getJsonPropertyName(): String {
     val jsonPropertyAnnotation = this.javaField?.getDeclaredAnnotation(JsonProperty::class.java)
-    return jsonPropertyAnnotation?.value
-        ?: objectMapper
-            .deserializationConfig
-            ?.propertyNamingStrategy
-            ?.nameForField(objectMapper.deserializationConfig, null, this.name)
-        ?: this.name
+    if (jsonPropertyAnnotation != null && jsonPropertyAnnotation.value.isNotBlank()) {
+        return jsonPropertyAnnotation.value
+    }
+
+    val mapper = JacksonConfiguration.jsonMapper
+    val config = mapper.deserializationConfig()
+    val strategy = config.propertyNamingStrategy
+
+    return strategy.nameForField(config, null, this.name)
 }
 
 /**
  * Retrieves annotations linked to the property
  * and inferred annotations linked to the property type.
- * If an annotation that override inferred annotation is already present on the property,
- * the inferred process wil be ignored.
+ * If an annotation that overrides the inferred annotation is already present on the property,
+ * the inferred process will be ignored.
  */
-fun KProperty1<out Any, *>.getAnnotations(): Array<Annotation> {
+internal fun KProperty1<out Any, *>.getAnnotations(): Array<Annotation> {
     var annotations = this
         .javaField
         ?.declaredAnnotations

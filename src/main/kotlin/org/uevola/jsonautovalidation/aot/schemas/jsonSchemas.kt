@@ -1,0 +1,40 @@
+package org.uevola.jsonautovalidation.aot.schemas
+
+import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.*
+
+val jsonSchemas = mapOf(
+    IsArray::class to isArray,
+    IsBool::class to isBool,
+    IsDate::class to isDate,
+    IsDateTime::class to isDateTime,
+    IsDuration::class to isDuration,
+    IsEmail::class to isEmail,
+    IsEnum::class to isEnum,
+    IsEqualTo::class to isEqualTo,
+    IsHostName::class to isHostname,
+    IsIdnEmail::class to isIdnEmail,
+    IsIdnHostName::class to isIdnHostname,
+    IsInteger::class to isInteger,
+    IsIpv4::class to isIpv4,
+    IsIpv6::class to isIpv6,
+    IsIri::class to isIri,
+    IsIriReference::class to isIriReference,
+    IsJsonPointer::class to isJsonPointer,
+    IsNotEmpty::class to isNotEmpty,
+    IsNotNull::class to isNotNull,
+    IsNull::class to isNull,
+    IsNumber::class to isNumber,
+    IsPhoneNumber::class to isPhoneNumber,
+    IsRegex::class to isRegex,
+    IsRelativeJsonPointer::class to isRelativeJsonPointer,
+    IsString::class to isString,
+    IsStringBool::class to isStringBool,
+    IsStringInteger::class to isStringInteger,
+    IsStringNumber::class to isStringNumber,
+    IsTime::class to isTime,
+    IsUri::class to isUri,
+    IsUriReference::class to isUriReference,
+    IsUriTemplate::class to isUriTemplate,
+    IsUuid::class to isUuid,
+    IsValues::class to isValues
+)

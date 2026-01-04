@@ -1,11 +1,11 @@
 package org.uevola.jsonautovalidation.common.extensions
 
-import org.uevola.jsonautovalidation.common.annotations.jsonValidationAnnotation.*
+import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.isSubclassOf
 
-fun KType.getInferredAnnotation(): Annotation? {
+internal fun KType.getInferredAnnotation(): Annotation? {
     val returnType = this.classifier as? KClass<*> ?: return null
 
     return when {
