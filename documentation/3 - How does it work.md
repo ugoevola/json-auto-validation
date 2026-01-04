@@ -1,4 +1,4 @@
-# How does it work
+# How does it work?
 
 ## AOT Compilation
 
@@ -12,11 +12,11 @@ Ahead-of-Time (AOT) compilation in `json-auto-validation` allows the library to 
 #### What is a JSON Schema?
 A JSON Schema defines a data model for your JSON input, including property types, formats, lengths, and other constraints that the JSON must comply with.
 
-> citation from [official web site](https://json-schema.org/):
+> citation from [official website](https://json-schema.org/):
 > "JSON Schema is the vocabulary that enables JSON data consistency, validity, and interoperability at scale."
 
 > [!NOTE]
-> json-auto-validation uses [Draft 2020-12](https://json-schema.org/draft/2020-12) of the JSON Schema specification (release notes) as a base.
+> json-auto-validation uses [Draft 2020–12](https://json-schema.org/draft/2020-12) of the JSON Schema specification (release notes) as a base.
 
 #### How are schemas generated?
 `json-auto-validation` generates schemas from your DTO objects annotated with `@JsonValidation` in your API.
