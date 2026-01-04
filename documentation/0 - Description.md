@@ -1,12 +1,3 @@
-# Json auto validation
-
-**Json-auto-validation** is a library for automatic validation of incoming data in a spring-boot API.
-
-## Documentation
-
-A full documentation is available here : [Documentation](https://github.com/ugoevola/json-auto-validation/blob/main/documentation)
-
-
 ## Description
 
 <p align="justify"> 
@@ -24,7 +15,7 @@ The library operates at two key moments in the application lifecycle:
 
 JSON data validation is based on [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator).
 
-## Spring Boot 
+## Spring Boot compatibility
 
 Starting with version 1.0.0, beans and schemas are generated during the AOT (Ahead-Of-Time) phase.
 
@@ -33,12 +24,13 @@ Starting with version 1.0.0, beans and schemas are generated during the AOT (Ahe
 
 | Library version         | Minimum version of Spring Boot  | maintenance  |
 | ----------------------- | ------------------------------- | ------------ |
-| `≥ 1.0.0`               | 3.0+ (AOT obligatoire)          |   🟢 |
-| `< 1.0.0`               | 2.x                             |   🔴 |   
+| `≥ 1.0.0`               | 3.0+ (AOT obligatoire)          |    🟢       |   
+| `< 1.0.0`               | 2.x                             |    🔴       |
 
 - 🟢 Active Maintenance & Development
 - 🟡 Bug Fix Only / Limited Maintenance
 - 🔴 No Longer Maintained / Deprecated
+
 
 ## Installation
 
@@ -57,9 +49,9 @@ implementation("io.github.ugoevola:json-auto-validation:1.0.0")
 ## How does it work?
 
 1. You declare your DTOs using the `@JsonValidation` annotations and your endpoints to be validated with `@Validate`.
-2. AOT compilation phase -> the library scans the annotated DTOs and automatically generates the corresponding JSON schemas.
-3. AOT compilation phase -> The library then identifies the controllers to be validated and generates Spring components associated with each DTO referenced in the relevant endpoints.
-4. Runtime -> During execution, incoming requests are intercepted before accessing the controller by `JsonSchemaValidationInterceptor`, which:
+2. AOT compilation phase → the library scans the annotated DTOs and automatically generates the corresponding JSON schemas.
+3. AOT compilation phase → The library then identifies the controllers to be validated and generates Spring components associated with each DTO referenced in the relevant endpoints.
+4. Runtime → During execution, incoming requests are intercepted before accessing the controller by `JsonSchemaValidationInterceptor`, which:
     - Identifies the validator corresponding to the expected schema
     - Validates data of the request
     - Prevents deserialization in case of invalid data
