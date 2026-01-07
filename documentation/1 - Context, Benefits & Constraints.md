@@ -11,12 +11,24 @@ We can then add further checks on the data, for example, to check that a charact
 ### Problem
 The fact that data validation takes place in two stages (deserialization, then bean validation) can in some circumstances be challenging to supervise.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/explain-bean-val-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="../assets/explain-bean-val-light.png">
+  <img alt="explain-bean-validation" />
+</picture>
+
 Let's suppose we have an API in which we want to have an error specifically linked to the validation of a certain piece of data. The idea would be to create an exception handler, which would catch exceptions linked to deserialization and those linked to validation. We would then need to check whether the exception in question is linked to the data in question and generate the desired error.
 
 In SpringBoot, the default JSON deserializer is Jackson. When a deserialization fails, Jackson can return various types of Exceptions. Given that not all the data received is JSON, you can imagine the number of exceptions you have to handle in your exception handler. It can quickly become tedious.
 
 ### Solution
 The aim of this library is to carry out a thorough check of all types of data before deserialization in record time and to return only one type of exception. As a result, there will be no more deserialization errors and no need to check the beans.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../assets/explain-json-val-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="../assets/explain-json-val-light.png">
+  <img alt="explain-json-validation" />
+</picture>
 
 ## Benefits
 

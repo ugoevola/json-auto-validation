@@ -105,6 +105,7 @@ During execution, incoming requests are intercepted before accessing the control
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../assets/diagram-1-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="../assets/diagram-1-light.png">
+  <img alt="diagram" />
 </picture>
 
 If validation fails, a `HttpClientErrorException` exception will be thrown with a `statusText` equals to "REQUEST_VALIDATION_KO"
