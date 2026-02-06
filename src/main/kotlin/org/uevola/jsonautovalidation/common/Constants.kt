@@ -1,8 +1,8 @@
 package org.uevola.jsonautovalidation.common
 
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringBool
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringInteger
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringNumber
+import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsStringBool
+import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsStringInteger
+import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsStringNumber
 
 internal object Constants {
     const val VALIDATORS_PACKAGE_NAME = "org.uevola.jsonautovalidation.generated.validators"

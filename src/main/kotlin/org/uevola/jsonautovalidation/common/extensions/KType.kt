@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.common.extensions
 
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.*
+import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
 import kotlin.reflect.full.isSubclassOf

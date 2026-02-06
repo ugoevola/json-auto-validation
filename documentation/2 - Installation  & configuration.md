@@ -37,8 +37,6 @@ json-validation.controllers-package-name=com.exemple.web
 To enable `json-auto-validation`, you have to annotate a Bean class with `@EnableJsonAutoValidation` annotation as follows:
 
 ```kotlin
-import org.uevola.jsonautovalidation.annotations.EnableJsonAutoValidation
-
 @SpringBootApplication
 @EnableJsonAutoValidation
 class MainApplication
@@ -50,8 +48,6 @@ fun main(args: Array<String>) {
 
 And add the interceptor to the web configurations:
 ```kotlin
-import org.uevola.jsonautovalidation.runtime.web.JsonSchemaValidationInterceptor
-
 @Configuration
 class WebConfig(private val jsonSchemaValidatorHandler: JsonSchemaValidationInterceptor) : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {

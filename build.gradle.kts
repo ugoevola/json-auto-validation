@@ -29,12 +29,13 @@ dependencies {
     implementation(kotlin("stdlib", ktlVersion))
     implementation(kotlin("reflect", ktlVersion))
     // spring
-    compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compileOnly("org.springframework.boot:spring-boot-starter-webmvc:$springBootVersion")
+    compileOnly("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-json:$springBootVersion")
     // validation
     api("com.networknt:json-schema-validator:$jsonSchemaValidatorVersion")
     // logging
-    implementation ("io.github.oshai:kotlin-logging-jvm:$kLoggingVersion")
+    implementation("io.github.oshai:kotlin-logging-jvm:$kLoggingVersion")
     // bean generation
     implementation("com.squareup:javapoet:$javapoetVersion")
 }

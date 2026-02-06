@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.common.strategies.schemas
 
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsJsonSchema
+import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsJsonSchema
 import org.uevola.jsonautovalidation.aot.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
 import tools.jackson.databind.node.ObjectNode
