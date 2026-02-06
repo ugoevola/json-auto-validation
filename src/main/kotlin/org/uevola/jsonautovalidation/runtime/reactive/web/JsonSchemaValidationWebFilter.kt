@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.runtime.reactive.web
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator
 import org.springframework.stereotype.Component
@@ -14,6 +15,11 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Component
+@ConditionalOnProperty(
+    name = ["json-validation.web-stack"],
+    havingValue = "webflux",
+    matchIfMissing = false
+)
 class JsonSchemaValidationWebFilter(
     private val reactiveJsonValidationExecutor: ReactiveStrategyFactory
 ) : WebFilter {

@@ -1,6 +1,7 @@
 package org.uevola.jsonautovalidation.runtime.servlet.strategies.readers
 
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.PathVariable
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
@@ -10,6 +11,11 @@ import java.lang.reflect.Parameter
 import kotlin.collections.iterator
 
 @Component
+@ConditionalOnProperty(
+    name = ["json-validation.web-stack"],
+    havingValue = "servlet",
+    matchIfMissing = true
+)
 internal class ServletPathVariableReader: ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.PATH_VARIABLES

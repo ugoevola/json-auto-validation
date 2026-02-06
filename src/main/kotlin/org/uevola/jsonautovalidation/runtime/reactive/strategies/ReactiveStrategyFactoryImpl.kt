@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.runtime.reactive.strategies
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import org.uevola.jsonautovalidation.runtime.common.config.JsonValidationProperties
@@ -11,6 +12,11 @@ import reactor.core.publisher.Mono
 import java.lang.reflect.Parameter
 
 @Component
+@ConditionalOnProperty(
+    name = ["json-validation.web-stack"],
+    havingValue = "webflux",
+    matchIfMissing = false
+)
 internal class ReactiveStrategyFactoryImpl(
     validators: Set<ValidatorStrategy>,
     private val requestReaders: Set<ReactiveRequestReaderStrategy>,

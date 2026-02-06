@@ -23,9 +23,10 @@ Citation from [official website](https://json-schema.org/): *"JSON Schema is the
 - The library uses [networknt/json-schema-validator](https://github.com/networknt/json-schema-validator) to perform validation
 
 **Example**
+
 ```kts
 @JsonValidation
-class ExampleDto()
+class ExampleDto
 ```
 Each property name defined in the schema is calculated using the `JsonMapper` of [Jackson 3](https://github.com/FasterXML/jackson/wiki/Jackson-Release-3.0) and is based on the property naming strategy configured in the API properties.
 
@@ -105,9 +106,13 @@ During execution, incoming requests are intercepted before accessing the control
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../assets/diagram-1-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="../assets/diagram-1-light.png">
-  <img alt="diagram" />
+  <img alt="diagram"  src=""/>
 </picture>
 
 If validation fails, a `HttpClientErrorException` exception will be thrown with a `statusText` equals to "REQUEST_VALIDATION_KO"
 
 If a technical isue occurs during the validation, a `HttpServerErrorException` will be thrown.
+
+> [!NOTE]
+> In both cases, whether using reactive Webflux or non-reactive WebMVC, the API will wait to receive the entire body of the request before validating the JSON.
+> In reactive Webflux, this will not block the thread, but the request will not be sent to the controller until it has been validated.

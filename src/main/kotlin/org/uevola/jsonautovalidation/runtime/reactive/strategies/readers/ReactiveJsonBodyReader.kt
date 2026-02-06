@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.runtime.reactive.strategies.readers
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestBody
@@ -14,6 +15,11 @@ import tools.jackson.databind.JsonNode
 import java.lang.reflect.Parameter
 
 @Component
+@ConditionalOnProperty(
+    name = ["json-validation.web-stack"],
+    havingValue = "webflux",
+    matchIfMissing = false
+)
 internal class ReactiveJsonBodyReader(
     private val properties: JsonValidationProperties
 ) : ReactiveRequestReaderStrategy {
@@ -42,9 +48,9 @@ internal class ReactiveJsonBodyReader(
             .map { dataBuffer ->
                 val size = dataBuffer.readableByteCount()
                 accumulatedSize += size
-                if (accumulatedSize > properties.maxJsonSize) {
+                if (accumulatedSize > properties.getMaxJsonSizeInBytes()) {
                     throw ExceptionUtils.httpClientErrorException(
-                        "Payload Too Large: JSON body exceeds maximum size of ${properties.maxJsonSize} bytes",
+                        "Payload Too Large: JSON body exceeds maximum size of ${properties.getMaxJsonSizeInBytes()} bytes",
                         HttpStatus.PAYLOAD_TOO_LARGE
                     )
                 }

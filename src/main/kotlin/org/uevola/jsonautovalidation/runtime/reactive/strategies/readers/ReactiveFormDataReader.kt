@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.runtime.reactive.strategies.readers
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.server.ServerWebExchange
@@ -12,6 +13,11 @@ import tools.jackson.databind.node.JsonNodeFactory
 import java.lang.reflect.Parameter
 
 @Component
+@ConditionalOnProperty(
+    name = ["json-validation.web-stack"],
+    havingValue = "webflux",
+    matchIfMissing = false
+)
 internal class ReactiveFormDataReader : ReactiveRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.FORM_DATA

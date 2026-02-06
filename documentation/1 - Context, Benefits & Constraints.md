@@ -14,7 +14,7 @@ The fact that data validation takes place in two stages (deserialization, then b
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../assets/explain-bean-val-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="../assets/explain-bean-val-light.png">
-  <img alt="explain-bean-validation" />
+  <img alt="explain-bean-validation"  src=""/>
 </picture>
 
 Let's suppose we have an API in which we want to have an error specifically linked to the validation of a certain piece of data. The idea would be to create an exception handler, which would catch exceptions linked to deserialization and those linked to validation. We would then need to check whether the exception in question is linked to the data in question and generate the desired error.
@@ -27,7 +27,7 @@ The aim of this library is to carry out a thorough check of all types of data be
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../assets/explain-json-val-dark.png">
   <source media="(prefers-color-scheme: light)" srcset="../assets/explain-json-val-light.png">
-  <img alt="explain-json-validation" />
+  <img alt="explain-json-validation"  src=""/>
 </picture>
 
 ## Benefits

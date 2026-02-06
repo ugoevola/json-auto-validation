@@ -1,6 +1,7 @@
 package org.uevola.jsonautovalidation.runtime.servlet.strategies.readers
 
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import tools.jackson.databind.JsonNode
@@ -8,6 +9,11 @@ import tools.jackson.databind.node.JsonNodeFactory
 import java.lang.reflect.Parameter
 
 @Component
+@ConditionalOnProperty(
+    name = ["json-validation.web-stack"],
+    havingValue = "servlet",
+    matchIfMissing = true
+)
 internal class ServletRequestParamReader: ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_PARAMS

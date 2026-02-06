@@ -1,1 +1,2 @@
 org.uevola.jsonautovalidation.aot.config.JsonValidationConfig
+org.uevola.jsonautovalidation.runtime.JsonValidationComponentScan
