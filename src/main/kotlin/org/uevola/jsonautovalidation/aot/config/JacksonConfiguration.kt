@@ -17,7 +17,7 @@ internal object JacksonConfiguration: Configuration() {
     lateinit var jsonMapper: JsonMapper
 
     fun init(environment: Environment) {
-        initConfig(JsonValidationConfig, environment, logger)
+        initConfig(JacksonConfiguration, environment, logger)
         jsonMapper = JsonMapper.builder()
             .propertyNamingStrategy(namingStrategy)
             .build()

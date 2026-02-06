@@ -40,7 +40,7 @@ internal abstract class Configuration {
             "UPPER_CAMEL_CASE" -> PropertyNamingStrategies.UPPER_CAMEL_CASE
             "KEBAB_CASE" -> PropertyNamingStrategies.KEBAB_CASE
             "LOWER_CASE" -> PropertyNamingStrategies.LOWER_CASE
-            else -> null
+            else -> PropertyNamingStrategies.LOWER_CAMEL_CASE
         }
 
 }
