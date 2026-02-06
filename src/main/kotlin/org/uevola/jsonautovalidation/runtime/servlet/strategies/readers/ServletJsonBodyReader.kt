@@ -9,7 +9,7 @@ import org.uevola.jsonautovalidation.common.utils.JsonUtils.jsonNodeFromString
 import java.lang.reflect.Parameter
 
 @Component
-internal class JsonBodyReader: RequestReaderStrategy {
+internal class ServletJsonBodyReader: ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_BODY
 

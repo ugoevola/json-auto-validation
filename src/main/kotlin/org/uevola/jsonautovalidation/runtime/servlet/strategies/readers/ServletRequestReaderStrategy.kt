@@ -5,7 +5,7 @@ import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import tools.jackson.databind.JsonNode
 import java.lang.reflect.Parameter
 
-internal interface RequestReaderStrategy {
+internal interface ServletRequestReaderStrategy {
 
     val requestPart: HttpRequestPartEnum
 

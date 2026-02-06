@@ -8,7 +8,7 @@ import tools.jackson.databind.node.JsonNodeFactory
 import java.lang.reflect.Parameter
 
 @Component
-internal class RequestParamReader: RequestReaderStrategy {
+internal class ServletRequestParamReader: ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_PARAMS
     override fun getOrdered() = Int.MAX_VALUE

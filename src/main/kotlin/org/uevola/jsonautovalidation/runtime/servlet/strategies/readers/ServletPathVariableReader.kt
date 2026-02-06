@@ -10,7 +10,7 @@ import java.lang.reflect.Parameter
 import kotlin.collections.iterator
 
 @Component
-internal class PathVariableReader: RequestReaderStrategy {
+internal class ServletPathVariableReader: ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.PATH_VARIABLES
     override fun getOrdered() = 0

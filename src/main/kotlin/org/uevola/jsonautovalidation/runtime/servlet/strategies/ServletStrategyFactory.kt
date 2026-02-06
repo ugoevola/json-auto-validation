@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.runtime.common.config.JsonValidationProperties
 import org.uevola.jsonautovalidation.runtime.common.strategies.AbstractStrategyFactory
-import org.uevola.jsonautovalidation.runtime.servlet.strategies.readers.RequestReaderStrategy
+import org.uevola.jsonautovalidation.runtime.servlet.strategies.readers.ServletRequestReaderStrategy
 import org.uevola.jsonautovalidation.runtime.common.strategies.validators.ValidatorStrategy
 import org.uevola.jsonautovalidation.runtime.common.utils.CacheableProxy
 import java.lang.reflect.Parameter
@@ -12,7 +12,7 @@ import java.lang.reflect.Parameter
 @Component
 internal class ServletStrategyFactory(
     validators: Set<ValidatorStrategy>,
-    private val requestReaders: Set<RequestReaderStrategy>,
+    private val requestReaders: Set<ServletRequestReaderStrategy>,
     cacheableProxy: CacheableProxy,
     properties: JsonValidationProperties
 ): AbstractStrategyFactory(validators, cacheableProxy, properties), JsonValidationExecutor {
