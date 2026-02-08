@@ -17,16 +17,15 @@ internal class NumberKeywordValidator(
     schemaLocation: SchemaLocation,
     parentSchema: Schema,
     schemaContext: SchemaContext,
-    val verifyIfGoodType: (JsonNode) -> Int
+    val verifyIfGoodType: (JsonNode) -> Double
 ): BaseKeywordValidator(
     keyword, schemaNode, schemaLocation, parentSchema, schemaContext
 ) {
-    private val value = schemaNode.asString()
-    private val maximumValue = schemaNode.get(MAXIMUM).asString().toInt()
-    private val minimumValue = schemaNode.get(MINIMUM).asString().toInt()
-    private val exclusiveMinimumValue = schemaNode.get(EXCLUSIVE_MINIMUM).asString().toInt()
-    private val exclusiveMaximumValue = schemaNode.get(EXCLUSIVE_MAXIMUM).asString().toInt()
-    private val multipleOfValue = schemaNode.get(MULTIPLE_OF).asString().toInt()
+    private val maximumValue = schemaNode.get(MAXIMUM).asDouble()
+    private val minimumValue = schemaNode.get(MINIMUM).asDouble()
+    private val exclusiveMinimumValue = schemaNode.get(EXCLUSIVE_MINIMUM).asDouble()
+    private val exclusiveMaximumValue = schemaNode.get(EXCLUSIVE_MAXIMUM).asDouble()
+    private val multipleOfValue = schemaNode.get(MULTIPLE_OF).asDouble()
 
     override fun validate(
         executionContext: ExecutionContext,
@@ -36,16 +35,16 @@ internal class NumberKeywordValidator(
     ) {
         try {
             verifyIfEmpty(instanceNode)
-            val value = verifyIfGoodType(instanceNode)
-            verifyMaximum(value)
-            verifyMinimum(value)
-            verifyExclusiveMinimum(value)
-            verifyExclusiveMaximum(value)
-            verifyMultipleOf(value)
+            val castValue = verifyIfGoodType(instanceNode)
+            verifyMaximum(castValue)
+            verifyMinimum(castValue)
+            verifyExclusiveMinimum(castValue)
+            verifyExclusiveMaximum(castValue)
+            verifyMultipleOf(castValue)
         } catch (_: KeywordValidationException) {
             executionContext.addError(error()
                 .message(instanceNode.get(ERROR_MESSAGE_KEYWORD).toString())
-                .arguments(value)
+                .arguments(instanceNode.toString())
                 .instanceLocation(instanceLocation)
                 .instanceNode(instanceNode)
                 .evaluationPath(executionContext.getEvaluationPath())
@@ -57,35 +56,35 @@ internal class NumberKeywordValidator(
     private fun verifyIfEmpty(
         node: JsonNode,
     ) {
-        if (node.asString().isEmpty()) throw KeywordValidationException()
+        if (node.isEmpty) throw KeywordValidationException()
     }
 
-    private fun verifyMaximum(value: Int) {
+    private fun verifyMaximum(value: Double) {
         if (schemaNode.has(MAXIMUM) && value >= maximumValue) {
             throw KeywordValidationException()
         }
     }
 
-    private fun verifyMinimum(value: Int) {
+    private fun verifyMinimum(value: Double) {
         if (schemaNode.has(MINIMUM) && value <= minimumValue) {
             throw KeywordValidationException()
         }
     }
 
-    private fun verifyExclusiveMinimum(value: Int) {
+    private fun verifyExclusiveMinimum(value: Double) {
         if (schemaNode.has(EXCLUSIVE_MINIMUM) && value < exclusiveMinimumValue) {
             throw KeywordValidationException()
         }
     }
 
-    private fun verifyExclusiveMaximum(value: Int) {
+    private fun verifyExclusiveMaximum(value: Double) {
         if (schemaNode.has(EXCLUSIVE_MAXIMUM) && value > exclusiveMaximumValue) {
             throw KeywordValidationException()
         }
     }
 
-    private fun verifyMultipleOf(value: Int) {
-        if (schemaNode.has(MULTIPLE_OF) && value.mod(multipleOfValue) != 0) {
+    private fun verifyMultipleOf(value: Double) {
+        if (schemaNode.has(MULTIPLE_OF) && value.mod(multipleOfValue) != 0.0) {
             throw KeywordValidationException()
         }
     }

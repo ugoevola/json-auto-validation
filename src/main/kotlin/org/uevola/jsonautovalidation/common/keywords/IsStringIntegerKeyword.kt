@@ -26,12 +26,11 @@ internal class IsStringIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) 
         ::verifyIfGoodType
     )
 
-    fun verifyIfGoodType(node: JsonNode): Int {
-        val textValue = node.asString()
-        if (!(node.isInt || node.isString && INTEGER_REGEX matches textValue)) {
+    fun verifyIfGoodType(node: JsonNode): Double {
+        if (!(node.isInt || node.isString && INTEGER_REGEX matches node.asString())) {
             throw KeywordValidationException()
         }
-        return node.asString().toInt()
+        return if (node.isInt) node.asInt().toDouble() else node.asString().toInt().toDouble()
     }
 
     companion object {
