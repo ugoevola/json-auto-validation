@@ -48,7 +48,7 @@ Schemas and beans are generated at compile time (AOT), eliminating runtime overh
 ## Constraints
 
 ### Compatibility limited to Spring Boot 3+
-Starting with version 1.0.0, AOT generation makes the library incompatible with Spring Boot 2.x. This restricts its use in older projects and legacy environments.
+AOT generation makes the library incompatible with Spring Boot 2.x. This restricts its use in older projects and legacy environments.
 
 ### Partial validation of the HTTP model
 At this stage, the library only validates request JSON bodies and URL parameters (`@PathVariable`, `@RequestParam`). Other elements such as headers, multipart/form-data, and complex query types are not yet supported.

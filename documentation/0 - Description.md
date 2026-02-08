@@ -17,15 +17,15 @@ JSON data validation is based on [networknt/json-schema-validator](https://githu
 
 ## Spring Boot compatibility
 
-Starting with version 1.0.0, beans and schemas are generated during the AOT (Ahead-Of-Time) phase.
+Beans and schemas are generated during the AOT (Ahead-Of-Time) phase.
 
 > [!WARNING]
 > This version is not compatible with Spring Boot versions lower than 3.0.
 
-| Library version         | Minimum version of Spring Boot | maintenance  |
-| ----------------------- |--------------------------------| ------------ |
-| `≥ 1.0.0`               | 3.0+ (AOT mandatory)           |    🟢       |   
-| `< 1.0.0`               | 2.x                            |    🔴       |
+| Library version | Minimum version of Spring Boot | maintenance  |
+|-----------------|--------------------------------| ------------ |
+| `≥ 1.*.*`       | 3.0+ (AOT mandatory)           |    🟢       |   
+| `< 1.*.*`       | 2.x                            |    🔴       |
 
 - 🟢 Active Maintenance & Development
 - 🟡 Bug Fix Only / Limited Maintenance
@@ -38,12 +38,12 @@ Starting with version 1.0.0, beans and schemas are generated during the AOT (Ahe
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:1.0.0")
+implementation("io.github.ugoevola:json-auto-validation:1.0.1")
 ```
 
 ## How does it work?
