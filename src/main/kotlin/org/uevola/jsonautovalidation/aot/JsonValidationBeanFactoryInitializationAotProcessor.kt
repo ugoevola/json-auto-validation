@@ -20,7 +20,7 @@ internal open class JsonValidationBeanFactoryInitializationAotProcessor :
         JsonValidationConfig.init(env)
         JacksonConfiguration.init(env)
         SchemasGenerator.generateJsonSchemaFiles()
-        return BeanFactoryInitializationAotContribution { generationContext , _ ->
+        return BeanFactoryInitializationAotContribution { generationContext, _ ->
             ValidatorBeansGenerator.generateDtoValidator(generationContext)
         }
     }

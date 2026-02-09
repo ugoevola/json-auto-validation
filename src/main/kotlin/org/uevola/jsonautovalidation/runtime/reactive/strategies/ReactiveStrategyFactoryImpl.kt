@@ -22,7 +22,7 @@ internal class ReactiveStrategyFactoryImpl(
     private val requestReaders: Set<ReactiveRequestReaderStrategy>,
     cacheableProxy: CacheableProxy,
     properties: JsonValidationProperties
-): AbstractStrategyFactory(validators, cacheableProxy, properties), ReactiveStrategyFactory {
+) : AbstractStrategyFactory(validators, cacheableProxy, properties), ReactiveStrategyFactory {
 
     override fun validate(
         exchange: ServerWebExchange,

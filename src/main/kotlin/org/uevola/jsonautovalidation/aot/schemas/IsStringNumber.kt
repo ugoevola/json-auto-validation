@@ -1,5 +1,5 @@
 package org.uevola.jsonautovalidation.aot.schemas
- 
+
 import org.uevola.jsonautovalidation.common.Constants.ERROR_MESSAGE_KEYWORD
 import org.uevola.jsonautovalidation.common.Constants.EXCLUSIVE_MAXIMUM_ERROR_MESSAGE_PLACEHOLDER
 import org.uevola.jsonautovalidation.common.Constants.EXCLUSIVE_MINIMUM_ERROR_MESSAGE_PLACEHOLDER

@@ -27,11 +27,12 @@ internal fun Class<*>.getMethodsToValidate(): List<Method> =
 
 internal fun KClass<*>.getRequiredJsonPropertiesNames(): List<String> {
     return this.memberProperties
-        .filter { property -> property
-            .javaField
-            ?.declaredAnnotations
-            ?.any { it.annotationClass.java == IsRequired::class.java }
-            ?: false
+        .filter { property ->
+            property
+                .javaField
+                ?.declaredAnnotations
+                ?.any { it.annotationClass.java == IsRequired::class.java }
+                ?: false
         }
         .map { it.getJsonPropertyName() }
 }

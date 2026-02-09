@@ -55,9 +55,9 @@ internal object ValidatorBeansGenerator {
     }
 
     private fun validatorClass(
-            validatorClassName: String,
-            dtoClass: Class<*>
-        ) = TypeSpec.classBuilder(validatorClassName)
+        validatorClassName: String,
+        dtoClass: Class<*>
+    ) = TypeSpec.classBuilder(validatorClassName)
         .addModifiers(Modifier.PUBLIC)
         .superclass(JsonSchemaValidator::class.java)
         .addAnnotation(Component::class.java)

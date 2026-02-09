@@ -14,7 +14,7 @@ import java.lang.reflect.Parameter
     havingValue = "servlet",
     matchIfMissing = true
 )
-internal class ServletRequestParamReader: ServletRequestReaderStrategy {
+internal class ServletRequestParamReader : ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_PARAMS
     override fun getOrdered() = Int.MAX_VALUE

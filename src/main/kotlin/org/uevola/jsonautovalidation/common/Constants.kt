@@ -42,7 +42,7 @@ internal object Constants {
         MAX_LENGTH_ERROR_MESSAGE_KEYWORD,
         PATTERN_ERROR_MESSAGE_KEYWORD,
         FORMAT_ERROR_MESSAGE_KEYWORD
-        )
+    )
 
     val ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS: List<Annotation> =
         listOf(

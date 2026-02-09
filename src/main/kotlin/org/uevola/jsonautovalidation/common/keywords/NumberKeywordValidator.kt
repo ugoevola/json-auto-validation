@@ -18,7 +18,7 @@ internal class NumberKeywordValidator(
     parentSchema: Schema,
     schemaContext: SchemaContext,
     val verifyIfGoodType: (JsonNode) -> Double
-): BaseKeywordValidator(
+) : BaseKeywordValidator(
     keyword, schemaNode, schemaLocation, parentSchema, schemaContext
 ) {
     private val maximumValue = schemaNode.get(MAXIMUM).asDouble()
@@ -42,13 +42,14 @@ internal class NumberKeywordValidator(
             verifyExclusiveMaximum(castValue)
             verifyMultipleOf(castValue)
         } catch (_: KeywordValidationException) {
-            executionContext.addError(error()
-                .message(instanceNode.get(ERROR_MESSAGE_KEYWORD).toString())
-                .arguments(instanceNode.toString())
-                .instanceLocation(instanceLocation)
-                .instanceNode(instanceNode)
-                .evaluationPath(executionContext.getEvaluationPath())
-                .build()
+            executionContext.addError(
+                error()
+                    .message(instanceNode.get(ERROR_MESSAGE_KEYWORD).toString())
+                    .arguments(instanceNode.toString())
+                    .instanceLocation(instanceLocation)
+                    .instanceNode(instanceNode)
+                    .evaluationPath(executionContext.getEvaluationPath())
+                    .build()
             )
         }
     }

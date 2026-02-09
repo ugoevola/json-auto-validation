@@ -21,7 +21,7 @@ internal class ServletStrategyFactoryImpl(
     private val requestReaders: Set<ServletRequestReaderStrategy>,
     cacheableProxy: CacheableProxy,
     properties: JsonValidationProperties
-): AbstractStrategyFactory(validators, cacheableProxy, properties), ServletStrategyFactory {
+) : AbstractStrategyFactory(validators, cacheableProxy, properties), ServletStrategyFactory {
 
     override fun validate(
         request: HttpServletRequest,

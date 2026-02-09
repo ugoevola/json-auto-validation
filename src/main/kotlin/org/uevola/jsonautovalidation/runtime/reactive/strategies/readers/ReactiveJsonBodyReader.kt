@@ -32,7 +32,8 @@ internal class ReactiveJsonBodyReader(
         parameter: Parameter,
         exchange: ServerWebExchange
     ) = parameter.annotations.any { it is RequestBody } &&
-            exchange.request.headers.contentType?.toString()?.startsWith(ContentTypeEnum.APPLICATION_JSON.value) ?: false
+            exchange.request.headers.contentType?.toString()
+                ?.startsWith(ContentTypeEnum.APPLICATION_JSON.value) ?: false
 
     override fun read(
         exchange: ServerWebExchange

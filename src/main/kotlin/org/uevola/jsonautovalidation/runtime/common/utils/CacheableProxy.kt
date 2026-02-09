@@ -10,7 +10,7 @@ import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 
 @Component
-class CacheableProxy{
+class CacheableProxy {
 
     private val schemaGenerators: Set<JsonSchemaGeneratorStrategy> = setOf(
         DefaultJsonGenerator,

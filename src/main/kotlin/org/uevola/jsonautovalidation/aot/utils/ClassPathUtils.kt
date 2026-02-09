@@ -16,8 +16,11 @@ internal object ClassPathUtils {
         val result = scanner.findCandidateComponents(JsonValidationConfig.controllersPackageName)
             .map { Class.forName(it.beanClassName) }
             .filter {
-                try { it.declaredMethods; true }
-                catch (_: NoClassDefFoundError) { false }
+                try {
+                    it.declaredMethods; true
+                } catch (_: NoClassDefFoundError) {
+                    false
+                }
             }
             .toSet()
         scanner.clearCache()

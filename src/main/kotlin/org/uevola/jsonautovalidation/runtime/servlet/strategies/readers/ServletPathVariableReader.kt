@@ -15,7 +15,7 @@ import java.lang.reflect.Parameter
     havingValue = "servlet",
     matchIfMissing = true
 )
-internal class ServletPathVariableReader: ServletRequestReaderStrategy {
+internal class ServletPathVariableReader : ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.PATH_VARIABLES
     override fun getOrdered() = 0

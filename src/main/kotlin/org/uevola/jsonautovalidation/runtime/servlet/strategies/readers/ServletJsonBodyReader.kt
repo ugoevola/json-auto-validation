@@ -15,7 +15,7 @@ import java.lang.reflect.Parameter
     havingValue = "servlet",
     matchIfMissing = true
 )
-internal class ServletJsonBodyReader: ServletRequestReaderStrategy {
+internal class ServletJsonBodyReader : ServletRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_BODY
 
@@ -25,7 +25,7 @@ internal class ServletJsonBodyReader: ServletRequestReaderStrategy {
         parameter: Parameter,
         request: HttpServletRequest
     ) = parameter.annotations.any { it is RequestBody } &&
-            request.getHeader("Content-Type")  == ContentTypeEnum.APPLICATION_JSON.value
+            request.getHeader("Content-Type") == ContentTypeEnum.APPLICATION_JSON.value
 
     override fun read(
         request: HttpServletRequest

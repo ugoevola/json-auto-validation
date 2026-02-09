@@ -49,7 +49,10 @@ class JsonSchemaValidationWebFilter(
         return chain.filter(mutatedExchange)
     }
 
-    private fun createCachedBodyDecorator(exchange: ServerWebExchange, cachedBody: ByteArray): ServerHttpRequestDecorator {
+    private fun createCachedBodyDecorator(
+        exchange: ServerWebExchange,
+        cachedBody: ByteArray
+    ): ServerHttpRequestDecorator {
         return object : ServerHttpRequestDecorator(exchange.request) {
             override fun getBody(): Flux<DataBuffer> {
                 val buffer = exchange.response.bufferFactory().wrap(cachedBody)

@@ -22,8 +22,8 @@ internal class NetworkNtSchemaValidationConfig {
             .keyword(IsStringNumberKeyword())
             .unknownKeywordFactory(DisallowUnknownKeywordFactory.getInstance())
             .build()
-        return SchemaRegistry.withDialect(dialect) {
-            builder -> builder.schemaRegistryConfig(config)
+        return SchemaRegistry.withDialect(dialect) { builder ->
+            builder.schemaRegistryConfig(config)
         }
     }
 
