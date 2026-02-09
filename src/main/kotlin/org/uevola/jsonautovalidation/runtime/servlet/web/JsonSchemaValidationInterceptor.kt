@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.HandlerInterceptor
 import org.uevola.jsonautovalidation.common.extensions.getParamsToValidate
-import org.uevola.jsonautovalidation.runtime.servlet.strategies.JsonValidationExecutor
+import org.uevola.jsonautovalidation.runtime.servlet.strategies.ServletStrategyFactory
 
 @Component
 @ConditionalOnProperty(
@@ -16,7 +16,7 @@ import org.uevola.jsonautovalidation.runtime.servlet.strategies.JsonValidationEx
     matchIfMissing = true
 )
 class JsonSchemaValidationInterceptor(
-    private val strategyFactory: JsonValidationExecutor
+    private val strategyFactory: ServletStrategyFactory
 ) : HandlerInterceptor {
 
     override fun preHandle(

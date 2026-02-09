@@ -6,8 +6,8 @@ import org.springframework.web.server.ServerWebExchange
 import org.uevola.jsonautovalidation.runtime.common.config.JsonValidationProperties
 import org.uevola.jsonautovalidation.runtime.common.strategies.AbstractStrategyFactory
 import org.uevola.jsonautovalidation.runtime.common.strategies.validators.ValidatorStrategy
-import org.uevola.jsonautovalidation.runtime.reactive.strategies.readers.ReactiveRequestReaderStrategy
 import org.uevola.jsonautovalidation.runtime.common.utils.CacheableProxy
+import org.uevola.jsonautovalidation.runtime.reactive.strategies.readers.ReactiveRequestReaderStrategy
 import reactor.core.publisher.Mono
 import java.lang.reflect.Parameter
 
@@ -40,7 +40,7 @@ internal class ReactiveStrategyFactoryImpl(
                     json,
                     parameter
                 )
-                Mono.empty<Void>()
+                Mono.empty()
             }
     }
 }

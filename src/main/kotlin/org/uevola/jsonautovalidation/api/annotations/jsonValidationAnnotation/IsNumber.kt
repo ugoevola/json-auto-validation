@@ -16,7 +16,7 @@ annotation class IsNumber(
     @Suppress("unused") val exclusiveMaximumErrorMessage: String = "The field @{fieldName} must be less than @{exclusiveMaximum}.",
     @Suppress("unused") val multipleOfErrorMessage: String = "The field @{fieldName} must be a multiple of @{multipleOf}.",
     @Suppress("unused") val minimum: Float = Float.MIN_VALUE,
-    @Suppress("unused") val maximum: Float = Float.MAX_VALUE,
+    val maximum: Float = Float.MAX_VALUE,
     @Suppress("unused") val exclusiveMinimum: Float = Float.MIN_VALUE,
     @Suppress("unused") val exclusiveMaximum: Float = Float.MAX_VALUE,
     @Suppress("unused") val multipleOf: Int = 1,

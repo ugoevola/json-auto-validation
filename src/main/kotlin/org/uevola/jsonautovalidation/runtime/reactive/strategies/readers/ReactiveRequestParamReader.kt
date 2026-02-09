@@ -5,10 +5,9 @@ import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.server.ServerWebExchange
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
-import org.uevola.jsonautovalidation.common.utils.JsonUtils.writeValueAsString
+import org.uevola.jsonautovalidation.common.utils.JsonUtils.objectNodeFromRequestParams
 import reactor.core.publisher.Mono
 import tools.jackson.databind.JsonNode
-import tools.jackson.databind.node.JsonNodeFactory
 import java.lang.reflect.Parameter
 
 @Component
@@ -28,18 +27,7 @@ internal class ReactiveRequestParamReader : ReactiveRequestReaderStrategy {
         exchange: ServerWebExchange
     ) = parameter.annotations.any { it is RequestParam } || parameter.annotations.isEmpty()
 
-    override fun read(exchange: ServerWebExchange): Mono<JsonNode> {
-        val jsonObject = JsonNodeFactory.instance.objectNode()
-        val queryParams = exchange.request.queryParams
-        queryParams
-            .filter { it.value.isNotEmpty() }
-            .forEach { (name, values) ->
-                if (values.size == 1) {
-                    jsonObject.put(name, values[0])
-                } else {
-                    jsonObject.put(name, writeValueAsString(values))
-                }
-            }
-        return Mono.just(jsonObject)
-    }
+    override fun read(
+        exchange: ServerWebExchange
+    ): Mono<JsonNode> = Mono.just(objectNodeFromRequestParams(exchange.request.queryParams))
 }

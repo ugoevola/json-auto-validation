@@ -4,8 +4,8 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RestController
-import org.uevola.jsonautovalidation.api.annotations.JsonValidation
 import org.uevola.jsonautovalidation.aot.config.JsonValidationConfig
+import org.uevola.jsonautovalidation.api.annotations.JsonValidation
 
 internal object ClassPathUtils {
 

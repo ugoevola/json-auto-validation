@@ -8,7 +8,6 @@ import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import tools.jackson.databind.JsonNode
 import tools.jackson.databind.node.JsonNodeFactory
 import java.lang.reflect.Parameter
-import kotlin.collections.iterator
 
 @Component
 @ConditionalOnProperty(

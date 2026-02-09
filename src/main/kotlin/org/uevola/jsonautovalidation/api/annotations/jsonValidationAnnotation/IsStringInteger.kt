@@ -16,7 +16,7 @@ annotation class IsStringInteger(
     @Suppress("unused") val exclusiveMaximumErrorMessage: String = "The field @{fieldName} must be less than @{exclusiveMaximum}.",
     @Suppress("unused") val multipleOfErrorMessage: String = "The field @{fieldName} must be a multiple of @{multipleOf}.",
     @Suppress("unused") val minimum: Int = Int.MIN_VALUE,
-    @Suppress("unused") val maximum: Int = Int.MAX_VALUE,
+    val maximum: Int = Int.MAX_VALUE,
     @Suppress("unused") val exclusiveMinimum: Int = Int.MIN_VALUE,
     @Suppress("unused") val exclusiveMaximum: Int = Int.MAX_VALUE,
     @Suppress("unused") val multipleOf: Int = 1,
