@@ -2,7 +2,7 @@ package org.uevola.jsonautovalidation.runtime.common.utils
 
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsJsonValidation
+import org.uevola.jsonautovalidation.api.annotations.rules.IsJsonValidation
 import org.uevola.jsonautovalidation.common.extensions.merge
 import org.uevola.jsonautovalidation.common.strategies.schemas.*
 import org.uevola.jsonautovalidation.common.utils.JsonUtils

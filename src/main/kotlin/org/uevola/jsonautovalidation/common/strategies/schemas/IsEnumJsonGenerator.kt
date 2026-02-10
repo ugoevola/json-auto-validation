@@ -1,7 +1,7 @@
 package org.uevola.jsonautovalidation.common.strategies.schemas
 
 import org.uevola.jsonautovalidation.aot.schemas.jsonSchemas
-import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsEnum
+import org.uevola.jsonautovalidation.api.annotations.rules.IsEnum
 import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.readValue

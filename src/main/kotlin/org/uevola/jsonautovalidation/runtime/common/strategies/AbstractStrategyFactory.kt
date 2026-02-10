@@ -2,7 +2,7 @@ package org.uevola.jsonautovalidation.runtime.common.strategies
 
 import org.springframework.web.client.HttpClientErrorException
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
-import org.uevola.jsonautovalidation.runtime.common.config.JsonValidationProperties
+import org.uevola.jsonautovalidation.runtime.common.config.JsonAutoValidationProperties
 import org.uevola.jsonautovalidation.runtime.common.strategies.validators.ValidatorStrategy
 import org.uevola.jsonautovalidation.runtime.common.utils.CacheableProxy
 import org.uevola.jsonautovalidation.runtime.common.utils.ExceptionUtils
@@ -12,7 +12,7 @@ import java.lang.reflect.Parameter
 internal abstract class AbstractStrategyFactory(
     private val validators: Set<ValidatorStrategy>,
     private val cacheableProxy: CacheableProxy,
-    protected val properties: JsonValidationProperties
+    protected val properties: JsonAutoValidationProperties
 ) {
 
     protected val generateSchemaForParameterLambda = { parameter: Parameter ->

@@ -8,7 +8,7 @@ import org.springframework.web.server.ServerWebExchange
 import org.uevola.jsonautovalidation.common.enums.ContentTypeEnum
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.jsonNodeFromString
-import org.uevola.jsonautovalidation.runtime.common.config.JsonValidationProperties
+import org.uevola.jsonautovalidation.runtime.common.config.JsonAutoValidationProperties
 import org.uevola.jsonautovalidation.runtime.common.utils.ExceptionUtils
 import reactor.core.publisher.Mono
 import tools.jackson.databind.JsonNode
@@ -21,7 +21,7 @@ import java.lang.reflect.Parameter
     matchIfMissing = false
 )
 internal class ReactiveJsonBodyReader(
-    private val properties: JsonValidationProperties
+    private val properties: JsonAutoValidationProperties
 ) : ReactiveRequestReaderStrategy {
 
     override val requestPart = HttpRequestPartEnum.REQUEST_BODY

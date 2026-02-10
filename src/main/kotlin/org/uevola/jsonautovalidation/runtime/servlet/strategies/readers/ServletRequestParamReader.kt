@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.objectNodeFromRequestParams
-import tools.jackson.databind.JsonNode
 import java.lang.reflect.Parameter
 
 @Component
@@ -26,5 +25,5 @@ internal class ServletRequestParamReader : ServletRequestReaderStrategy {
 
     override fun read(
         request: HttpServletRequest
-    ): JsonNode = objectNodeFromRequestParams(request.parameterMap)
+    ) = objectNodeFromRequestParams(request.parameterMap)
 }

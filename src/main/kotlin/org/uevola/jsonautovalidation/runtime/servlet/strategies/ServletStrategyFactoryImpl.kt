@@ -3,7 +3,7 @@ package org.uevola.jsonautovalidation.runtime.servlet.strategies
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.runtime.common.config.JsonValidationProperties
+import org.uevola.jsonautovalidation.runtime.common.config.JsonAutoValidationProperties
 import org.uevola.jsonautovalidation.runtime.common.strategies.AbstractStrategyFactory
 import org.uevola.jsonautovalidation.runtime.common.strategies.validators.ValidatorStrategy
 import org.uevola.jsonautovalidation.runtime.common.utils.CacheableProxy
@@ -20,7 +20,7 @@ internal class ServletStrategyFactoryImpl(
     validators: Set<ValidatorStrategy>,
     private val requestReaders: Set<ServletRequestReaderStrategy>,
     cacheableProxy: CacheableProxy,
-    properties: JsonValidationProperties
+    properties: JsonAutoValidationProperties
 ) : AbstractStrategyFactory(validators, cacheableProxy, properties), ServletStrategyFactory {
 
     override fun validate(

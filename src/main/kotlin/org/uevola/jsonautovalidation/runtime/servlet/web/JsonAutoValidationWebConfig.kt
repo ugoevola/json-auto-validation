@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
     matchIfMissing = true
 )
 class JsonAutoValidationWebConfig(
-    private val interceptor: JsonSchemaValidationInterceptor
+    private val interceptor: JsonAutoValidationInterceptor
 ) : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(interceptor)

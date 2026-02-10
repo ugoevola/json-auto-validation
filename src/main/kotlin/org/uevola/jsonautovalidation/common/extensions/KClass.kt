@@ -2,7 +2,7 @@ package org.uevola.jsonautovalidation.common.extensions
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.uevola.jsonautovalidation.api.annotations.Validate
-import org.uevola.jsonautovalidation.api.annotations.jsonValidationAnnotation.IsRequired
+import org.uevola.jsonautovalidation.api.annotations.rules.IsRequired
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
