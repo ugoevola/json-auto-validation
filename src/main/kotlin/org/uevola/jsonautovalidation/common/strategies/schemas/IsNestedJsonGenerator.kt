@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.common.strategies.schemas
 
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsNested
+import org.uevola.jsonautovalidation.api.annotations.rules.IsNested
 import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 import kotlin.reflect.KClass

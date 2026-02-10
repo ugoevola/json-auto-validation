@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.ugoevola"
-version = "1.0.1"
+version = "1.1.0"
 
 val springBootVersion = "4.0.1"
 val ktlVersion = "2.3.0"
@@ -29,12 +29,13 @@ dependencies {
     implementation(kotlin("stdlib", ktlVersion))
     implementation(kotlin("reflect", ktlVersion))
     // spring
-    compileOnly("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compileOnly("org.springframework.boot:spring-boot-starter-webmvc:$springBootVersion")
+    compileOnly("org.springframework.boot:spring-boot-starter-webflux:$springBootVersion")
     implementation ("org.springframework.boot:spring-boot-starter-json:$springBootVersion")
     // validation
     api("com.networknt:json-schema-validator:$jsonSchemaValidatorVersion")
     // logging
-    implementation ("io.github.oshai:kotlin-logging-jvm:$kLoggingVersion")
+    implementation("io.github.oshai:kotlin-logging-jvm:$kLoggingVersion")
     // bean generation
     implementation("com.squareup:javapoet:$javapoetVersion")
 }

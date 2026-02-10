@@ -18,4 +18,26 @@ internal object JsonUtils {
 
     fun <T> readValue(content: String, valueType: Class<T>): T = jsonMapper.readValue(content, valueType)
 
+    fun objectNodeFromRequestParams(params: Map<String, *>): ObjectNode {
+        val jsonObject = newObjectNode()
+        params
+            .forEach { (name, values) ->
+                val list = when (values) {
+                    is Array<*> -> values.toList()
+                    is List<*> -> values
+                    else -> return@forEach
+                }
+
+                if (list.isEmpty()) return@forEach
+
+                if (list.size == 1) {
+                    jsonObject.put(name, list[0]?.toString())
+                } else {
+                    val arrayNode = jsonObject.putArray(name)
+                    list.forEach { arrayNode.add(it?.toString()) }
+                }
+            }
+        return jsonObject
+    }
+
 }

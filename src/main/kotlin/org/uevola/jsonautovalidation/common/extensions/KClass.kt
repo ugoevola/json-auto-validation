@@ -1,8 +1,8 @@
 package org.uevola.jsonautovalidation.common.extensions
 
 import org.springframework.web.bind.annotation.RequestMapping
-import org.uevola.jsonautovalidation.annotations.Validate
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsRequired
+import org.uevola.jsonautovalidation.api.annotations.Validate
+import org.uevola.jsonautovalidation.api.annotations.rules.IsRequired
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
@@ -27,11 +27,12 @@ internal fun Class<*>.getMethodsToValidate(): List<Method> =
 
 internal fun KClass<*>.getRequiredJsonPropertiesNames(): List<String> {
     return this.memberProperties
-        .filter { property -> property
-            .javaField
-            ?.declaredAnnotations
-            ?.any { it.annotationClass.java == IsRequired::class.java }
-            ?: false
+        .filter { property ->
+            property
+                .javaField
+                ?.declaredAnnotations
+                ?.any { it.annotationClass.java == IsRequired::class.java }
+                ?: false
         }
         .map { it.getJsonPropertyName() }
 }

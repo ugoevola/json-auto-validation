@@ -136,7 +136,7 @@ class FriendDto(
 )
 ```
 
-> [!INFO]
+> [!TIP]
 > `@JsonValidation` generates a schema for a given DTO. Unless you need this schema for another service, you don't need to annotate the subclasses used in your DTO with the `@JsonValidation` annotation.
 
 ### IsStringInteger & IsStringNumber
@@ -197,7 +197,7 @@ class CartDto(
 
 Below is a complete list of validation annotations that can be placed on a property.
 
-- 🟢 **Support** the automic detection 
+- 🟢 **Support** the automatic detection 
 - 🔴 **Does not support** the automatic detection 
 
 |         Annotation         | Automatic<br/>type detection |

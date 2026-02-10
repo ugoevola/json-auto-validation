@@ -6,7 +6,7 @@ import org.uevola.jsonautovalidation.aot.enums.EnvPropertyName
 import tools.jackson.databind.PropertyNamingStrategy
 import tools.jackson.databind.json.JsonMapper
 
-internal object JacksonConfiguration: Configuration() {
+internal object JacksonConfiguration : Configuration() {
     private val logger = KotlinLogging.logger {}
 
     @EnvPropertyName(
@@ -17,7 +17,7 @@ internal object JacksonConfiguration: Configuration() {
     lateinit var jsonMapper: JsonMapper
 
     fun init(environment: Environment) {
-        initConfig(JsonValidationConfig, environment, logger)
+        initConfig(JacksonConfiguration, environment, logger)
         jsonMapper = JsonMapper.builder()
             .propertyNamingStrategy(namingStrategy)
             .build()

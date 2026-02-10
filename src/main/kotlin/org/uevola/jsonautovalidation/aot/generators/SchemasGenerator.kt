@@ -2,10 +2,10 @@ package org.uevola.jsonautovalidation.aot.generators
 
 import com.networknt.schema.dialect.DialectId.DRAFT_2020_12
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsJsonValidation
 import org.uevola.jsonautovalidation.aot.StrategyFactory
 import org.uevola.jsonautovalidation.aot.schemas.jsonSchemaBaseTemplate
 import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getDtoClassesToValidate
+import org.uevola.jsonautovalidation.api.annotations.rules.IsJsonValidation
 import org.uevola.jsonautovalidation.common.Constants.REQUIRED_ERROR_MESSAGE_KEYWORD
 import org.uevola.jsonautovalidation.common.extensions.*
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.newObjectNode

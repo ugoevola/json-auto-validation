@@ -1,8 +1,8 @@
 package org.uevola.jsonautovalidation.common
 
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringBool
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringInteger
-import org.uevola.jsonautovalidation.annotations.jsonValidationAnnotation.IsStringNumber
+import org.uevola.jsonautovalidation.api.annotations.rules.IsStringBool
+import org.uevola.jsonautovalidation.api.annotations.rules.IsStringInteger
+import org.uevola.jsonautovalidation.api.annotations.rules.IsStringNumber
 
 internal object Constants {
     const val VALIDATORS_PACKAGE_NAME = "org.uevola.jsonautovalidation.generated.validators"
@@ -42,7 +42,7 @@ internal object Constants {
         MAX_LENGTH_ERROR_MESSAGE_KEYWORD,
         PATTERN_ERROR_MESSAGE_KEYWORD,
         FORMAT_ERROR_MESSAGE_KEYWORD
-        )
+    )
 
     val ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS: List<Annotation> =
         listOf(

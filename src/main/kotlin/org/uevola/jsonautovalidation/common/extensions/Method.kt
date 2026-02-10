@@ -1,6 +1,6 @@
 package org.uevola.jsonautovalidation.common.extensions
 
-import org.uevola.jsonautovalidation.annotations.Validate
+import org.uevola.jsonautovalidation.api.annotations.Validate
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
 import java.lang.reflect.ParameterizedType

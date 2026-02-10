@@ -4,7 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.core.env.Environment
 import org.uevola.jsonautovalidation.aot.enums.EnvPropertyName
 
-internal object JsonValidationConfig: Configuration() {
+internal object JsonValidationConfig : Configuration() {
     private val logger = KotlinLogging.logger {}
 
     @EnvPropertyName("json-validation.dto-package-name")

@@ -22,7 +22,11 @@ internal fun <T> ObjectNode.resolveTemplate(
     val result = this.deepCopy()
     this.properties().forEach { (key, value) ->
         when {
-            value.isObject -> result.set(key, (value as ObjectNode).resolveTemplate(values, fieldName, globalErrorMessage))
+            value.isObject -> result.set(
+                key,
+                (value as ObjectNode).resolveTemplate(values, fieldName, globalErrorMessage)
+            )
+
             value.isString -> {
                 val regex = Regex("^@\\{(.+)}$")
                 val match = regex.find(value.asString())

@@ -4,7 +4,8 @@ import org.uevola.jsonautovalidation.common.Constants.ERROR_MESSAGE_KEYWORD
 import org.uevola.jsonautovalidation.common.Constants.REQUIRED_ERROR_MESSAGE_KEYWORD
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
 
-internal val jsonSchemaBaseTemplate = JsonUtils.objectNodeFromString("""
+internal val jsonSchemaBaseTemplate = JsonUtils.objectNodeFromString(
+    """
 {
   "title": "@{title}",
   "type": "object",
@@ -12,4 +13,5 @@ internal val jsonSchemaBaseTemplate = JsonUtils.objectNodeFromString("""
   "properties": "@{properties}",
   "$ERROR_MESSAGE_KEYWORD": "@{$REQUIRED_ERROR_MESSAGE_KEYWORD}"
 }
-""".trimIndent())
+""".trimIndent()
+)
