@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.github.ugoevola"
-version = "1.0.1"
+version = "1.1.0"
 
 val springBootVersion = "4.0.1"
 val ktlVersion = "2.3.0"
