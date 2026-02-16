@@ -10,7 +10,7 @@ import org.uevola.jsonautovalidation.common.exceptions.ValidationException
 import org.uevola.jsonautovalidation.runtime.common.utils.ExceptionUtils
 import tools.jackson.databind.JsonNode
 
-abstract class AbstractValidator {
+abstract class AbstractJsonSchemaValidator {
 
     @Autowired
     @Qualifier("customSchemaRegistry")

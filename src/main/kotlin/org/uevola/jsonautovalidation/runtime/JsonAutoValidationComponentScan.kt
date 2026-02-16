@@ -7,7 +7,7 @@ import org.uevola.jsonautovalidation.runtime.common.config.JsonAutoValidationPro
 
 @Configuration
 @ComponentScan(
-    basePackages = ["org.uevola.jsonautovalidation.runtime"]
+    basePackages = ["org.uevola.jsonautovalidation.runtime", "org.uevola.jsonautovalidation.api"]
 )
 @EnableConfigurationProperties(JsonAutoValidationProperties::class)
 class JsonAutoValidationComponentScan

@@ -6,7 +6,7 @@ import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
 
 @Component
-internal class DefaultJsonValidator : ValidatorStrategy, AbstractValidator() {
+internal class DefaultJsonSchemaValidator : ValidatorStrategy, AbstractJsonSchemaValidator() {
 
     override fun getOrdered() = Int.MAX_VALUE
 
