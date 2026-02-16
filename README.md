@@ -46,12 +46,12 @@ Beans and schemas are generated during the AOT (Ahead-Of-Time) phase.
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 ```
 
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:1.1.0")
+implementation("io.github.ugoevola:json-auto-validation:1.1.1")
 ```
 
 ## How does it work?
