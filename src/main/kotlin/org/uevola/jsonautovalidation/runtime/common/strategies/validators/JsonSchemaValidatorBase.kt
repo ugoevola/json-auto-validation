@@ -9,9 +9,9 @@ import java.lang.reflect.Parameter
 /**
  * Base class for each DTO validator, used in bean generation or to override one in the parent API.
  */
-abstract class JsonSchemaValidator(
+abstract class JsonSchemaValidatorBase(
     private val type: Class<out Any>
-) : ValidatorStrategy, AbstractValidator() {
+) : ValidatorStrategy, AbstractJsonSchemaValidator() {
     override fun getOrdered() = 999
 
     override fun resolve(parameterType: Class<*>) =

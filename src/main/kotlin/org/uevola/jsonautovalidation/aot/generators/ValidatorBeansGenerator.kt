@@ -11,7 +11,7 @@ import org.uevola.jsonautovalidation.common.Constants.VALIDATORS_PACKAGE_NAME
 import org.uevola.jsonautovalidation.common.extensions.getMethodsToValidate
 import org.uevola.jsonautovalidation.common.extensions.getParamsToValidate
 import org.uevola.jsonautovalidation.common.extensions.isIgnoredType
-import org.uevola.jsonautovalidation.runtime.common.strategies.validators.JsonSchemaValidator
+import org.uevola.jsonautovalidation.runtime.common.strategies.validators.JsonSchemaValidatorBase
 import javax.lang.model.element.Modifier
 import kotlin.time.Duration
 import kotlin.time.measureTime
@@ -59,7 +59,7 @@ internal object ValidatorBeansGenerator {
         dtoClass: Class<*>
     ) = TypeSpec.classBuilder(validatorClassName)
         .addModifiers(Modifier.PUBLIC)
-        .superclass(JsonSchemaValidator::class.java)
+        .superclass(JsonSchemaValidatorBase::class.java)
         .addAnnotation(Component::class.java)
         .addMethod(
             MethodSpec.constructorBuilder()
