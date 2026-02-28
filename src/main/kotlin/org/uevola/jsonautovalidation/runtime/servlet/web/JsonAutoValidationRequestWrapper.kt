@@ -26,7 +26,7 @@ internal class JsonAutoValidationRequestWrapper(
 
     @Throws(IOException::class)
     override fun getReader(): BufferedReader {
-        return BufferedReader(InputStreamReader(inputStream, characterEncoding ?: "UTF-8"))
+        return BufferedReader(InputStreamReader(inputStream, characterEncoding))
     }
 
     @Throws(IOException::class)

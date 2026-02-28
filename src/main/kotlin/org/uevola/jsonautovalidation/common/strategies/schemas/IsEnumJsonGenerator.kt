@@ -42,7 +42,7 @@ internal object IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         enumValues = enumValues + ""
         val values = mapOf("enum" to enumValues) + annotationEntries(annotation)
         val jsonString = jsonSchemas[IsEnum::class]
-        val objectNode = JsonUtils.objectNodeFromString(jsonString)
+        val objectNode = JsonUtils.objectNodeFromString(jsonString!!)
         return objectNode.resolveTemplate(values, fieldName, hasGlobalErrorMessage(annotation))
     }
 

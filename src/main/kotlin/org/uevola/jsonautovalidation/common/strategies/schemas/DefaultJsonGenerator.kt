@@ -25,7 +25,7 @@ internal object DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
 
     private fun generate(annotation: Annotation, fieldName: String): ObjectNode {
         val jsonString = jsonSchemas[annotation.annotationClass]
-        val objectNode = objectNodeFromString(jsonString)
+        val objectNode = objectNodeFromString(jsonString!!)
         return objectNode.resolveTemplate(annotationEntries(annotation), fieldName, hasGlobalErrorMessage(annotation))
     }
 }
