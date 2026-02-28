@@ -1,7 +1,9 @@
 package org.uevola.jsonautovalidation.runtime.common.strategies.validators
 
+import org.springframework.http.HttpStatus
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.objectNodeFromString
 import org.uevola.jsonautovalidation.common.utils.ResourceUtils
+import org.uevola.jsonautovalidation.runtime.common.utils.ExceptionUtils
 import tools.jackson.databind.JsonNode
 import tools.jackson.databind.node.ObjectNode
 import java.lang.reflect.Parameter
@@ -25,6 +27,10 @@ abstract class JsonSchemaValidatorBase(
 
     open fun validate(json: JsonNode) {
         val content = ResourceUtils.getResourceSchemaAsString(type.simpleName)
+            ?: throw ExceptionUtils.httpServerErrorException(
+                "Error in validation: ${type.simpleName} does not appear to have a validation schema",
+                HttpStatus.INTERNAL_SERVER_ERROR
+            )
         super.baseValidate(json, objectNodeFromString(content))
     }
 

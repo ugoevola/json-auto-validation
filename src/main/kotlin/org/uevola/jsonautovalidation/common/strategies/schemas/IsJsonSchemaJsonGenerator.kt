@@ -25,6 +25,6 @@ internal object IsJsonSchemaJsonGenerator : JsonSchemaGeneratorStrategy {
     private fun generate(annotation: Annotation): ObjectNode? {
         if (annotation !is IsJsonSchema) return null
         val jsonString = jsonSchemas[annotation.annotationClass]
-        return JsonUtils.objectNodeFromString(jsonString)
+        return JsonUtils.objectNodeFromString(jsonString!!)
     }
 }

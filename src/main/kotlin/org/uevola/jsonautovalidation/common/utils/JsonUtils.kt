@@ -8,9 +8,9 @@ internal object JsonUtils {
 
     private val jsonMapper = JsonMapper.builder().build()
 
-    fun objectNodeFromString(str: String?): ObjectNode = jsonMapper.readTree(str) as ObjectNode
+    fun objectNodeFromString(str: String): ObjectNode = jsonMapper.readTree(str) as ObjectNode
 
-    fun jsonNodeFromString(str: String?): JsonNode = jsonMapper.readTree(str)
+    fun jsonNodeFromString(str: String): JsonNode = jsonMapper.readTree(str)
 
     fun newObjectNode(): ObjectNode = jsonMapper.createObjectNode()
 
