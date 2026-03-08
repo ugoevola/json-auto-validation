@@ -19,6 +19,7 @@ internal open class JsonValidationBeanFactoryInitializationAotProcessor :
         val env: Environment = beanFactory.getBean<Environment>()
         JsonValidationConfig.init(env)
         JacksonConfiguration.init(env)
+        if (JsonValidationConfig.runtimeGeneration == "true") return null
         SchemasGenerator.generateJsonSchemaFiles()
         return BeanFactoryInitializationAotContribution { generationContext, _ ->
             ValidatorBeansGenerator.generateDtoValidator(generationContext)

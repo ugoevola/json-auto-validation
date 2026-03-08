@@ -13,6 +13,9 @@ internal object JsonValidationConfig : Configuration() {
     @EnvPropertyName("json-validation.controllers-package-name")
     lateinit var controllersPackageName: String
 
+    @EnvPropertyName("json-validation.runtime-generation")
+    lateinit var runtimeGeneration: String
+
     fun init(environment: Environment) {
         initConfig(JsonValidationConfig, environment, logger)
     }
