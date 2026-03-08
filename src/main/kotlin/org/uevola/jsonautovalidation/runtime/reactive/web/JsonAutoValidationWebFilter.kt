@@ -1,6 +1,7 @@
 package org.uevola.jsonautovalidation.runtime.reactive.web
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.core.MethodParameter
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator
 import org.springframework.stereotype.Component
@@ -9,10 +10,13 @@ import org.springframework.web.reactive.HandlerMapping
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
+import org.uevola.jsonautovalidation.api.resolvers.JsonValidationAware
 import org.uevola.jsonautovalidation.common.extensions.getParamsToValidate
 import org.uevola.jsonautovalidation.runtime.reactive.strategies.ReactiveStrategyFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.lang.reflect.Method
+import java.lang.reflect.Parameter
 
 @Component
 @ConditionalOnProperty(
@@ -21,7 +25,8 @@ import reactor.core.publisher.Mono
     matchIfMissing = false
 )
 class JsonAutoValidationWebFilter(
-    private val reactiveJsonValidationExecutor: ReactiveStrategyFactory
+    private val reactiveJsonValidationExecutor: ReactiveStrategyFactory,
+    private val jsonValidationAwares: List<JsonValidationAware>
 ) : WebFilter {
 
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
@@ -34,7 +39,10 @@ class JsonAutoValidationWebFilter(
         val parameters = handler.method.getParamsToValidate(handler.beanType)
 
         return Flux.fromIterable(parameters)
-            .flatMap { parameter -> reactiveJsonValidationExecutor.validate(exchange, parameter) }
+            .flatMap { parameter ->
+                val effectiveClass = resolveEffectiveClass(handler.method, parameter)
+                reactiveJsonValidationExecutor.validate(exchange, parameter, effectiveClass)
+            }
             .then(Mono.defer { decorateAndFilter(exchange, chain) })
     }
 
@@ -59,5 +67,12 @@ class JsonAutoValidationWebFilter(
                 return Flux.just(buffer)
             }
         }
+    }
+
+    private fun resolveEffectiveClass(method: Method, parameter: Parameter): Class<*>? {
+        val index = method.parameters.indexOf(parameter)
+        val methodParameter = MethodParameter(method, index)
+        return jsonValidationAwares
+            .find { it.supportsParameter(methodParameter) }?.getRequestDtoType()
     }
 }
