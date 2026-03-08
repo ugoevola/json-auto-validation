@@ -42,9 +42,9 @@ spring.jackson.property-naming-strategy=SNAKE_CASE
 
 A Validator is a Spring Bean created by `json-auto-validation` that validates incoming data for a specific DTO.
 
-- There is one validator per DTO/schema.
+- There is **one validator per DTO annotated with `@JsonValidation`**.
 - At runtime, each validator uses `networknt/json-schema-validator` to enforce the schema rules.
-- Validators are generated based on controller definitions, giving you control over which data to validate.
+- Validators are generated from all classes annotated with `@JsonValidation`, regardless of whether they appear directly as controller parameters.
 
 To validate data, use the `@Validate` annotation on:
 - Controller class: validates all data for any method in the controller
@@ -96,9 +96,9 @@ class ExampleController {
 ## Runtime
 
 During execution, incoming requests are intercepted before accessing the controller by `JsonSchemaValidationInterceptor`, which:
-  1. Identifies the validator corresponding to the expected schema
-  2. Validates data of the request by using **jsonschema** and `networknt/json-schema-validator`
-  3. Prevents deserialization in case of invalid data
+1. Identifies the validator corresponding to the expected schema
+2. Validates data of the request by using **jsonschema** and `networknt/json-schema-validator`
+3. Prevents deserialization in case of invalid data
 
 > [!TIP]
 > For data that does not have an associated DTO but still requires validation, a default validator `DefaultJsonSchemaValidator` will be used based on the annotations placed directly on the parameter in the controller.
@@ -111,7 +111,7 @@ During execution, incoming requests are intercepted before accessing the control
 
 If validation fails, a `HttpClientErrorException` exception will be thrown with a `statusText` equals to "REQUEST_VALIDATION_KO"
 
-If a technical isue occurs during the validation, a `HttpServerErrorException` will be thrown.
+If a technical issue occurs during the validation, a `HttpServerErrorException` will be thrown.
 
 > [!NOTE]
 > In both cases, whether using reactive Webflux or non-reactive WebMVC, the API will wait to receive the entire body of the request before validating the JSON.
