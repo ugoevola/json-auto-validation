@@ -7,13 +7,13 @@
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
 ### Gradle
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:1.2.0")
+implementation("io.github.ugoevola:json-auto-validation:1.3.0")
 ```
 
 ## Configuration
