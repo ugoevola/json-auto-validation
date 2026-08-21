@@ -5,5 +5,9 @@ import reactor.core.publisher.Mono
 import java.lang.reflect.Parameter
 
 interface ReactiveStrategyFactory {
-    fun validate(exchange: ServerWebExchange, parameter: Parameter): Mono<Void>
+    fun validate(
+        exchange: ServerWebExchange,
+        parameter: Parameter,
+        effectiveClass: Class<*>?
+    ): Mono<Void>
 }

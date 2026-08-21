@@ -3,9 +3,7 @@ package org.uevola.jsonautovalidation.runtime.generator
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.support.BeanDefinitionBuilder
 import org.springframework.beans.factory.support.BeanDefinitionRegistry
-import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils
-import org.uevola.jsonautovalidation.common.extensions.getMethodsToValidate
-import org.uevola.jsonautovalidation.common.extensions.getParamsToValidate
+import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getDtoClassesToValidate
 import org.uevola.jsonautovalidation.common.extensions.isIgnoredType
 import org.uevola.jsonautovalidation.runtime.common.strategies.validators.JsonSchemaValidatorBase
 import kotlin.time.Duration
@@ -22,13 +20,8 @@ internal object ValidatorBeansGenerator {
     fun generateDtoValidator(registry: BeanDefinitionRegistry) {
         logger.info { "Generation of Json Validator Beans (runtime mode)..." }
         val elapsed: Duration = measureTime {
-            ClassPathUtils.getControllersToValidate().forEach { controller ->
-                controller.getMethodsToValidate().forEach { method ->
-                    method.getParamsToValidate(controller)
-                        .forEach { parameter ->
-                            registerGenericDtoValidator(parameter.type, registry)
-                        }
-                }
+            getDtoClassesToValidate().forEach { dto ->
+                registerGenericDtoValidator(dto, registry)
             }
         }
         logger.info { "Generation of Json Validator Beans (runtime) completed in ${elapsed.inWholeMilliseconds}ms" }

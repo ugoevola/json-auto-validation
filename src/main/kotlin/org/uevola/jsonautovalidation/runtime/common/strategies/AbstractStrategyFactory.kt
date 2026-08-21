@@ -22,12 +22,14 @@ internal abstract class AbstractStrategyFactory(
     protected fun validate(
         requestPart: HttpRequestPartEnum,
         json: JsonNode,
-        parameter: Parameter
+        parameter: Parameter,
+        effectiveClass: Class<*>?
     ) {
+        val typeToResolve = effectiveClass ?: parameter.type
         try {
             validators
                 .sortedBy { it.getOrdered() }
-                .find { it.resolve(parameter.type) }!!
+                .find { it.resolve(typeToResolve) }!!
                 .validate(json, parameter, generateSchemaForParameterLambda)
         } catch (e: HttpClientErrorException) {
             throw ExceptionUtils

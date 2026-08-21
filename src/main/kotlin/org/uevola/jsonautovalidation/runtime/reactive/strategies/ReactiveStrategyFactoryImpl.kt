@@ -26,7 +26,8 @@ internal class ReactiveStrategyFactoryImpl(
 
     override fun validate(
         exchange: ServerWebExchange,
-        parameter: Parameter
+        parameter: Parameter,
+        effectiveClass: Class<*>?
     ): Mono<Void> {
         val requestReader = requestReaders
             .sortedBy { it.getOrdered() }
@@ -38,7 +39,8 @@ internal class ReactiveStrategyFactoryImpl(
                 validate(
                     requestReader.requestPart,
                     json,
-                    parameter
+                    parameter,
+                    effectiveClass
                 )
                 Mono.empty()
             }

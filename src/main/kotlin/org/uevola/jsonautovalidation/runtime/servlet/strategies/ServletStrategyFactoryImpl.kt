@@ -25,7 +25,8 @@ internal class ServletStrategyFactoryImpl(
 
     override fun validate(
         request: HttpServletRequest,
-        parameter: Parameter
+        parameter: Parameter,
+        effectiveClass: Class<*>?
     ) {
         val requestReader = requestReaders
             .sortedBy { it.getOrdered() }
@@ -33,7 +34,8 @@ internal class ServletStrategyFactoryImpl(
         validate(
             requestReader.requestPart,
             requestReader.read(request),
-            parameter
+            parameter,
+            effectiveClass
         )
     }
 }

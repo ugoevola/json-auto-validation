@@ -6,10 +6,8 @@ import com.squareup.javapoet.TypeSpec
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.aot.generate.GenerationContext
 import org.springframework.stereotype.Component
-import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getControllersToValidate
+import org.uevola.jsonautovalidation.aot.utils.ClassPathUtils.getDtoClassesToValidate
 import org.uevola.jsonautovalidation.common.Constants.VALIDATORS_PACKAGE_NAME
-import org.uevola.jsonautovalidation.common.extensions.getMethodsToValidate
-import org.uevola.jsonautovalidation.common.extensions.getParamsToValidate
 import org.uevola.jsonautovalidation.common.extensions.isIgnoredType
 import org.uevola.jsonautovalidation.runtime.common.strategies.validators.JsonSchemaValidatorBase
 import javax.lang.model.element.Modifier
@@ -25,11 +23,8 @@ internal object ValidatorBeansGenerator {
     fun generateDtoValidator(context: GenerationContext) {
         logger.info { "Generation of Json Validator Bean..." }
         val elapsed: Duration = measureTime {
-            getControllersToValidate().forEach { controller ->
-                controller.getMethodsToValidate().forEach { method ->
-                    method.getParamsToValidate(controller)
-                        .forEach { parameter -> generateDtoValidator(parameter.type, context) }
-                }
+            getDtoClassesToValidate().forEach { dto ->
+                generateDtoValidator(dto, context)
             }
         }
         logger.info { "Generation of Json Validator Beans completed in ${elapsed.inWholeMilliseconds}ms" }
