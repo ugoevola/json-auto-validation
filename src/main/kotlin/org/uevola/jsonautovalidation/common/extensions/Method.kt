@@ -1,5 +1,6 @@
 package org.uevola.jsonautovalidation.common.extensions
 
+import org.uevola.jsonautovalidation.api.annotations.NotValidate
 import org.uevola.jsonautovalidation.api.annotations.Validate
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
@@ -11,9 +12,14 @@ internal fun Method.getParamsToValidate(
     if (controller.annotations.any { it is Validate } || this.annotations.any { it is Validate })
         this.parameters
             .toList()
-            .filter { parameter -> parameter.parameterizedType !is ParameterizedType }
+            .filter { parameter ->
+                parameter.parameterizedType !is ParameterizedType
+                        && parameter.annotations.none { it is NotValidate }
+            }
     else
         this.parameters
             .filter { parameter ->
-                parameter.annotations.any { it is Validate } && parameter.parameterizedType !is ParameterizedType
+                parameter.annotations.any { it is Validate }
+                        && parameter.parameterizedType !is ParameterizedType
+                        && parameter.annotations.none { it is NotValidate }
             }
