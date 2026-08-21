@@ -1,6 +1,16 @@
 # Json auto validation
 
+Validate incoming JSON before Spring deserializes it — automatically, from your DTO annotations.
 **Json-auto-validation** is a library for automatic validation of incoming data in a spring-boot API.
+
+| Feature                           | `@Valid` | `json-auto-validation` |
+| --------------------------------- | :------: | :--------------------: |
+| Bean Validation                   |     ✅    |            ✅           |
+| JSON Schema                       |     ❌    |            ✅           |
+| Validation before deserialization |     ❌    |            ✅           |
+| Automatic JSON Schema generation  |     ❌    |            ✅           |
+| AOT support                       |     —    |            ✅           |
+| Annotation-based configuration    |     ✅    |            ✅           |
 
 ## Documentation
 
