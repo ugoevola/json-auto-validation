@@ -12,12 +12,6 @@
       "type": "java.lang.String",
       "description": "The json schemas are generated from the dto, and by default it fetches them from \"${java.base.package}.dto\".",
       "sourceType": "org.uevola.jsonautovalidation.aot.config.JsonValidationConfig"
-    },
-    {
-      "name": "json-validation.controllers-package-name",
-      "type": "java.lang.String",
-      "description": "Control beans are generated from controllers, by default it reads controllers from \"${java.base.package}\".",
-      "sourceType": "org.uevola.jsonautovalidation.aot.config.JsonValidationConfig"
     }
   ]
 }
