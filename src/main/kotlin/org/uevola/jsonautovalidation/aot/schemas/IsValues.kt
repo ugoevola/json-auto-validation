@@ -9,7 +9,7 @@ internal val isValues = """
   "enum": "@{values}",
   "$ERROR_MESSAGE_KEYWORD": {
     "type": "@{$ERROR_MESSAGE_KEYWORD}",
-    "format": "@{$ERROR_MESSAGE_KEYWORD}"
+    "enum": "@{$ERROR_MESSAGE_KEYWORD}"
   }
 }
 """.trimIndent()
