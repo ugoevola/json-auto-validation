@@ -16,6 +16,10 @@ Validate incoming JSON before Spring deserializes it — automatically, from you
 
 A full documentation is available here : [Documentation](https://github.com/ugoevola/json-auto-validation/blob/main/documentation)
 
+## Demo
+
+A showcase project, with integration tests covering every validation rule, is available here : [json-auto-validation-demo](https://github.com/ugoevola/json-auto-validation-demo)
+
 
 ## Description
 
