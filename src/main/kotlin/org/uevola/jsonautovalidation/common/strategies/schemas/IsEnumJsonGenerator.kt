@@ -2,6 +2,7 @@ package org.uevola.jsonautovalidation.common.strategies.schemas
 
 import org.uevola.jsonautovalidation.aot.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.api.annotations.rules.IsEnum
+import org.uevola.jsonautovalidation.common.extensions.getJsonPropertyName
 import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
 import org.uevola.jsonautovalidation.common.utils.JsonUtils
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.readValue
@@ -25,7 +26,7 @@ internal object IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         generateSchema: (clazz: KClass<*>) -> ObjectNode?
     ): ObjectNode? {
         val enumClass = getEnumClass(property) ?: return null
-        return generate(annotation, enumClass, property.name)
+        return generate(annotation, enumClass, property.getJsonPropertyName())
     }
 
     override fun generate(annotation: Annotation, parameter: Parameter): ObjectNode? {
@@ -43,7 +44,12 @@ internal object IsEnumJsonGenerator : JsonSchemaGeneratorStrategy {
         val values = mapOf("enum" to enumValues) + annotationEntries(annotation)
         val jsonString = jsonSchemas[IsEnum::class]
         val objectNode = JsonUtils.objectNodeFromString(jsonString!!)
-        return objectNode.resolveTemplate(values, fieldName, hasGlobalErrorMessage(annotation))
+        return objectNode.resolveTemplate(
+            values,
+            fieldName,
+            hasGlobalErrorMessage(annotation),
+            defaultValuedAttributes(annotation)
+        )
     }
 
     private fun getEnumClass(property: KProperty1<out Any, *>): KClass<out Any>? {

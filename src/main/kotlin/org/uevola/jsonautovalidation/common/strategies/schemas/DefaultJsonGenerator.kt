@@ -2,6 +2,7 @@ package org.uevola.jsonautovalidation.common.strategies.schemas
 
 import org.uevola.jsonautovalidation.aot.schemas.jsonSchemas
 import org.uevola.jsonautovalidation.api.annotations.rules.IsRequired
+import org.uevola.jsonautovalidation.common.extensions.getJsonPropertyName
 import org.uevola.jsonautovalidation.common.extensions.resolveTemplate
 import org.uevola.jsonautovalidation.common.utils.JsonUtils.objectNodeFromString
 import tools.jackson.databind.node.ObjectNode
@@ -19,13 +20,18 @@ internal object DefaultJsonGenerator : JsonSchemaGeneratorStrategy {
         annotation: Annotation,
         property: KProperty1<out Any, *>,
         generateSchema: (clazz: KClass<*>) -> ObjectNode?
-    ) = generate(annotation, property.name)
+    ) = generate(annotation, property.getJsonPropertyName())
 
     override fun generate(annotation: Annotation, parameter: Parameter) = generate(annotation, parameter.name)
 
     private fun generate(annotation: Annotation, fieldName: String): ObjectNode {
         val jsonString = jsonSchemas[annotation.annotationClass]
         val objectNode = objectNodeFromString(jsonString!!)
-        return objectNode.resolveTemplate(annotationEntries(annotation), fieldName, hasGlobalErrorMessage(annotation))
+        return objectNode.resolveTemplate(
+            annotationEntries(annotation),
+            fieldName,
+            hasGlobalErrorMessage(annotation),
+            defaultValuedAttributes(annotation)
+        )
     }
 }
