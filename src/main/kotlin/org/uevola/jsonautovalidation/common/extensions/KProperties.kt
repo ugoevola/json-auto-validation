@@ -32,10 +32,12 @@ internal fun KProperty1<out Any, *>.getAnnotations(): Array<Annotation> {
         ?: emptyArray<Annotation>()
     val inferredAnnotation = this.returnType.getInferredAnnotation()
     val inferredAnnotationCanBeAdded = inferredAnnotation != null
-            && annotations.none { Constants.ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS.contains(it) }
+            && annotations.none {
+                Constants.ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS.contains(it.annotationClass)
+            }
             && annotations.none { it.annotationClass == inferredAnnotation.annotationClass }
     if (inferredAnnotationCanBeAdded) {
-        annotations = annotations.plus(inferredAnnotation)
+        annotations = arrayOf(inferredAnnotation).plus(annotations)
     }
     return annotations
 }

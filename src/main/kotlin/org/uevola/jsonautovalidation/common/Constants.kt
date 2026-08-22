@@ -3,6 +3,7 @@ package org.uevola.jsonautovalidation.common
 import org.uevola.jsonautovalidation.api.annotations.rules.IsStringBool
 import org.uevola.jsonautovalidation.api.annotations.rules.IsStringInteger
 import org.uevola.jsonautovalidation.api.annotations.rules.IsStringNumber
+import kotlin.reflect.KClass
 
 internal object Constants {
     const val VALIDATORS_PACKAGE_NAME = "org.uevola.jsonautovalidation.generated.validators"
@@ -44,10 +45,10 @@ internal object Constants {
         FORMAT_ERROR_MESSAGE_KEYWORD
     )
 
-    val ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS: List<Annotation> =
+    val ANNOTATIONS_THAT_OVERRIDE_INFERRED_ANNOTATIONS: List<KClass<out Annotation>> =
         listOf(
-            IsStringInteger(),
-            IsStringNumber(),
-            IsStringBool()
+            IsStringInteger::class,
+            IsStringNumber::class,
+            IsStringBool::class
         )
 }
