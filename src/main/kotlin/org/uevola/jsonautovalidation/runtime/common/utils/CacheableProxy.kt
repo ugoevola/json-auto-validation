@@ -36,8 +36,11 @@ class CacheableProxy {
             }
             .merge()
         if (value.isEmpty) return null
+        val properties = JsonUtils.newObjectNode()
+        properties.set(parameter.name, value)
         val json = JsonUtils.newObjectNode()
-        json.set(parameter.name, value)
+        json.put("type", "object")
+        json.set("properties", properties)
         return json
     }
 

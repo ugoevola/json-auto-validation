@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.servlet.HandlerMapping
 import org.uevola.jsonautovalidation.common.enums.HttpRequestPartEnum
 import tools.jackson.databind.JsonNode
 import tools.jackson.databind.node.JsonNodeFactory
@@ -27,14 +28,10 @@ internal class ServletPathVariableReader : ServletRequestReaderStrategy {
 
     override fun read(request: HttpServletRequest): JsonNode {
         val jsonObject = JsonNodeFactory.instance.objectNode()
-        for (attributeName in request.attributeNames) {
-            if (attributeName.startsWith("org.springframework.web.servlet.HandlerMapping.uriTemplateVariables")) {
-                val pathVariableName = attributeName.substringAfterLast('.')
-                val pathVariableValue = request.getAttribute(attributeName) as? String
-                if (pathVariableValue != null) {
-                    jsonObject.put(pathVariableName, pathVariableValue)
-                }
-            }
+        val pathVariables = request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE)
+        if (pathVariables !is Map<*, *>) return jsonObject
+        pathVariables.forEach { (name, value) ->
+            if (value is String) jsonObject.put(name.toString(), value)
         }
         return jsonObject
     }
