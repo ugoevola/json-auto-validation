@@ -28,7 +28,7 @@ internal class IsStringIntegerKeyword : AbstractKeyword(STRING_INTEGER_KEYWORD) 
 
     fun verifyIfGoodType(node: JsonNode): Double {
         if (!(node.isInt || node.isString && INTEGER_REGEX matches node.asString())) {
-            throw KeywordValidationException()
+            throw KeywordValidationException(NumberKeywordValidator.TYPE)
         }
         return if (node.isInt) node.asInt().toDouble() else node.asString().toInt().toDouble()
     }

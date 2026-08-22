@@ -7,7 +7,7 @@ import org.springframework.core.annotation.AliasFor
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FIELD, AnnotationTarget.VALUE_PARAMETER)
 annotation class IsStringNumber(
-    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "message")
+    @get:AliasFor(annotation = IsJsonValidation::class, attribute = "errorMessage")
     val errorMessage: String = "",
     @Suppress("unused") val typeErrorMessage: String = "The field @{fieldName} must be a number.",
     @Suppress("unused") val minimumErrorMessage: String = "The field @{fieldName} must be greater than or equal to @{minimum}.",

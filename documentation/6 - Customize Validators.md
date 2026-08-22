@@ -7,7 +7,7 @@ Basically, when a request linked to a DTO is being validated, it passes through 
 
 However,`json-auto-validation` gives you the ability to create your own custom validator for a specific DTO to perform additional or more advanced validation logic.
 
-To do so, create a Spring Bean that extends the abstract class JsonSchemaValidator, passing the target DTO class to its constructor. This tells the library that your validator is associated with that specific DTO.
+To do so, create a Spring Bean that extends the abstract class `JsonSchemaValidatorBase`, passing the target DTO class to its constructor. This tells the library that your validator is associated with that specific DTO.
 
 > [!IMPORTANT]
 > There are now be multiple validator beans registered for the same DTO.
@@ -20,7 +20,7 @@ Override the getOrdered() method in your validator class and return a value lowe
 @Component
 class UserDtoValidator(
     private val groupController: GroupController
-): JsonSchemaValidator(UserDto::class.java) {
+): JsonSchemaValidatorBase(UserDto::class.java) {
 
     override fun getOrdered() = 0
 

@@ -26,7 +26,8 @@ The `JsonValidationAware` interface allows a `HandlerMethodArgumentResolver` to 
 
 ```kotlin
 interface JsonValidationAware {
-    fun getRequestDtoType(): KClass<*>
+    fun getRequestDtoType(): Class<*>
+    fun supportsParameter(parameter: MethodParameter): Boolean
 }
 ```
 
@@ -40,7 +41,7 @@ class SomeOtherDtoResolver(
     private val buildContextUseCase: BuildSomeOtherDtoUseCase,
 ) : HandlerMethodArgumentResolver, JsonValidationAware {
 
-    override fun getRequestDtoType() = RequestDto::class
+    override fun getRequestDtoType(): Class<*> = RequestDto::class.java
 
     override fun supportsParameter(parameter: MethodParameter) =
         parameter.parameterType == SomeOtherDto::class.java

@@ -21,11 +21,11 @@ internal class NumberKeywordValidator(
 ) : BaseKeywordValidator(
     keyword, schemaNode, schemaLocation, parentSchema, schemaContext
 ) {
-    private val maximumValue = schemaNode.get(MAXIMUM).asDouble()
-    private val minimumValue = schemaNode.get(MINIMUM).asDouble()
-    private val exclusiveMinimumValue = schemaNode.get(EXCLUSIVE_MINIMUM).asDouble()
-    private val exclusiveMaximumValue = schemaNode.get(EXCLUSIVE_MAXIMUM).asDouble()
-    private val multipleOfValue = schemaNode.get(MULTIPLE_OF).asDouble()
+    private val maximumValue = schemaNode.get(MAXIMUM)?.asDouble()
+    private val minimumValue = schemaNode.get(MINIMUM)?.asDouble()
+    private val exclusiveMinimumValue = schemaNode.get(EXCLUSIVE_MINIMUM)?.asDouble()
+    private val exclusiveMaximumValue = schemaNode.get(EXCLUSIVE_MAXIMUM)?.asDouble()
+    private val multipleOfValue = schemaNode.get(MULTIPLE_OF)?.asDouble()
 
     override fun validate(
         executionContext: ExecutionContext,
@@ -41,11 +41,10 @@ internal class NumberKeywordValidator(
             verifyExclusiveMinimum(castValue)
             verifyExclusiveMaximum(castValue)
             verifyMultipleOf(castValue)
-        } catch (_: KeywordValidationException) {
+        } catch (exception: KeywordValidationException) {
             executionContext.addError(
                 error()
-                    .message(instanceNode.get(ERROR_MESSAGE_KEYWORD).toString())
-                    .arguments(instanceNode.toString())
+                    .message(errorMessage(exception.keyword))
                     .instanceLocation(instanceLocation)
                     .instanceNode(instanceNode)
                     .evaluationPath(executionContext.getEvaluationPath())
@@ -54,48 +53,62 @@ internal class NumberKeywordValidator(
         }
     }
 
+    /**
+     * The error messages of the keyword are carried by the schema itself, under
+     * the errorMessage property, one message per constraint.
+     */
+    private fun errorMessage(keyword: String) =
+        schemaNode.get(ERROR_MESSAGE_KEYWORD)
+            ?.get(keyword)
+            ?.asString()
+            ?: DEFAULT_ERROR_MESSAGE
+
     private fun verifyIfEmpty(
         node: JsonNode,
     ) {
-        if (node.isEmpty) throw KeywordValidationException()
+        if (node.isNull || (node.isString && node.asString().isBlank())) {
+            throw KeywordValidationException(TYPE)
+        }
     }
 
     private fun verifyMaximum(value: Double) {
-        if (schemaNode.has(MAXIMUM) && value >= maximumValue) {
-            throw KeywordValidationException()
+        if (maximumValue != null && value > maximumValue) {
+            throw KeywordValidationException(MAXIMUM)
         }
     }
 
     private fun verifyMinimum(value: Double) {
-        if (schemaNode.has(MINIMUM) && value <= minimumValue) {
-            throw KeywordValidationException()
+        if (minimumValue != null && value < minimumValue) {
+            throw KeywordValidationException(MINIMUM)
         }
     }
 
     private fun verifyExclusiveMinimum(value: Double) {
-        if (schemaNode.has(EXCLUSIVE_MINIMUM) && value < exclusiveMinimumValue) {
-            throw KeywordValidationException()
+        if (exclusiveMinimumValue != null && value <= exclusiveMinimumValue) {
+            throw KeywordValidationException(EXCLUSIVE_MINIMUM)
         }
     }
 
     private fun verifyExclusiveMaximum(value: Double) {
-        if (schemaNode.has(EXCLUSIVE_MAXIMUM) && value > exclusiveMaximumValue) {
-            throw KeywordValidationException()
+        if (exclusiveMaximumValue != null && value >= exclusiveMaximumValue) {
+            throw KeywordValidationException(EXCLUSIVE_MAXIMUM)
         }
     }
 
     private fun verifyMultipleOf(value: Double) {
-        if (schemaNode.has(MULTIPLE_OF) && value.mod(multipleOfValue) != 0.0) {
-            throw KeywordValidationException()
+        if (multipleOfValue != null && value.mod(multipleOfValue) != 0.0) {
+            throw KeywordValidationException(MULTIPLE_OF)
         }
     }
 
     companion object {
+        const val TYPE = "type"
         const val MAXIMUM = "maximum"
         const val MINIMUM = "minimum"
         const val EXCLUSIVE_MINIMUM = "exclusiveMinimum"
         const val EXCLUSIVE_MAXIMUM = "exclusiveMaximum"
         const val MULTIPLE_OF = "multipleOf"
+        const val DEFAULT_ERROR_MESSAGE = "The value is invalid."
     }
 
 }

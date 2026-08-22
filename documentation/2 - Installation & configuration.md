@@ -7,13 +7,13 @@
 <dependency>
     <groupId>io.github.ugoevola</groupId>
     <artifactId>json-auto-validation</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
 </dependency>
 ```
 
 ### Gradle
 ```kts
-implementation("io.github.ugoevola:json-auto-validation:1.3.1")
+implementation("io.github.ugoevola:json-auto-validation:1.3.2")
 ```
 
 ## Configuration
@@ -39,12 +39,10 @@ To avoid long loading times during compilation, the library uses class paths to 
 thus avoiding having to search the entire application.
 
 - The JSON schemas are generated from the dto, and by default it fetches them from `"${java.base.package}.dto"`.
-- Control beans are generated from controllers. By default, it reads controllers from `"${java.base.package}"`.
 
 You can change this behavior in your application properties as follows:
 ```properties
 json-validation.dto-package-name=com.exemple.utils.dto
-json-validation.controllers-package-name=com.exemple.web
 ```
 #### Application web stack
 

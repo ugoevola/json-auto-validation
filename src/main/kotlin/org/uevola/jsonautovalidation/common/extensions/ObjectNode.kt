@@ -13,18 +13,21 @@ import java.math.BigInteger
  * and its value is linked to it's name in the values attribute map
  *
  * @param values the map that binds each property name to its value
+ * @param skippedKeys the names of the values that must not be written in the
+ * result: a constraint left to its default value is not a constraint
  */
 internal fun <T> ObjectNode.resolveTemplate(
     values: Map<String, T>,
     fieldName: T,
-    globalErrorMessage: Boolean
+    globalErrorMessage: Boolean,
+    skippedKeys: Set<String> = emptySet()
 ): ObjectNode {
     val result = this.deepCopy()
     this.properties().forEach { (key, value) ->
         when {
             value.isObject -> result.set(
                 key,
-                (value as ObjectNode).resolveTemplate(values, fieldName, globalErrorMessage)
+                (value as ObjectNode).resolveTemplate(values, fieldName, globalErrorMessage, skippedKeys)
             )
 
             value.isString -> {
@@ -34,6 +37,8 @@ internal fun <T> ObjectNode.resolveTemplate(
                     val capturedValue = match.groupValues[1]
                     if (ERROR_MESSAGE_PLACEHOLDERS.contains(capturedValue)) {
                         result.putErrorMessage(key, values, capturedValue, fieldName, globalErrorMessage)
+                    } else if (skippedKeys.contains(capturedValue)) {
+                        result.remove(key)
                     } else {
                         result.putAny(key, values[capturedValue])
                     }
