@@ -28,9 +28,9 @@ internal class IsStringNumberKeyword : AbstractKeyword(STRING_NUMBER_KEYWORD) {
 
     fun verifyIfGoodType(node: JsonNode): Double {
         if (!(node.isNumber || node.isString && NUMBER_REGEX matches node.asString())) {
-            throw KeywordValidationException()
+            throw KeywordValidationException(NumberKeywordValidator.TYPE)
         }
-        return if (node.isNumber) node.asDouble() else node.toString().toDouble()
+        return if (node.isNumber) node.asDouble() else node.asString().toDouble()
     }
 
     companion object {

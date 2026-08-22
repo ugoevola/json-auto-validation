@@ -21,8 +21,8 @@ internal val isInteger = """
     "type": "@{$TYPE_ERROR_MESSAGE_PLACEHOLDER}",
     "minimum": "@{$MINIMUM_ERROR_MESSAGE_PLACEHOLDER}",
     "maximum": "@{$MAXIMUM_ERROR_MESSAGE_PLACEHOLDER}",
-    "exclusiveMaximum": "@{$EXCLUSIVE_MINIMUM_ERROR_MESSAGE_PLACEHOLDER}",
-    "exclusiveMinimum": "@{$EXCLUSIVE_MAXIMUM_ERROR_MESSAGE_PLACEHOLDER}",
+    "exclusiveMaximum": "@{$EXCLUSIVE_MAXIMUM_ERROR_MESSAGE_PLACEHOLDER}",
+    "exclusiveMinimum": "@{$EXCLUSIVE_MINIMUM_ERROR_MESSAGE_PLACEHOLDER}",
     "multipleOf": "@{$MULTIPLE_OF_ERROR_MESSAGE_PLACEHOLDER}"
   }
 }
