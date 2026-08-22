@@ -16,7 +16,10 @@ internal class NetworkNtSchemaValidationConfig {
 
     @Bean
     fun customSchemaRegistry(): SchemaRegistry {
-        val config = SchemaRegistryConfig.builder().errorMessageKeyword(ERROR_MESSAGE_KEYWORD).build()
+        val config = SchemaRegistryConfig.builder()
+            .errorMessageKeyword(ERROR_MESSAGE_KEYWORD)
+            .formatAssertionsEnabled(true)
+            .build()
         val dialect = Dialect.builder(Dialects.getDraft202012())
             .keyword(IsStringIntegerKeyword())
             .keyword(IsStringNumberKeyword())
